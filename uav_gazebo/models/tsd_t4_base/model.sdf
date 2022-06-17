@@ -1,17 +1,17 @@
 <?xml version="1.0" ?>
   
   <sdf version="1.5">
-    <model name="arduwoodpecker_platform">
+    <model name="tsd_t4_base">
       
-      <link name="platform_base">
-      <pose>0 0 0.0  0 0 0</pose>
+      <link name="base">
+      <pose>0 0 0 0 0 0</pose>
       <inertial>
         <pose>0 0 0 0 0 0</pose>
-        <mass>2.5</mass>
+        <mass>10.5</mass>
         <inertia>
-          <ixx>0.5</ixx>
-          <iyy>0.5</iyy>
-          <izz>0.2</izz>
+          <ixx>5.4</ixx>
+          <iyy>4.0</iyy>
+          <izz>3.7</izz>
           <ixy>0</ixy>
           <ixz>0</ixz>
           <iyz>0</iyz>
@@ -21,7 +21,7 @@
         <pose>0 0 0  0 0 0</pose>
         <geometry>
           <box>
-            <size>0.558 0.148 0.034</size>
+            <size>1.311 2.259 0.688</size>
           </box>
         </geometry>
         <surface>
@@ -40,18 +40,19 @@
         </surface>
       </collision>
       <visual name="platform_base_visual">
-        <geometry>
+        <geometry>+
           <mesh>
-            <uri>model://arduwoodpecker_platform/meshes/platform_base.STL</uri>
+            <uri>model://tsd_t4_base/meshes/base.STL</uri>
           </mesh>
         </geometry>
         <material>
           <script>
-            <name>Gazebo/Grey</name>
+            <name>Gazebo/Gray</name>
           </script>
         </material>
       </visual>
     </link>
+    
     <link name='imu_link'>
     <inertial>
       <pose>0 0 0 0 0 0</pose>
@@ -74,7 +75,7 @@
   </link>
   <joint name='imu_joint' type='revolute'>
     <child>imu_link</child>
-    <parent>platform_base</parent>
+    <parent>base</parent>
     <axis>
       <xyz>0 0 1</xyz>
       <limit>
@@ -94,7 +95,7 @@
       </ode>
     </physics>
   </joint>
-  
-  
+ 
+
 </model>
 </sdf>

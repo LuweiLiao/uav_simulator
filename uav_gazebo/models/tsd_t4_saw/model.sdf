@@ -1,28 +1,28 @@
 <?xml version="1.0" ?>
   
   <sdf version="1.5">
-    <model name="arduwoodpecker_claw_hand">
+    <model name="tsd_t4_saw">
       
-      <link name="claw_hand">
-      <pose>0 0 0.0  0 0 0</pose>
+      <link name="saw">
+      <pose>0 0 -0.0  0 0 0</pose>
       <inertial>
         <pose>0 0 0 0 0 0</pose>
-        <mass>0.3</mass>
+        <mass>5.5</mass>
         <inertia>
-          <ixx>0.015</ixx>
-          <iyy>0.015</iyy>
-          <izz>0.01</izz>
+          <ixx>0.5</ixx>
+          <iyy>0.2</iyy>
+          <izz>0.3</izz>
           <ixy>0</ixy>
           <ixz>0</ixz>
           <iyz>0</iyz>
         </inertia>
       </inertial>
-      <collision name="claw_hand_collision">
+      <collision name="saw_collision">
         <pose>0 0 0  0 0 0</pose>
         <geometry>
-          <mesh>
-            <uri>model://arduwoodpecker_claw_hand/meshes/arduwoodpecker_claw_hand.STL</uri>
-          </mesh>
+          <box>
+            <size>0.3 1.1 0.06</size>
+          </box>
         </geometry>
         <surface>
           <contact>
@@ -39,19 +39,19 @@
           </friction>
         </surface>
       </collision>
-      <visual name="claw_hand_visual">
+      <visual name="saw_visual">
         <geometry>
           <mesh>
-            <uri>model://arduwoodpecker_claw_hand/meshes/arduwoodpecker_claw_hand.STL</uri>
+            <uri>model://tsd_t4_saw/meshes/saw.STL</uri>
           </mesh>
         </geometry>
         <material>
           <script>
-            <name>Gazebo/Turquoise</name>
+            <name>Gazebo/Gray</name>
           </script>
         </material>
       </visual>
     </link>
-  
+ 
 </model>
 </sdf>

@@ -29,22 +29,23 @@
     <include>
       <uri>model://ground_plane</uri>
     </include>
-    <model name="arduwoodpecker_demo">
+
+
+    <model name="tsd_t4">
+      <pose>0 0 2.0 0 0 0</pose>
       <include>
-        <uri>model://arduwoodpecker</uri>
-        <pose>0 0 0.0 0 0 0</pose>
-        <name>arduwoodpecker</name>
+        <uri>model://tsd_t4</uri>
+        <name>tsd_t4</name>
       </include>
     </model>
 
-    <model name="arduwoodpecker_tree">
+    <model name="tsd_t4_bar">
+      <pose>3 -3 3.0 0 0 0</pose>
       <include>
-        <uri>model://arduwoodpecker_tree</uri>
-        <pose>5 0 0.0 0 0 0</pose>
-        <name>arduwoodpecker_tree</name>
+        <uri>model://tsd_t4_bar</uri>
+        <name>tsd_t4_bar</name>
       </include>
     </model>
-
 
     <plugin name="ros_interface_plugin" filename="librotors_gazebo_ros_interface_plugin.so" />
 
