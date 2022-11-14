@@ -1,37 +1,37 @@
 <?xml version="1.0" ?>
   
   <sdf version="1.5">
-    <model name="tsduav_c1">
+    <model name="tsduav_quad">
       
       <include>
-        <uri>model://tsduav_c1_base</uri>
-        <name>tsduav_c1_base</name>
+        <uri>model://tsduav_quad_base</uri>
+        <name>tsduav_quad_base</name>
         <pose>0 0 0.0 0 0 0</pose>
       </include>
       <include>
-        <uri>model://tsduav_c1_prop</uri>
-        <name>tsduav_c1_prop_0</name>
-        <pose>0.6 -0.73 -0.0545 0 0 0</pose>
+        <uri>model://tsduav_quad_prop</uri>
+        <name>tsduav_quad_prop_0</name>
+        <pose>0.389 -0.389 0.0465 0 0 0</pose>
       </include>
       <include>
-        <uri>model://tsduav_c1_prop</uri>
-        <name>tsduav_c1_prop_1</name>
-        <pose>-0.6 -0.73 -0.0545 0 0 0</pose>
+        <uri>model://tsduav_quad_prop</uri>
+        <name>tsduav_quad_prop_1</name>
+        <pose>-0.389 -0.389 0.0465 0 0 0</pose>
       </include>
       <include>
-        <uri>model://tsduav_c1_prop</uri>
-        <name>tsduav_c1_prop_2</name>
-        <pose>-0.6 0.73 -0.0545 0 0 3.141592653589793</pose>
+        <uri>model://tsduav_quad_prop</uri>
+        <name>tsduav_quad_prop_2</name>
+        <pose>-0.389 0.389 0.0465 0 0 3.141592653589793</pose>
       </include>
       <include>
-        <uri>model://tsduav_c1_prop</uri>
-        <name>tsduav_c1_prop_3</name>
-        <pose>0.6 0.73 -0.0545 0 0 3.141592653589793</pose>
+        <uri>model://tsduav_quad_prop</uri>
+        <name>tsduav_quad_prop_3</name>
+        <pose>0.389 0.389 0.0465 0 0 3.141592653589793</pose>
       </include>
       
-      <joint name="tsduav_c1_prop_0_joint" type="revolute">
-        <parent>tsduav_c1_base::platform_base</parent>
-        <child>tsduav_c1_prop_0::prop </child>
+      <joint name="tsduav_quad_prop_0_joint" type="revolute">
+        <parent>tsduav_quad_base::platform_base</parent>
+        <child>tsduav_quad_prop_0::prop </child>
         <axis>
           <xyz>0 0 1</xyz>
           <limit>
@@ -45,16 +45,16 @@
         </axis>
       </joint>
       
-      <plugin name="prop_motor_0_plugin" filename='librotors_gazebo_motor_model.so'>
+      <plugin name="tsduav_quad_prop_0_plugin" filename='librotors_gazebo_motor_model.so'>
         <robotNamespace></robotNamespace>
-        <jointName>tsduav_c1_prop_0_joint </jointName>
-        <linkName>tsduav_c1_prop_0::prop</linkName>
+        <jointName>tsduav_quad_prop_0_joint </jointName>
+        <linkName>tsduav_quad_prop_0::prop</linkName>
         <turningDirection>ccw</turningDirection>
         <timeConstantUp>0.0125</timeConstantUp>
         <timeConstantDown>0.025</timeConstantDown>
         <maxRotVelocity>1000</maxRotVelocity>
-        <motorConstant>9.599e-05</motorConstant>
-        <momentConstant>0.16</momentConstant>
+        <motorConstant>8.599e-05</motorConstant>
+        <momentConstant>0.25</momentConstant>
         <commandSubTopic>/gazebo/command/prop_speed</commandSubTopic>
         <motorNumber>0</motorNumber>
         <rotorDragCoefficient>0.000806428</rotorDragCoefficient>
@@ -63,9 +63,9 @@
         <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
       </plugin>
     
-      <joint name="tsduav_c1_prop_1_joint" type="revolute">
-        <parent>tsduav_c1_base::platform_base</parent>
-        <child>tsduav_c1_prop_1::prop </child>
+      <joint name="tsduav_quad_prop_1_joint" type="revolute">
+        <parent>tsduav_quad_base::platform_base</parent>
+        <child>tsduav_quad_prop_1::prop </child>
         <axis>
           <xyz>0 0 1</xyz>
           <limit>
@@ -79,16 +79,16 @@
         </axis>
       </joint>
       
-      <plugin name="prop_motor_1_plugin" filename='librotors_gazebo_motor_model.so'>
+      <plugin name="tsduav_quad_prop_1_plugin" filename='librotors_gazebo_motor_model.so'>
         <robotNamespace></robotNamespace>
-        <jointName>tsduav_c1_prop_1_joint </jointName>
-        <linkName>tsduav_c1_prop_1::prop</linkName>
+        <jointName>tsduav_quad_prop_1_joint </jointName>
+        <linkName>tsduav_quad_prop_1::prop</linkName>
         <turningDirection>cw</turningDirection>
         <timeConstantUp>0.0125</timeConstantUp>
         <timeConstantDown>0.025</timeConstantDown>
         <maxRotVelocity>1000</maxRotVelocity>
-        <motorConstant>9.599e-05</motorConstant>
-        <momentConstant>0.16</momentConstant>
+        <motorConstant>8.599e-05</motorConstant>
+        <momentConstant>0.25</momentConstant>
         <commandSubTopic>/gazebo/command/prop_speed</commandSubTopic>
         <motorNumber>1</motorNumber>
         <rotorDragCoefficient>0.000806428</rotorDragCoefficient>
@@ -97,9 +97,9 @@
         <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
       </plugin>
     
-      <joint name="tsduav_c1_prop_2_joint" type="revolute">
-        <parent>tsduav_c1_base::platform_base</parent>
-        <child>tsduav_c1_prop_2::prop </child>
+      <joint name="tsduav_quad_prop_2_joint" type="revolute">
+        <parent>tsduav_quad_base::platform_base</parent>
+        <child>tsduav_quad_prop_2::prop </child>
         <axis>
           <xyz>0 0 1</xyz>
           <limit>
@@ -113,16 +113,16 @@
         </axis>
       </joint>
       
-      <plugin name="prop_motor_2_plugin" filename='librotors_gazebo_motor_model.so'>
+      <plugin name="tsduav_quad_prop_2_plugin" filename='librotors_gazebo_motor_model.so'>
         <robotNamespace></robotNamespace>
-        <jointName>tsduav_c1_prop_2_joint </jointName>
-        <linkName>tsduav_c1_prop_2::prop</linkName>
+        <jointName>tsduav_quad_prop_2_joint </jointName>
+        <linkName>tsduav_quad_prop_2::prop</linkName>
         <turningDirection>ccw</turningDirection>
         <timeConstantUp>0.0125</timeConstantUp>
         <timeConstantDown>0.025</timeConstantDown>
         <maxRotVelocity>1000</maxRotVelocity>
-        <motorConstant>9.599e-05</motorConstant>
-        <momentConstant>0.16</momentConstant>
+        <motorConstant>8.599e-05</motorConstant>
+        <momentConstant>0.25</momentConstant>
         <commandSubTopic>/gazebo/command/prop_speed</commandSubTopic>
         <motorNumber>2</motorNumber>
         <rotorDragCoefficient>0.000806428</rotorDragCoefficient>
@@ -131,9 +131,9 @@
         <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
       </plugin>
     
-      <joint name="tsduav_c1_prop_3_joint" type="revolute">
-        <parent>tsduav_c1_base::platform_base</parent>
-        <child>tsduav_c1_prop_3::prop </child>
+      <joint name="tsduav_quad_prop_3_joint" type="revolute">
+        <parent>tsduav_quad_base::platform_base</parent>
+        <child>tsduav_quad_prop_3::prop </child>
         <axis>
           <xyz>0 0 1</xyz>
           <limit>
@@ -147,16 +147,16 @@
         </axis>
       </joint>
       
-      <plugin name="prop_motor_3_plugin" filename='librotors_gazebo_motor_model.so'>
+      <plugin name="tsduav_quad_prop_3_plugin" filename='librotors_gazebo_motor_model.so'>
         <robotNamespace></robotNamespace>
-        <jointName>tsduav_c1_prop_3_joint </jointName>
-        <linkName>tsduav_c1_prop_3::prop</linkName>
+        <jointName>tsduav_quad_prop_3_joint </jointName>
+        <linkName>tsduav_quad_prop_3::prop</linkName>
         <turningDirection>cw</turningDirection>
         <timeConstantUp>0.0125</timeConstantUp>
         <timeConstantDown>0.025</timeConstantDown>
         <maxRotVelocity>1000</maxRotVelocity>
-        <motorConstant>9.599e-05</motorConstant>
-        <momentConstant>0.16</momentConstant>
+        <motorConstant>8.599e-05</motorConstant>
+        <momentConstant>0.25</momentConstant>
         <commandSubTopic>/gazebo/command/prop_speed</commandSubTopic>
         <motorNumber>3</motorNumber>
         <rotorDragCoefficient>0.000806428</rotorDragCoefficient>
@@ -174,9 +174,9 @@
       <motor_num>4</motor_num>
       <servo_num>0</servo_num>
       <motor_pub>/gazebo/command/prop_speed</motor_pub>
-      <servo_pub>/gazebo/command/tilt_pos</servo_pub>
-      <imuName>tsduav_c1_base::imu_link::imu_sensor</imuName>
+      <imuName>tsduav_quad_base::imu_link::imu_sensor</imuName>
       <connectionTimeoutMaxCount>5</connectionTimeoutMaxCount>
     </plugin>
   </model>
+  
 </sdf>
