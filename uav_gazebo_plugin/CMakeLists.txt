@@ -73,6 +73,8 @@ target_link_libraries(ArduRotorBalancebotPlugin ${catkin_LIBRARIES} ${GAZEBO_LIB
 add_library(ArduRotorBalanceTailsitter SHARED src/ArduRotorBalanceTailsitter.cc)
 target_link_libraries(ArduRotorBalanceTailsitter ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
 
+add_library(ArduRotorBV2 SHARED src/ArduRotorBV2.cc)
+target_link_libraries(ArduRotorBV2 ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
 
 
 
