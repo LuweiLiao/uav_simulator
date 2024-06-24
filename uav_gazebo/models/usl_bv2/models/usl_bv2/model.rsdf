@@ -10,7 +10,7 @@ tilt1_pid_d = 0.8
 
 tilt1_motors={
 	"0" => {:tilt1_dx => tilt1_pos_dx, :tilt1_dy => -tilt1_pos_dy, :tilt1_dz => tilt1_pos_dz, :tilt1_rot => Math::PI, :dir => -1},
-	"1" => {:tilt1_dx => tilt1_pos_dx, :tilt1_dy =>  tilt1_pos_dy, :tilt1_dz => tilt1_pos_dz, :tilt1_rot => 0,        :dir => -1},
+	"1" => {:tilt1_dx => tilt1_pos_dx, :tilt1_dy =>  tilt1_pos_dy, :tilt1_dz => tilt1_pos_dz, :tilt1_rot => 0,        :dir => 1},
 }
 
 tilt2_pos_dx = 0.0

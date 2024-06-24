@@ -66,7 +66,7 @@
         <parent>usl_bv2_base::base</parent>
         <child>usl_bv2_tilt1_1::tilt</child>
         <axis>
-          <xyz>0 -1 0</xyz>
+          <xyz>0 1 0</xyz>
           <limit>
             <lower>-1e+16</lower>
             <upper>1e+16</upper>
@@ -294,7 +294,8 @@
   <motor_num>2</motor_num>
   <servo_num>2</servo_num>
   <motor_pub>/gazebo/command/prop_speed</motor_pub>
-  <servo_pub>/gazebo/command/tilt2_pos</servo_pub>
+  <servo1_pub>/gazebo/command/tilt1_pos</servo1_pub>
+  <servo2_pub>/gazebo/command/tilt2_pos</servo2_pub>
   <imuName>usl_bv2_base::imu_link::imu_sensor</imuName>
   <connectionTimeoutMaxCount>5</connectionTimeoutMaxCount>
 </plugin>

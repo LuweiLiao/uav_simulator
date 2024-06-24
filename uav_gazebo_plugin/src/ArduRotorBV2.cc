@@ -641,11 +641,11 @@ void ArduRotorBV2::ApplyMotorForces(const double _dt)
     this->dataPtr->motor_pub.publish(actuator_msg);
 
     for (int i = 0; i < this->dataPtr->servo_num; i++) {
-        this->dataPtr->servo1_speed[i] = (this->dataPtr->servo1_speed[i] - 1500) / 1000.0f * 90.0f / 57.3f;
+        this->dataPtr->servo1_speed[i] = (this->dataPtr->servo1_speed[i] - 1500) / 500.0f * 150.0f / 57.3f;
     }
 
     for (int i = 0; i < this->dataPtr->servo_num; i++) {
-        this->dataPtr->servo2_speed[i] = (this->dataPtr->servo2_speed[i] - 1500) / 1000.0f * 150.0f / 57.3f;
+        this->dataPtr->servo2_speed[i] = (this->dataPtr->servo2_speed[i] - 1500) / 500.0f * 150.0f / 57.3f;
     }
 
     mav_msgs::Actuators servo_msg;
@@ -726,10 +726,12 @@ void ArduRotorBV2::ReceiveMotorCommand()
                   << "\n";
         }
         const ssize_t recvChannels = recvSize / sizeof(pkt.motorSpeed[0]);
-        for(unsigned int i = 0; i < recvChannels; ++i)
-        {
-          gzdbg << "servo_command [" << i << "]: " << pkt.motorSpeed[i] << "\n";
-        }
+
+        // std::cout << "servo_command:";
+        // for (unsigned int i = 0; i < recvChannels; ++i) {
+        //     std::cout << pkt.motorSpeed[i] << " ";
+        // }
+        // std::cout << "\r\n";
 
         if (!this->dataPtr->arduPilotOnline) {
             gzdbg << "[" << this->dataPtr->modelName << "] "
