@@ -78,9 +78,10 @@ prop_motors={
       <collision name="prop_collision">
         <pose>0 0 0 0 -0 0</pose>
         <geometry>
-          <mesh>
-            <uri>model://tsduav_t4_prop/meshes/prop.STL</uri>
-          </mesh>
+          <cylinder>
+            <length>0.005</length>
+            <radius>0.41</radius>
+          </cylinder>
         </geometry>
         <surface>
           <contact>

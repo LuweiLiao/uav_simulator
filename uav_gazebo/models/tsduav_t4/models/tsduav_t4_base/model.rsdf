@@ -85,7 +85,7 @@ prop_momentConstant = 0.25
         <pose>0 0 <%= 0 %>  0 0 0</pose>
         <geometry>
           <mesh>
-            <uri>model://tsduav_t4_base/meshes/base.STL</uri>
+            <uri>model://tsduav_t4_base/meshes/base2.STL</uri>
           </mesh>
         </geometry>
         <surface>
@@ -102,7 +102,7 @@ prop_momentConstant = 0.25
       <visual name="platform_base_visual">
         <geometry>
           <mesh>
-            <uri>model://tsduav_t4_base/meshes/base.STL</uri>
+            <uri>model://tsduav_t4_base/meshes/base2.STL</uri>
           </mesh>
         </geometry>
         <material>

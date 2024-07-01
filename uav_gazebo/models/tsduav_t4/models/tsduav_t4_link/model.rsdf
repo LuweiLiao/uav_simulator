@@ -31,7 +31,7 @@ link_base_izz  = 0.5
         <pose>0 0 0 0 0 0</pose>
         <geometry>
           <mesh>
-            <uri>model://tsduav_t4_link/meshes/link.STL</uri>
+            <uri>model://tsduav_t4_link/meshes/link2.STL</uri>
           </mesh>
         </geometry>
         <surface>
@@ -48,7 +48,7 @@ link_base_izz  = 0.5
       <visual name="link_base_visual">
         <geometry>
           <mesh>
-            <uri>model://tsduav_t4_link/meshes/link.STL</uri>
+            <uri>model://tsduav_t4_link/meshes/link2.STL</uri>
           </mesh>
         </geometry>
         <material>
