@@ -34,9 +34,9 @@ saw_izz  = 0.2
       <collision name="saw_collision">
         <pose>0 0 <%= 0 %>  0 0 0</pose>
         <geometry>
-          <box>
-            <size>0.3 1.1 <%= 0.06%></size>
-          </box>
+          <mesh>
+            <uri>model://tsduav_t4_saw/meshes/saw.obj</uri>
+          </mesh>
         </geometry>
         <surface>
           <contact>
