@@ -641,11 +641,11 @@ void ArduRotorBV2::ApplyMotorForces(const double _dt)
     this->dataPtr->motor_pub.publish(actuator_msg);
 
     for (int i = 0; i < this->dataPtr->servo_num; i++) {
-        this->dataPtr->servo1_speed[i] = (this->dataPtr->servo1_speed[i] - 1500) / 500.0f * 150.0f / 57.3f;
+        this->dataPtr->servo1_speed[i] = (this->dataPtr->servo1_speed[i] - 1500) / 1000.0f * 135.0f / 57.3f;
     }
 
     for (int i = 0; i < this->dataPtr->servo_num; i++) {
-        this->dataPtr->servo2_speed[i] = (this->dataPtr->servo2_speed[i] - 1500) / 500.0f * 150.0f / 57.3f;
+        this->dataPtr->servo2_speed[i] = (this->dataPtr->servo2_speed[i] - 1500) / 1000.0f * 135.0f / 57.3f;
     }
 
     mav_msgs::Actuators servo_msg;
