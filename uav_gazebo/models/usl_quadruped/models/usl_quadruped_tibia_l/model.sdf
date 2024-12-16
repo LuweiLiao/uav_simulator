@@ -20,15 +20,14 @@
         <pose>0 0 0  0 0 0</pose>
         <geometry>
           <mesh>
-            <uri>model://usl_quadruped_tibia_l/meshes/tibia.dae</uri>
+            <uri>model://usl_quadruped_tibia_l/meshes/tibia.STL</uri>
           </mesh>
         </geometry>
         <surface>
           <friction>
             <ode>
+              <mu>1</mu>
               <mu2>1</mu2>
-              <fdir1>1 0 0</fdir1>
-              <mu1>1.0</mu1>
             </ode>
           </friction>
           <contact>
@@ -39,7 +38,7 @@
       <visual name="base_visual">
         <geometry>
           <mesh>
-            <uri>model://usl_quadruped_tibia_l/meshes/tibia.dae</uri>
+            <uri>model://usl_quadruped_tibia_l/meshes/tibia.STL</uri>
           </mesh>
         </geometry>
         <material>

@@ -24,7 +24,6 @@
       <real_time_update_rate>-1</real_time_update_rate> <!--  即模拟时间与实时的比率 -->
     </physics>
     <gravity>0 0 -9.8</gravity>
-    <!-- <gravity>0 0 0</gravity> -->
 
 
     <include>
@@ -33,6 +32,22 @@
 
     <include>
       <uri>model://ground_plane</uri>
+      <surface>
+            <friction>
+              <ode>
+                <mu>1</mu>
+                <mu2>0.9</mu2>
+              </ode>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
     </include>
 
     <model name="usl_quadruped">

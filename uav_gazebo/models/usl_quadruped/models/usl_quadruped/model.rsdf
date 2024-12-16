@@ -2,8 +2,8 @@
   <%
 
 tilt1_pid_p = 8
-tilt1_pid_i = 2
-tilt1_pid_d = 1
+tilt1_pid_i = 4
+tilt1_pid_d = 0.6
 
 coxa_pos_dx = 0.09475
 coxa_pos_dy = 0.09182
@@ -67,7 +67,7 @@ tibia_pos_dx = 0.083
 tibia_pos_dy = 0.0
 tibia_pos_dz = 0.0
 tibia_pos_rot_x = 0.0
-tibia_pos_rot_y = Math::PI/2
+tibia_pos_rot_y = Math::PI/2 - Math::PI/60
 tibia_pos_rot_z = 0
 
 tibia_legs = {
@@ -239,8 +239,8 @@ tibia_legs = {
     <axis>
       <xyz>0 1 0</xyz>
       <limit>
-        <lower><%= -Math::PI/2%></lower>
-        <upper><%= Math::PI/2%></upper>
+        <lower><%= -Math::PI/1%></lower>
+        <upper><%= Math::PI/1%></upper>
         <effort>500</effort>
         <velocity>2</velocity>
       </limit>
