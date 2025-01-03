@@ -20,17 +20,17 @@ coxa_legs = {
 
 	"1" => {
 		:dx => -coxa_pos_dx, :dy => -coxa_pos_dy, :dz => coxa_pos_dz, 
-		:rot_x => coxa_pos_rot_x, :rot_y => coxa_pos_rot_y, :rot_z => -Math::PI/4-Math::PI/2
+		:rot_x => coxa_pos_rot_x, :rot_y => coxa_pos_rot_y, :rot_z => -3*Math::PI/4
 	},
 
   "2" => {
     :dx => -coxa_pos_dx, :dy => coxa_pos_dy, :dz => coxa_pos_dz, 
-    :rot_x => coxa_pos_rot_x, :rot_y => coxa_pos_rot_y, :rot_z => -Math::PI/4-Math::PI/2-Math::PI/2
+    :rot_x => coxa_pos_rot_x, :rot_y => coxa_pos_rot_y, :rot_z => -5*Math::PI/4
 	},
 
   "3" => {
     :dx => coxa_pos_dx, :dy => coxa_pos_dy, :dz => coxa_pos_dz, 
-    :rot_x => coxa_pos_rot_x, :rot_y => coxa_pos_rot_y, :rot_z => -Math::PI/4-Math::PI/2-Math::PI/2-Math::PI/2
+    :rot_x => coxa_pos_rot_x, :rot_y => coxa_pos_rot_y, :rot_z => -7*Math::PI/4
 	},
 }
 
@@ -67,7 +67,7 @@ tibia_pos_dx = 0.083
 tibia_pos_dy = 0.0
 tibia_pos_dz = 0.0
 tibia_pos_rot_x = 0.0
-tibia_pos_rot_y = Math::PI/2 - Math::PI/60
+tibia_pos_rot_y = Math::PI/2
 tibia_pos_rot_z = 0
 
 tibia_legs = {
@@ -117,7 +117,7 @@ tibia_legs = {
         <pose relative_to= <%='"quadruped_coxa_' + k + '_joint"' %> > 0 0 0 0 0 0</pose>
       </include>
       <joint name = <%='"quadruped_coxa_' + k + '_joint"' %> type="revolute">
-        <pose relative_to= 'usl_quadruped_base::base'><%= dx %> <%= dy %> <%= dz %> <%= rot_x %> <%= rot_y %> <%= rot_z %></pose>
+        <pose relative_to= 'usl_quadruped_base::base'> <%= dx %> <%= dy %> <%= dz %> <%= rot_x %> <%= rot_y %> <%= rot_z %></pose>
         <parent>usl_quadruped_base::base</parent>
         <child><%="quadruped_coxa_" + k + '::base' %></child>
         <axis>

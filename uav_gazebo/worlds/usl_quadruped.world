@@ -24,6 +24,7 @@
       <real_time_update_rate>-1</real_time_update_rate> <!--  即模拟时间与实时的比率 -->
     </physics>
     <gravity>0 0 -9.8</gravity>
+    <!-- <gravity>0 0 0</gravity> -->
 
 
     <include>
