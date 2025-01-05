@@ -49,8 +49,8 @@
         <motorNumber>0</motorNumber>
         <motorSpeedPubTopic>coxa_pos/0</motorSpeedPubTopic>
         <joint_control_pid>
-          <p>8</p>
-          <i>4</i>
+          <p>15</p>
+          <i>5</i>
           <d>0.6</d>
           <iMax>10</iMax>
           <iMin>-10</iMin>
@@ -98,8 +98,8 @@
         <motorNumber>1</motorNumber>
         <motorSpeedPubTopic>coxa_pos/1</motorSpeedPubTopic>
         <joint_control_pid>
-          <p>8</p>
-          <i>4</i>
+          <p>15</p>
+          <i>5</i>
           <d>0.6</d>
           <iMax>10</iMax>
           <iMin>-10</iMin>
@@ -147,8 +147,8 @@
         <motorNumber>2</motorNumber>
         <motorSpeedPubTopic>coxa_pos/2</motorSpeedPubTopic>
         <joint_control_pid>
-          <p>8</p>
-          <i>4</i>
+          <p>15</p>
+          <i>5</i>
           <d>0.6</d>
           <iMax>10</iMax>
           <iMin>-10</iMin>
@@ -196,8 +196,8 @@
         <motorNumber>3</motorNumber>
         <motorSpeedPubTopic>coxa_pos/3</motorSpeedPubTopic>
         <joint_control_pid>
-          <p>8</p>
-          <i>4</i>
+          <p>15</p>
+          <i>5</i>
           <d>0.6</d>
           <iMax>10</iMax>
           <iMin>-10</iMin>
@@ -246,8 +246,8 @@
       <motorNumber>0</motorNumber>
       <motorSpeedPubTopic>femur_pos/0</motorSpeedPubTopic>
       <joint_control_pid>
-        <p>8</p>
-        <i>4</i>
+        <p>10</p>
+        <i>3</i>
         <d>0.6</d>
         <iMax>10</iMax>
         <iMin>-10</iMin>
@@ -295,8 +295,8 @@
       <motorNumber>1</motorNumber>
       <motorSpeedPubTopic>femur_pos/1</motorSpeedPubTopic>
       <joint_control_pid>
-        <p>8</p>
-        <i>4</i>
+        <p>10</p>
+        <i>3</i>
         <d>0.6</d>
         <iMax>10</iMax>
         <iMin>-10</iMin>
@@ -344,8 +344,8 @@
       <motorNumber>2</motorNumber>
       <motorSpeedPubTopic>femur_pos/2</motorSpeedPubTopic>
       <joint_control_pid>
-        <p>8</p>
-        <i>4</i>
+        <p>10</p>
+        <i>3</i>
         <d>0.6</d>
         <iMax>10</iMax>
         <iMin>-10</iMin>
@@ -393,8 +393,8 @@
       <motorNumber>3</motorNumber>
       <motorSpeedPubTopic>femur_pos/3</motorSpeedPubTopic>
       <joint_control_pid>
-        <p>8</p>
-        <i>4</i>
+        <p>10</p>
+        <i>3</i>
         <d>0.6</d>
         <iMax>10</iMax>
         <iMin>-10</iMin>
@@ -445,8 +445,8 @@
     <motorNumber>0</motorNumber>
     <motorSpeedPubTopic>tibia_pos/0</motorSpeedPubTopic>
     <joint_control_pid>
-      <p>8</p>
-      <i>4</i>
+      <p>10</p>
+      <i>3</i>
       <d>0.6</d>
       <iMax>10</iMax>
       <iMin>-10</iMin>
@@ -496,8 +496,8 @@
     <motorNumber>1</motorNumber>
     <motorSpeedPubTopic>tibia_pos/1</motorSpeedPubTopic>
     <joint_control_pid>
-      <p>8</p>
-      <i>4</i>
+      <p>10</p>
+      <i>3</i>
       <d>0.6</d>
       <iMax>10</iMax>
       <iMin>-10</iMin>
@@ -547,8 +547,8 @@
     <motorNumber>2</motorNumber>
     <motorSpeedPubTopic>tibia_pos/2</motorSpeedPubTopic>
     <joint_control_pid>
-      <p>8</p>
-      <i>4</i>
+      <p>10</p>
+      <i>3</i>
       <d>0.6</d>
       <iMax>10</iMax>
       <iMin>-10</iMin>
@@ -598,8 +598,8 @@
     <motorNumber>3</motorNumber>
     <motorSpeedPubTopic>tibia_pos/3</motorSpeedPubTopic>
     <joint_control_pid>
-      <p>8</p>
-      <i>4</i>
+      <p>10</p>
+      <i>3</i>
       <d>0.6</d>
       <iMax>10</iMax>
       <iMin>-10</iMin>

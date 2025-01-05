@@ -1,9 +1,14 @@
 <?xml version="1.0" ?>
   <%
 
-tilt1_pid_p = 8
-tilt1_pid_i = 4
-tilt1_pid_d = 0.6
+
+coxa_pid_p = 15
+coxa_pid_i = 5
+coxa_pid_d = 0.6
+
+femur_pid_p = 10
+femur_pid_i = 3
+femur_pid_d = 0.6
 
 coxa_pos_dx = 0.09475
 coxa_pos_dy = 0.09182
@@ -150,9 +155,9 @@ tibia_legs = {
         <motorNumber><%= k %></motorNumber>
         <motorSpeedPubTopic><%= 'coxa_pos/' + k %></motorSpeedPubTopic>
         <joint_control_pid>
-          <p><%= tilt1_pid_p %></p>
-          <i><%= tilt1_pid_i %></i>
-          <d><%= tilt1_pid_d %></d>
+          <p><%= coxa_pid_p %></p>
+          <i><%= coxa_pid_i %></i>
+          <d><%= coxa_pid_d %></d>
           <iMax>10</iMax>
           <iMin>-10</iMin>
           <cmdMax>50</cmdMax>
@@ -208,9 +213,9 @@ tibia_legs = {
       <motorNumber><%= k %></motorNumber>
       <motorSpeedPubTopic><%= 'femur_pos/' + k %></motorSpeedPubTopic>
       <joint_control_pid>
-        <p><%= tilt1_pid_p %></p>
-        <i><%= tilt1_pid_i %></i>
-        <d><%= tilt1_pid_d %></d>
+        <p><%= femur_pid_p %></p>
+        <i><%= femur_pid_i %></i>
+        <d><%= femur_pid_d %></d>
         <iMax>10</iMax>
         <iMin>-10</iMin>
         <cmdMax>50</cmdMax>
@@ -268,9 +273,9 @@ tibia_legs = {
     <motorNumber><%= k %></motorNumber>
     <motorSpeedPubTopic><%= 'tibia_pos/' + k %></motorSpeedPubTopic>
     <joint_control_pid>
-      <p><%= tilt1_pid_p %></p>
-      <i><%= tilt1_pid_i %></i>
-      <d><%= tilt1_pid_d %></d>
+      <p><%= femur_pid_p %></p>
+      <i><%= femur_pid_i %></i>
+      <d><%= femur_pid_d %></d>
       <iMax>10</iMax>
       <iMin>-10</iMin>
       <cmdMax>50</cmdMax>
