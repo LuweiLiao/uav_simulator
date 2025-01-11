@@ -79,6 +79,9 @@ target_link_libraries(ArduRotorBV2 ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
 add_library(ArduRotorQuadruped SHARED src/ArduRotorQuadruped.cc)
 target_link_libraries(ArduRotorQuadruped ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
 
+add_library(ArduRotorQuadrupedBicopter SHARED src/ArduRotorQuadrupedBicopter.cc)
+target_link_libraries(ArduRotorQuadrupedBicopter ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
+
 
 
 
