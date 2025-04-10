@@ -595,6 +595,19 @@ void ArduRotorQuadruped::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
 
     gzlog << "[" << this->dataPtr->modelName << "] "
           << "ArduPilot ready to fly. The force will be with you" << std::endl;
+
+
+    for (uint8_t i = 0; i < MAX_MOTORS; i++) {
+        this->dataPtr->coxa_speed[i] = 1500.0;
+    }
+
+    for (uint8_t i = 0; i < MAX_MOTORS; i++) {
+        this->dataPtr->femur_speed[i] = 1500;
+    }
+
+    for (uint8_t i = 0; i < MAX_MOTORS; i++) {
+        this->dataPtr->tibia_speed[i] = 1500;
+    }
 }
 
 /////////////////////////////////////////////////
@@ -624,6 +637,20 @@ void ArduRotorQuadruped::ResetPIDs()
         this->dataPtr->controls[i].cmd = 0;
         // this->dataPtr->controls[i].pid.Reset();
     }
+
+    for (uint8_t i = 0; i < MAX_MOTORS; i++) {
+        this->dataPtr->coxa_speed[i] = 1500.0;
+    }
+
+    for (uint8_t i = 0; i < MAX_MOTORS; i++) {
+        this->dataPtr->femur_speed[i] = 1500;
+    }
+
+    for (uint8_t i = 0; i < MAX_MOTORS; i++) {
+        this->dataPtr->tibia_speed[i] = 1500;
+    }
+
+    ApplyMotorForces(0);
 }
 
 /////////////////////////////////////////////////
