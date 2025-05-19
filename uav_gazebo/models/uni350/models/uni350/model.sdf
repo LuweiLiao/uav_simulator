@@ -55,11 +55,11 @@
         <maxRotVelocity>1000</maxRotVelocity>
         <motorConstant>8.599e-05</motorConstant>
         <momentConstant>0.25</momentConstant>
-        <commandSubTopic>/gazebo/command/prop_speed</commandSubTopic>
+        <commandSubTopic>/uni350/gazebo/command/prop_speed</commandSubTopic>
         <motorNumber>0</motorNumber>
         <rotorDragCoefficient>0.000806428</rotorDragCoefficient>
         <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
-        <motorSpeedPubTopic>prop_speed/0</motorSpeedPubTopic>
+        <motorSpeedPubTopic>/uni350/prop_speed/0</motorSpeedPubTopic>
         <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
       </plugin>
     
@@ -89,11 +89,11 @@
         <maxRotVelocity>1000</maxRotVelocity>
         <motorConstant>8.599e-05</motorConstant>
         <momentConstant>0.25</momentConstant>
-        <commandSubTopic>/gazebo/command/prop_speed</commandSubTopic>
+        <commandSubTopic>/uni350/gazebo/command/prop_speed</commandSubTopic>
         <motorNumber>1</motorNumber>
         <rotorDragCoefficient>0.000806428</rotorDragCoefficient>
         <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
-        <motorSpeedPubTopic>prop_speed/1</motorSpeedPubTopic>
+        <motorSpeedPubTopic>/uni350/prop_speed/1</motorSpeedPubTopic>
         <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
       </plugin>
     
@@ -123,11 +123,11 @@
         <maxRotVelocity>1000</maxRotVelocity>
         <motorConstant>8.599e-05</motorConstant>
         <momentConstant>0.25</momentConstant>
-        <commandSubTopic>/gazebo/command/prop_speed</commandSubTopic>
+        <commandSubTopic>/uni350/gazebo/command/prop_speed</commandSubTopic>
         <motorNumber>2</motorNumber>
         <rotorDragCoefficient>0.000806428</rotorDragCoefficient>
         <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
-        <motorSpeedPubTopic>prop_speed/2</motorSpeedPubTopic>
+        <motorSpeedPubTopic>/uni350/prop_speed/2</motorSpeedPubTopic>
         <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
       </plugin>
     
@@ -157,11 +157,11 @@
         <maxRotVelocity>1000</maxRotVelocity>
         <motorConstant>8.599e-05</motorConstant>
         <momentConstant>0.25</momentConstant>
-        <commandSubTopic>/gazebo/command/prop_speed</commandSubTopic>
+        <commandSubTopic>/uni350/gazebo/command/prop_speed</commandSubTopic>
         <motorNumber>3</motorNumber>
         <rotorDragCoefficient>0.000806428</rotorDragCoefficient>
         <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
-        <motorSpeedPubTopic>prop_speed/3</motorSpeedPubTopic>
+        <motorSpeedPubTopic>/uni350/prop_speed/3</motorSpeedPubTopic>
         <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
       </plugin>
     
@@ -173,8 +173,8 @@
       <gazeboXYZToNED>0 0 0 3.141593 0 0</gazeboXYZToNED>
       <motor_num>4</motor_num>
       <servo_num>0</servo_num>
-      <motor_pub>/gazebo/command/prop_speed</motor_pub>
-      <imuName>uni350_base::imu_link::imu_sensor</imuName>
+      <motor_pub>/uni350/gazebo/command/prop_speed</motor_pub>
+      <imuName>uni350::uni350_base::imu_link::imu_sensor</imuName>
       <connectionTimeoutMaxCount>5</connectionTimeoutMaxCount>
     </plugin>
   </model>

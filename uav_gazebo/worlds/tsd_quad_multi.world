@@ -30,7 +30,7 @@
           <geometry>
             <plane>
               <normal>0 0 1</normal>
-              <size>10000 10000</size>
+              <size>5000 5000</size>
             </plane>
           </geometry>
           <surface>
@@ -42,7 +42,7 @@
             </friction>
           </surface>
         </collision>
-        <!-- <visual name="runway">
+        <visual name="runway">
           <pose>000 0 0.005 0 0 0</pose>
           <cast_shadows>false</cast_shadows>
           <geometry>
@@ -73,16 +73,16 @@
               <name>Gazebo/Grass</name>
             </script>
           </material>
-        </visual> -->
+        </visual>
       </link>
     </model>
     
-    <model name="tsd_quad_1">
+    <model name="uni350">
       <pose>0 0 1 0 0 0 </pose>
       <include>
-        <uri>model://tsd_quad</uri>
+        <uri>model://uni350</uri>
         <pose> 0 0 0 0 0 0</pose>
-        <name>tsd_quad_1</name>
+        <name>uni350</name>
       </include>
       <plugin name="ArduRotorNormPlugin_1" filename='libArduRotorNormPlugin.so'>
         <fdm_addr>127.0.0.1</fdm_addr>
@@ -91,91 +91,91 @@
         <modelXYZToAirplaneXForwardZDown>0 0 0 3.141593 0 0</modelXYZToAirplaneXForwardZDown>
         <gazeboXYZToNED>0 0 0 3.141593 0 0</gazeboXYZToNED>
         <motor_num>4</motor_num>
-        <motor_pub>/tsd_quad_1/gazebo/command/prop_speed </motor_pub>
-        <imuName>tsd_quad_1::tsd_quad_base::imu_link::imu_sensor</imuName>
+        <motor_pub>/uni350/gazebo/command/prop_speed </motor_pub>
+        <imuName>uni350::uni350_base::imu_link::imu_sensor</imuName>
         <connectionTimeoutMaxCount>5</connectionTimeoutMaxCount>
       </plugin>
       
-      <plugin name="tsd_quad_1_motor_0_plugin" filename='librotors_gazebo_motor_model.so'>
+      <plugin name="uni350_motor_0_plugin" filename='librotors_gazebo_motor_model.so'>
         <robotNamespace></robotNamespace>
-        <jointName>tsd_quad_1::tsd_quad_prop_0_joint </jointName>
-        <linkName>tsd_quad_1::tsd_quad_prop_0::prop</linkName>
+        <jointName>uni350::uni350_prop_0_joint </jointName>
+        <linkName>uni350::uni350_prop_0::prop</linkName>
         <turningDirection>ccw</turningDirection>
         <timeConstantUp>0.0125</timeConstantUp>
         <timeConstantDown>0.025</timeConstantDown>
         <maxRotVelocity>1000</maxRotVelocity>
         <motorConstant>8.599e-05</motorConstant>
         <momentConstant>0.25</momentConstant>
-        <commandSubTopic>/tsd_quad_1/gazebo/command/prop_speed</commandSubTopic>
+        <commandSubTopic>/uni350/gazebo/command/prop_speed</commandSubTopic>
         <motorNumber>0</motorNumber>
         <rotorDragCoefficient>0.000806428</rotorDragCoefficient>
         <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
-        <motorSpeedPubTopic>/tsd_quad_1/prop_speed/0</motorSpeedPubTopic>
+        <motorSpeedPubTopic>/uni350/prop_speed/0</motorSpeedPubTopic>
         <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
       </plugin>
     
-      <plugin name="tsd_quad_1_motor_1_plugin" filename='librotors_gazebo_motor_model.so'>
+      <plugin name="uni350_motor_1_plugin" filename='librotors_gazebo_motor_model.so'>
         <robotNamespace></robotNamespace>
-        <jointName>tsd_quad_1::tsd_quad_prop_1_joint </jointName>
-        <linkName>tsd_quad_1::tsd_quad_prop_1::prop</linkName>
+        <jointName>uni350::uni350_prop_1_joint </jointName>
+        <linkName>uni350::uni350_prop_1::prop</linkName>
         <turningDirection>cw</turningDirection>
         <timeConstantUp>0.0125</timeConstantUp>
         <timeConstantDown>0.025</timeConstantDown>
         <maxRotVelocity>1000</maxRotVelocity>
         <motorConstant>8.599e-05</motorConstant>
         <momentConstant>0.25</momentConstant>
-        <commandSubTopic>/tsd_quad_1/gazebo/command/prop_speed</commandSubTopic>
+        <commandSubTopic>/uni350/gazebo/command/prop_speed</commandSubTopic>
         <motorNumber>1</motorNumber>
         <rotorDragCoefficient>0.000806428</rotorDragCoefficient>
         <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
-        <motorSpeedPubTopic>/tsd_quad_1/prop_speed/1</motorSpeedPubTopic>
+        <motorSpeedPubTopic>/uni350/prop_speed/1</motorSpeedPubTopic>
         <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
       </plugin>
     
-      <plugin name="tsd_quad_1_motor_2_plugin" filename='librotors_gazebo_motor_model.so'>
+      <plugin name="uni350_motor_2_plugin" filename='librotors_gazebo_motor_model.so'>
         <robotNamespace></robotNamespace>
-        <jointName>tsd_quad_1::tsd_quad_prop_2_joint </jointName>
-        <linkName>tsd_quad_1::tsd_quad_prop_2::prop</linkName>
+        <jointName>uni350::uni350_prop_2_joint </jointName>
+        <linkName>uni350::uni350_prop_2::prop</linkName>
         <turningDirection>ccw</turningDirection>
         <timeConstantUp>0.0125</timeConstantUp>
         <timeConstantDown>0.025</timeConstantDown>
         <maxRotVelocity>1000</maxRotVelocity>
         <motorConstant>8.599e-05</motorConstant>
         <momentConstant>0.25</momentConstant>
-        <commandSubTopic>/tsd_quad_1/gazebo/command/prop_speed</commandSubTopic>
+        <commandSubTopic>/uni350/gazebo/command/prop_speed</commandSubTopic>
         <motorNumber>2</motorNumber>
         <rotorDragCoefficient>0.000806428</rotorDragCoefficient>
         <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
-        <motorSpeedPubTopic>/tsd_quad_1/prop_speed/2</motorSpeedPubTopic>
+        <motorSpeedPubTopic>/uni350/prop_speed/2</motorSpeedPubTopic>
         <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
       </plugin>
     
-      <plugin name="tsd_quad_1_motor_3_plugin" filename='librotors_gazebo_motor_model.so'>
+      <plugin name="uni350_motor_3_plugin" filename='librotors_gazebo_motor_model.so'>
         <robotNamespace></robotNamespace>
-        <jointName>tsd_quad_1::tsd_quad_prop_3_joint </jointName>
-        <linkName>tsd_quad_1::tsd_quad_prop_3::prop</linkName>
+        <jointName>uni350::uni350_prop_3_joint </jointName>
+        <linkName>uni350::uni350_prop_3::prop</linkName>
         <turningDirection>cw</turningDirection>
         <timeConstantUp>0.0125</timeConstantUp>
         <timeConstantDown>0.025</timeConstantDown>
         <maxRotVelocity>1000</maxRotVelocity>
         <motorConstant>8.599e-05</motorConstant>
         <momentConstant>0.25</momentConstant>
-        <commandSubTopic>/tsd_quad_1/gazebo/command/prop_speed</commandSubTopic>
+        <commandSubTopic>/uni350/gazebo/command/prop_speed</commandSubTopic>
         <motorNumber>3</motorNumber>
         <rotorDragCoefficient>0.000806428</rotorDragCoefficient>
         <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
-        <motorSpeedPubTopic>/tsd_quad_1/prop_speed/3</motorSpeedPubTopic>
+        <motorSpeedPubTopic>/uni350/prop_speed/3</motorSpeedPubTopic>
         <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
       </plugin>
     
   </model>
 
-    <model name="tsd_quad_2">
+    <model name="tsduav_quad">
       <pose>-3 0 1 0 0 0 </pose>
       <include>
-        <uri>model://tsd_quad</uri>
+        <uri>model://tsduav_quad</uri>
         <pose> 0 0 0 0 0 0</pose>
-        <name>tsd_quad_2</name>
+        <name>tsduav_quad</name>
       </include>
       <plugin name="ArduRotorNormPlugin_2" filename='libArduRotorNormPlugin.so'>
         <fdm_addr>127.0.0.1</fdm_addr>
@@ -184,638 +184,80 @@
         <modelXYZToAirplaneXForwardZDown>0 0 0 3.141593 0 0</modelXYZToAirplaneXForwardZDown>
         <gazeboXYZToNED>0 0 0 3.141593 0 0</gazeboXYZToNED>
         <motor_num>4</motor_num>
-        <motor_pub>/tsd_quad_2/gazebo/command/prop_speed </motor_pub>
-        <imuName>tsd_quad_2::tsd_quad_base::imu_link::imu_sensor</imuName>
+        <motor_pub>/tsduav_quad/gazebo/command/prop_speed </motor_pub>
+        <imuName>tsduav_quad::tsduav_quad_base::imu_link::imu_sensor</imuName>
         <connectionTimeoutMaxCount>5</connectionTimeoutMaxCount>
       </plugin>
       
-      <plugin name="tsd_quad_2_motor_0_plugin" filename='librotors_gazebo_motor_model.so'>
+      <plugin name="tsduav_quad_motor_0_plugin" filename='librotors_gazebo_motor_model.so'>
         <robotNamespace></robotNamespace>
-        <jointName>tsd_quad_2::tsd_quad_prop_0_joint </jointName>
-        <linkName>tsd_quad_2::tsd_quad_prop_0::prop</linkName>
+        <jointName>tsduav_quad::tsduav_quad_prop_0_joint </jointName>
+        <linkName>tsduav_quad::tsduav_quad_prop_0::prop</linkName>
         <turningDirection>ccw</turningDirection>
         <timeConstantUp>0.0125</timeConstantUp>
         <timeConstantDown>0.025</timeConstantDown>
         <maxRotVelocity>1000</maxRotVelocity>
         <motorConstant>8.599e-05</motorConstant>
         <momentConstant>0.25</momentConstant>
-        <commandSubTopic>/tsd_quad_2/gazebo/command/prop_speed</commandSubTopic>
+        <commandSubTopic>/tsduav_quad/gazebo/command/prop_speed</commandSubTopic>
         <motorNumber>0</motorNumber>
         <rotorDragCoefficient>0.000806428</rotorDragCoefficient>
         <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
-        <motorSpeedPubTopic>/tsd_quad_2/prop_speed/0</motorSpeedPubTopic>
+        <motorSpeedPubTopic>/tsduav_quad/prop_speed/0</motorSpeedPubTopic>
         <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
       </plugin>
     
-      <plugin name="tsd_quad_2_motor_1_plugin" filename='librotors_gazebo_motor_model.so'>
+      <plugin name="tsduav_quad_motor_1_plugin" filename='librotors_gazebo_motor_model.so'>
         <robotNamespace></robotNamespace>
-        <jointName>tsd_quad_2::tsd_quad_prop_1_joint </jointName>
-        <linkName>tsd_quad_2::tsd_quad_prop_1::prop</linkName>
+        <jointName>tsduav_quad::tsduav_quad_prop_1_joint </jointName>
+        <linkName>tsduav_quad::tsduav_quad_prop_1::prop</linkName>
         <turningDirection>cw</turningDirection>
         <timeConstantUp>0.0125</timeConstantUp>
         <timeConstantDown>0.025</timeConstantDown>
         <maxRotVelocity>1000</maxRotVelocity>
         <motorConstant>8.599e-05</motorConstant>
         <momentConstant>0.25</momentConstant>
-        <commandSubTopic>/tsd_quad_2/gazebo/command/prop_speed</commandSubTopic>
+        <commandSubTopic>/tsduav_quad/gazebo/command/prop_speed</commandSubTopic>
         <motorNumber>1</motorNumber>
         <rotorDragCoefficient>0.000806428</rotorDragCoefficient>
         <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
-        <motorSpeedPubTopic>/tsd_quad_2/prop_speed/1</motorSpeedPubTopic>
+        <motorSpeedPubTopic>/tsduav_quad/prop_speed/1</motorSpeedPubTopic>
         <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
       </plugin>
     
-      <plugin name="tsd_quad_2_motor_2_plugin" filename='librotors_gazebo_motor_model.so'>
+      <plugin name="tsduav_quad_motor_2_plugin" filename='librotors_gazebo_motor_model.so'>
         <robotNamespace></robotNamespace>
-        <jointName>tsd_quad_2::tsd_quad_prop_2_joint </jointName>
-        <linkName>tsd_quad_2::tsd_quad_prop_2::prop</linkName>
+        <jointName>tsduav_quad::tsduav_quad_prop_2_joint </jointName>
+        <linkName>tsduav_quad::tsduav_quad_prop_2::prop</linkName>
         <turningDirection>ccw</turningDirection>
         <timeConstantUp>0.0125</timeConstantUp>
         <timeConstantDown>0.025</timeConstantDown>
         <maxRotVelocity>1000</maxRotVelocity>
         <motorConstant>8.599e-05</motorConstant>
         <momentConstant>0.25</momentConstant>
-        <commandSubTopic>/tsd_quad_2/gazebo/command/prop_speed</commandSubTopic>
+        <commandSubTopic>/tsduav_quad/gazebo/command/prop_speed</commandSubTopic>
         <motorNumber>2</motorNumber>
         <rotorDragCoefficient>0.000806428</rotorDragCoefficient>
         <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
-        <motorSpeedPubTopic>/tsd_quad_2/prop_speed/2</motorSpeedPubTopic>
+        <motorSpeedPubTopic>/tsduav_quad/prop_speed/2</motorSpeedPubTopic>
         <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
       </plugin>
     
-      <plugin name="tsd_quad_2_motor_3_plugin" filename='librotors_gazebo_motor_model.so'>
+      <plugin name="tsduav_quad_motor_3_plugin" filename='librotors_gazebo_motor_model.so'>
         <robotNamespace></robotNamespace>
-        <jointName>tsd_quad_2::tsd_quad_prop_3_joint </jointName>
-        <linkName>tsd_quad_2::tsd_quad_prop_3::prop</linkName>
+        <jointName>tsduav_quad::tsduav_quad_prop_3_joint </jointName>
+        <linkName>tsduav_quad::tsduav_quad_prop_3::prop</linkName>
         <turningDirection>cw</turningDirection>
         <timeConstantUp>0.0125</timeConstantUp>
         <timeConstantDown>0.025</timeConstantDown>
         <maxRotVelocity>1000</maxRotVelocity>
         <motorConstant>8.599e-05</motorConstant>
         <momentConstant>0.25</momentConstant>
-        <commandSubTopic>/tsd_quad_2/gazebo/command/prop_speed</commandSubTopic>
+        <commandSubTopic>/tsduav_quad/gazebo/command/prop_speed</commandSubTopic>
         <motorNumber>3</motorNumber>
         <rotorDragCoefficient>0.000806428</rotorDragCoefficient>
         <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
-        <motorSpeedPubTopic>/tsd_quad_2/prop_speed/3</motorSpeedPubTopic>
-        <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
-      </plugin>
-    
-  </model>
-
-    <model name="tsd_quad_3">
-      <pose>-6 0 1 0 0 0 </pose>
-      <include>
-        <uri>model://tsd_quad</uri>
-        <pose> 0 0 0 0 0 0</pose>
-        <name>tsd_quad_3</name>
-      </include>
-      <plugin name="ArduRotorNormPlugin_3" filename='libArduRotorNormPlugin.so'>
-        <fdm_addr>127.0.0.1</fdm_addr>
-        <fdm_port_in>9022</fdm_port_in>
-        <fdm_port_out>9023</fdm_port_out>
-        <modelXYZToAirplaneXForwardZDown>0 0 0 3.141593 0 0</modelXYZToAirplaneXForwardZDown>
-        <gazeboXYZToNED>0 0 0 3.141593 0 0</gazeboXYZToNED>
-        <motor_num>4</motor_num>
-        <motor_pub>/tsd_quad_3/gazebo/command/prop_speed </motor_pub>
-        <imuName>tsd_quad_3::tsd_quad_base::imu_link::imu_sensor</imuName>
-        <connectionTimeoutMaxCount>5</connectionTimeoutMaxCount>
-      </plugin>
-      
-      <plugin name="tsd_quad_3_motor_0_plugin" filename='librotors_gazebo_motor_model.so'>
-        <robotNamespace></robotNamespace>
-        <jointName>tsd_quad_3::tsd_quad_prop_0_joint </jointName>
-        <linkName>tsd_quad_3::tsd_quad_prop_0::prop</linkName>
-        <turningDirection>ccw</turningDirection>
-        <timeConstantUp>0.0125</timeConstantUp>
-        <timeConstantDown>0.025</timeConstantDown>
-        <maxRotVelocity>1000</maxRotVelocity>
-        <motorConstant>8.599e-05</motorConstant>
-        <momentConstant>0.25</momentConstant>
-        <commandSubTopic>/tsd_quad_3/gazebo/command/prop_speed</commandSubTopic>
-        <motorNumber>0</motorNumber>
-        <rotorDragCoefficient>0.000806428</rotorDragCoefficient>
-        <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
-        <motorSpeedPubTopic>/tsd_quad_3/prop_speed/0</motorSpeedPubTopic>
-        <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
-      </plugin>
-    
-      <plugin name="tsd_quad_3_motor_1_plugin" filename='librotors_gazebo_motor_model.so'>
-        <robotNamespace></robotNamespace>
-        <jointName>tsd_quad_3::tsd_quad_prop_1_joint </jointName>
-        <linkName>tsd_quad_3::tsd_quad_prop_1::prop</linkName>
-        <turningDirection>cw</turningDirection>
-        <timeConstantUp>0.0125</timeConstantUp>
-        <timeConstantDown>0.025</timeConstantDown>
-        <maxRotVelocity>1000</maxRotVelocity>
-        <motorConstant>8.599e-05</motorConstant>
-        <momentConstant>0.25</momentConstant>
-        <commandSubTopic>/tsd_quad_3/gazebo/command/prop_speed</commandSubTopic>
-        <motorNumber>1</motorNumber>
-        <rotorDragCoefficient>0.000806428</rotorDragCoefficient>
-        <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
-        <motorSpeedPubTopic>/tsd_quad_3/prop_speed/1</motorSpeedPubTopic>
-        <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
-      </plugin>
-    
-      <plugin name="tsd_quad_3_motor_2_plugin" filename='librotors_gazebo_motor_model.so'>
-        <robotNamespace></robotNamespace>
-        <jointName>tsd_quad_3::tsd_quad_prop_2_joint </jointName>
-        <linkName>tsd_quad_3::tsd_quad_prop_2::prop</linkName>
-        <turningDirection>ccw</turningDirection>
-        <timeConstantUp>0.0125</timeConstantUp>
-        <timeConstantDown>0.025</timeConstantDown>
-        <maxRotVelocity>1000</maxRotVelocity>
-        <motorConstant>8.599e-05</motorConstant>
-        <momentConstant>0.25</momentConstant>
-        <commandSubTopic>/tsd_quad_3/gazebo/command/prop_speed</commandSubTopic>
-        <motorNumber>2</motorNumber>
-        <rotorDragCoefficient>0.000806428</rotorDragCoefficient>
-        <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
-        <motorSpeedPubTopic>/tsd_quad_3/prop_speed/2</motorSpeedPubTopic>
-        <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
-      </plugin>
-    
-      <plugin name="tsd_quad_3_motor_3_plugin" filename='librotors_gazebo_motor_model.so'>
-        <robotNamespace></robotNamespace>
-        <jointName>tsd_quad_3::tsd_quad_prop_3_joint </jointName>
-        <linkName>tsd_quad_3::tsd_quad_prop_3::prop</linkName>
-        <turningDirection>cw</turningDirection>
-        <timeConstantUp>0.0125</timeConstantUp>
-        <timeConstantDown>0.025</timeConstantDown>
-        <maxRotVelocity>1000</maxRotVelocity>
-        <motorConstant>8.599e-05</motorConstant>
-        <momentConstant>0.25</momentConstant>
-        <commandSubTopic>/tsd_quad_3/gazebo/command/prop_speed</commandSubTopic>
-        <motorNumber>3</motorNumber>
-        <rotorDragCoefficient>0.000806428</rotorDragCoefficient>
-        <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
-        <motorSpeedPubTopic>/tsd_quad_3/prop_speed/3</motorSpeedPubTopic>
-        <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
-      </plugin>
-    
-  </model>
-
-    <model name="tsd_quad_4">
-      <pose>-9 0 1 0 0 0 </pose>
-      <include>
-        <uri>model://tsd_quad</uri>
-        <pose> 0 0 0 0 0 0</pose>
-        <name>tsd_quad_4</name>
-      </include>
-      <plugin name="ArduRotorNormPlugin_4" filename='libArduRotorNormPlugin.so'>
-        <fdm_addr>127.0.0.1</fdm_addr>
-        <fdm_port_in>9032</fdm_port_in>
-        <fdm_port_out>9033</fdm_port_out>
-        <modelXYZToAirplaneXForwardZDown>0 0 0 3.141593 0 0</modelXYZToAirplaneXForwardZDown>
-        <gazeboXYZToNED>0 0 0 3.141593 0 0</gazeboXYZToNED>
-        <motor_num>4</motor_num>
-        <motor_pub>/tsd_quad_4/gazebo/command/prop_speed </motor_pub>
-        <imuName>tsd_quad_4::tsd_quad_base::imu_link::imu_sensor</imuName>
-        <connectionTimeoutMaxCount>5</connectionTimeoutMaxCount>
-      </plugin>
-      
-      <plugin name="tsd_quad_4_motor_0_plugin" filename='librotors_gazebo_motor_model.so'>
-        <robotNamespace></robotNamespace>
-        <jointName>tsd_quad_4::tsd_quad_prop_0_joint </jointName>
-        <linkName>tsd_quad_4::tsd_quad_prop_0::prop</linkName>
-        <turningDirection>ccw</turningDirection>
-        <timeConstantUp>0.0125</timeConstantUp>
-        <timeConstantDown>0.025</timeConstantDown>
-        <maxRotVelocity>1000</maxRotVelocity>
-        <motorConstant>8.599e-05</motorConstant>
-        <momentConstant>0.25</momentConstant>
-        <commandSubTopic>/tsd_quad_4/gazebo/command/prop_speed</commandSubTopic>
-        <motorNumber>0</motorNumber>
-        <rotorDragCoefficient>0.000806428</rotorDragCoefficient>
-        <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
-        <motorSpeedPubTopic>/tsd_quad_4/prop_speed/0</motorSpeedPubTopic>
-        <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
-      </plugin>
-    
-      <plugin name="tsd_quad_4_motor_1_plugin" filename='librotors_gazebo_motor_model.so'>
-        <robotNamespace></robotNamespace>
-        <jointName>tsd_quad_4::tsd_quad_prop_1_joint </jointName>
-        <linkName>tsd_quad_4::tsd_quad_prop_1::prop</linkName>
-        <turningDirection>cw</turningDirection>
-        <timeConstantUp>0.0125</timeConstantUp>
-        <timeConstantDown>0.025</timeConstantDown>
-        <maxRotVelocity>1000</maxRotVelocity>
-        <motorConstant>8.599e-05</motorConstant>
-        <momentConstant>0.25</momentConstant>
-        <commandSubTopic>/tsd_quad_4/gazebo/command/prop_speed</commandSubTopic>
-        <motorNumber>1</motorNumber>
-        <rotorDragCoefficient>0.000806428</rotorDragCoefficient>
-        <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
-        <motorSpeedPubTopic>/tsd_quad_4/prop_speed/1</motorSpeedPubTopic>
-        <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
-      </plugin>
-    
-      <plugin name="tsd_quad_4_motor_2_plugin" filename='librotors_gazebo_motor_model.so'>
-        <robotNamespace></robotNamespace>
-        <jointName>tsd_quad_4::tsd_quad_prop_2_joint </jointName>
-        <linkName>tsd_quad_4::tsd_quad_prop_2::prop</linkName>
-        <turningDirection>ccw</turningDirection>
-        <timeConstantUp>0.0125</timeConstantUp>
-        <timeConstantDown>0.025</timeConstantDown>
-        <maxRotVelocity>1000</maxRotVelocity>
-        <motorConstant>8.599e-05</motorConstant>
-        <momentConstant>0.25</momentConstant>
-        <commandSubTopic>/tsd_quad_4/gazebo/command/prop_speed</commandSubTopic>
-        <motorNumber>2</motorNumber>
-        <rotorDragCoefficient>0.000806428</rotorDragCoefficient>
-        <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
-        <motorSpeedPubTopic>/tsd_quad_4/prop_speed/2</motorSpeedPubTopic>
-        <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
-      </plugin>
-    
-      <plugin name="tsd_quad_4_motor_3_plugin" filename='librotors_gazebo_motor_model.so'>
-        <robotNamespace></robotNamespace>
-        <jointName>tsd_quad_4::tsd_quad_prop_3_joint </jointName>
-        <linkName>tsd_quad_4::tsd_quad_prop_3::prop</linkName>
-        <turningDirection>cw</turningDirection>
-        <timeConstantUp>0.0125</timeConstantUp>
-        <timeConstantDown>0.025</timeConstantDown>
-        <maxRotVelocity>1000</maxRotVelocity>
-        <motorConstant>8.599e-05</motorConstant>
-        <momentConstant>0.25</momentConstant>
-        <commandSubTopic>/tsd_quad_4/gazebo/command/prop_speed</commandSubTopic>
-        <motorNumber>3</motorNumber>
-        <rotorDragCoefficient>0.000806428</rotorDragCoefficient>
-        <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
-        <motorSpeedPubTopic>/tsd_quad_4/prop_speed/3</motorSpeedPubTopic>
-        <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
-      </plugin>
-    
-  </model>
-
-    <model name="tsd_quad_5">
-      <pose>-12 0 1 0 0 0 </pose>
-      <include>
-        <uri>model://tsd_quad</uri>
-        <pose> 0 0 0 0 0 0</pose>
-        <name>tsd_quad_5</name>
-      </include>
-      <plugin name="ArduRotorNormPlugin_5" filename='libArduRotorNormPlugin.so'>
-        <fdm_addr>127.0.0.1</fdm_addr>
-        <fdm_port_in>9042</fdm_port_in>
-        <fdm_port_out>9043</fdm_port_out>
-        <modelXYZToAirplaneXForwardZDown>0 0 0 3.141593 0 0</modelXYZToAirplaneXForwardZDown>
-        <gazeboXYZToNED>0 0 0 3.141593 0 0</gazeboXYZToNED>
-        <motor_num>4</motor_num>
-        <motor_pub>/tsd_quad_5/gazebo/command/prop_speed </motor_pub>
-        <imuName>tsd_quad_5::tsd_quad_base::imu_link::imu_sensor</imuName>
-        <connectionTimeoutMaxCount>5</connectionTimeoutMaxCount>
-      </plugin>
-      
-      <plugin name="tsd_quad_5_motor_0_plugin" filename='librotors_gazebo_motor_model.so'>
-        <robotNamespace></robotNamespace>
-        <jointName>tsd_quad_5::tsd_quad_prop_0_joint </jointName>
-        <linkName>tsd_quad_5::tsd_quad_prop_0::prop</linkName>
-        <turningDirection>ccw</turningDirection>
-        <timeConstantUp>0.0125</timeConstantUp>
-        <timeConstantDown>0.025</timeConstantDown>
-        <maxRotVelocity>1000</maxRotVelocity>
-        <motorConstant>8.599e-05</motorConstant>
-        <momentConstant>0.25</momentConstant>
-        <commandSubTopic>/tsd_quad_5/gazebo/command/prop_speed</commandSubTopic>
-        <motorNumber>0</motorNumber>
-        <rotorDragCoefficient>0.000806428</rotorDragCoefficient>
-        <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
-        <motorSpeedPubTopic>/tsd_quad_5/prop_speed/0</motorSpeedPubTopic>
-        <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
-      </plugin>
-    
-      <plugin name="tsd_quad_5_motor_1_plugin" filename='librotors_gazebo_motor_model.so'>
-        <robotNamespace></robotNamespace>
-        <jointName>tsd_quad_5::tsd_quad_prop_1_joint </jointName>
-        <linkName>tsd_quad_5::tsd_quad_prop_1::prop</linkName>
-        <turningDirection>cw</turningDirection>
-        <timeConstantUp>0.0125</timeConstantUp>
-        <timeConstantDown>0.025</timeConstantDown>
-        <maxRotVelocity>1000</maxRotVelocity>
-        <motorConstant>8.599e-05</motorConstant>
-        <momentConstant>0.25</momentConstant>
-        <commandSubTopic>/tsd_quad_5/gazebo/command/prop_speed</commandSubTopic>
-        <motorNumber>1</motorNumber>
-        <rotorDragCoefficient>0.000806428</rotorDragCoefficient>
-        <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
-        <motorSpeedPubTopic>/tsd_quad_5/prop_speed/1</motorSpeedPubTopic>
-        <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
-      </plugin>
-    
-      <plugin name="tsd_quad_5_motor_2_plugin" filename='librotors_gazebo_motor_model.so'>
-        <robotNamespace></robotNamespace>
-        <jointName>tsd_quad_5::tsd_quad_prop_2_joint </jointName>
-        <linkName>tsd_quad_5::tsd_quad_prop_2::prop</linkName>
-        <turningDirection>ccw</turningDirection>
-        <timeConstantUp>0.0125</timeConstantUp>
-        <timeConstantDown>0.025</timeConstantDown>
-        <maxRotVelocity>1000</maxRotVelocity>
-        <motorConstant>8.599e-05</motorConstant>
-        <momentConstant>0.25</momentConstant>
-        <commandSubTopic>/tsd_quad_5/gazebo/command/prop_speed</commandSubTopic>
-        <motorNumber>2</motorNumber>
-        <rotorDragCoefficient>0.000806428</rotorDragCoefficient>
-        <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
-        <motorSpeedPubTopic>/tsd_quad_5/prop_speed/2</motorSpeedPubTopic>
-        <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
-      </plugin>
-    
-      <plugin name="tsd_quad_5_motor_3_plugin" filename='librotors_gazebo_motor_model.so'>
-        <robotNamespace></robotNamespace>
-        <jointName>tsd_quad_5::tsd_quad_prop_3_joint </jointName>
-        <linkName>tsd_quad_5::tsd_quad_prop_3::prop</linkName>
-        <turningDirection>cw</turningDirection>
-        <timeConstantUp>0.0125</timeConstantUp>
-        <timeConstantDown>0.025</timeConstantDown>
-        <maxRotVelocity>1000</maxRotVelocity>
-        <motorConstant>8.599e-05</motorConstant>
-        <momentConstant>0.25</momentConstant>
-        <commandSubTopic>/tsd_quad_5/gazebo/command/prop_speed</commandSubTopic>
-        <motorNumber>3</motorNumber>
-        <rotorDragCoefficient>0.000806428</rotorDragCoefficient>
-        <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
-        <motorSpeedPubTopic>/tsd_quad_5/prop_speed/3</motorSpeedPubTopic>
-        <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
-      </plugin>
-    
-  </model>
-
-    <model name="tsd_quad_6">
-      <pose>-15 0 1 0 0 0 </pose>
-      <include>
-        <uri>model://tsd_quad</uri>
-        <pose> 0 0 0 0 0 0</pose>
-        <name>tsd_quad_6</name>
-      </include>
-      <plugin name="ArduRotorNormPlugin_6" filename='libArduRotorNormPlugin.so'>
-        <fdm_addr>127.0.0.1</fdm_addr>
-        <fdm_port_in>9052</fdm_port_in>
-        <fdm_port_out>9053</fdm_port_out>
-        <modelXYZToAirplaneXForwardZDown>0 0 0 3.141593 0 0</modelXYZToAirplaneXForwardZDown>
-        <gazeboXYZToNED>0 0 0 3.141593 0 0</gazeboXYZToNED>
-        <motor_num>4</motor_num>
-        <motor_pub>/tsd_quad_6/gazebo/command/prop_speed </motor_pub>
-        <imuName>tsd_quad_6::tsd_quad_base::imu_link::imu_sensor</imuName>
-        <connectionTimeoutMaxCount>5</connectionTimeoutMaxCount>
-      </plugin>
-      
-      <plugin name="tsd_quad_6_motor_0_plugin" filename='librotors_gazebo_motor_model.so'>
-        <robotNamespace></robotNamespace>
-        <jointName>tsd_quad_6::tsd_quad_prop_0_joint </jointName>
-        <linkName>tsd_quad_6::tsd_quad_prop_0::prop</linkName>
-        <turningDirection>ccw</turningDirection>
-        <timeConstantUp>0.0125</timeConstantUp>
-        <timeConstantDown>0.025</timeConstantDown>
-        <maxRotVelocity>1000</maxRotVelocity>
-        <motorConstant>8.599e-05</motorConstant>
-        <momentConstant>0.25</momentConstant>
-        <commandSubTopic>/tsd_quad_6/gazebo/command/prop_speed</commandSubTopic>
-        <motorNumber>0</motorNumber>
-        <rotorDragCoefficient>0.000806428</rotorDragCoefficient>
-        <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
-        <motorSpeedPubTopic>/tsd_quad_6/prop_speed/0</motorSpeedPubTopic>
-        <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
-      </plugin>
-    
-      <plugin name="tsd_quad_6_motor_1_plugin" filename='librotors_gazebo_motor_model.so'>
-        <robotNamespace></robotNamespace>
-        <jointName>tsd_quad_6::tsd_quad_prop_1_joint </jointName>
-        <linkName>tsd_quad_6::tsd_quad_prop_1::prop</linkName>
-        <turningDirection>cw</turningDirection>
-        <timeConstantUp>0.0125</timeConstantUp>
-        <timeConstantDown>0.025</timeConstantDown>
-        <maxRotVelocity>1000</maxRotVelocity>
-        <motorConstant>8.599e-05</motorConstant>
-        <momentConstant>0.25</momentConstant>
-        <commandSubTopic>/tsd_quad_6/gazebo/command/prop_speed</commandSubTopic>
-        <motorNumber>1</motorNumber>
-        <rotorDragCoefficient>0.000806428</rotorDragCoefficient>
-        <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
-        <motorSpeedPubTopic>/tsd_quad_6/prop_speed/1</motorSpeedPubTopic>
-        <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
-      </plugin>
-    
-      <plugin name="tsd_quad_6_motor_2_plugin" filename='librotors_gazebo_motor_model.so'>
-        <robotNamespace></robotNamespace>
-        <jointName>tsd_quad_6::tsd_quad_prop_2_joint </jointName>
-        <linkName>tsd_quad_6::tsd_quad_prop_2::prop</linkName>
-        <turningDirection>ccw</turningDirection>
-        <timeConstantUp>0.0125</timeConstantUp>
-        <timeConstantDown>0.025</timeConstantDown>
-        <maxRotVelocity>1000</maxRotVelocity>
-        <motorConstant>8.599e-05</motorConstant>
-        <momentConstant>0.25</momentConstant>
-        <commandSubTopic>/tsd_quad_6/gazebo/command/prop_speed</commandSubTopic>
-        <motorNumber>2</motorNumber>
-        <rotorDragCoefficient>0.000806428</rotorDragCoefficient>
-        <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
-        <motorSpeedPubTopic>/tsd_quad_6/prop_speed/2</motorSpeedPubTopic>
-        <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
-      </plugin>
-    
-      <plugin name="tsd_quad_6_motor_3_plugin" filename='librotors_gazebo_motor_model.so'>
-        <robotNamespace></robotNamespace>
-        <jointName>tsd_quad_6::tsd_quad_prop_3_joint </jointName>
-        <linkName>tsd_quad_6::tsd_quad_prop_3::prop</linkName>
-        <turningDirection>cw</turningDirection>
-        <timeConstantUp>0.0125</timeConstantUp>
-        <timeConstantDown>0.025</timeConstantDown>
-        <maxRotVelocity>1000</maxRotVelocity>
-        <motorConstant>8.599e-05</motorConstant>
-        <momentConstant>0.25</momentConstant>
-        <commandSubTopic>/tsd_quad_6/gazebo/command/prop_speed</commandSubTopic>
-        <motorNumber>3</motorNumber>
-        <rotorDragCoefficient>0.000806428</rotorDragCoefficient>
-        <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
-        <motorSpeedPubTopic>/tsd_quad_6/prop_speed/3</motorSpeedPubTopic>
-        <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
-      </plugin>
-    
-  </model>
-
-    <model name="tsd_quad_7">
-      <pose>-18 0 1 0 0 0 </pose>
-      <include>
-        <uri>model://tsd_quad</uri>
-        <pose> 0 0 0 0 0 0</pose>
-        <name>tsd_quad_7</name>
-      </include>
-      <plugin name="ArduRotorNormPlugin_7" filename='libArduRotorNormPlugin.so'>
-        <fdm_addr>127.0.0.1</fdm_addr>
-        <fdm_port_in>9062</fdm_port_in>
-        <fdm_port_out>9063</fdm_port_out>
-        <modelXYZToAirplaneXForwardZDown>0 0 0 3.141593 0 0</modelXYZToAirplaneXForwardZDown>
-        <gazeboXYZToNED>0 0 0 3.141593 0 0</gazeboXYZToNED>
-        <motor_num>4</motor_num>
-        <motor_pub>/tsd_quad_7/gazebo/command/prop_speed </motor_pub>
-        <imuName>tsd_quad_7::tsd_quad_base::imu_link::imu_sensor</imuName>
-        <connectionTimeoutMaxCount>5</connectionTimeoutMaxCount>
-      </plugin>
-      
-      <plugin name="tsd_quad_7_motor_0_plugin" filename='librotors_gazebo_motor_model.so'>
-        <robotNamespace></robotNamespace>
-        <jointName>tsd_quad_7::tsd_quad_prop_0_joint </jointName>
-        <linkName>tsd_quad_7::tsd_quad_prop_0::prop</linkName>
-        <turningDirection>ccw</turningDirection>
-        <timeConstantUp>0.0125</timeConstantUp>
-        <timeConstantDown>0.025</timeConstantDown>
-        <maxRotVelocity>1000</maxRotVelocity>
-        <motorConstant>8.599e-05</motorConstant>
-        <momentConstant>0.25</momentConstant>
-        <commandSubTopic>/tsd_quad_7/gazebo/command/prop_speed</commandSubTopic>
-        <motorNumber>0</motorNumber>
-        <rotorDragCoefficient>0.000806428</rotorDragCoefficient>
-        <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
-        <motorSpeedPubTopic>/tsd_quad_7/prop_speed/0</motorSpeedPubTopic>
-        <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
-      </plugin>
-    
-      <plugin name="tsd_quad_7_motor_1_plugin" filename='librotors_gazebo_motor_model.so'>
-        <robotNamespace></robotNamespace>
-        <jointName>tsd_quad_7::tsd_quad_prop_1_joint </jointName>
-        <linkName>tsd_quad_7::tsd_quad_prop_1::prop</linkName>
-        <turningDirection>cw</turningDirection>
-        <timeConstantUp>0.0125</timeConstantUp>
-        <timeConstantDown>0.025</timeConstantDown>
-        <maxRotVelocity>1000</maxRotVelocity>
-        <motorConstant>8.599e-05</motorConstant>
-        <momentConstant>0.25</momentConstant>
-        <commandSubTopic>/tsd_quad_7/gazebo/command/prop_speed</commandSubTopic>
-        <motorNumber>1</motorNumber>
-        <rotorDragCoefficient>0.000806428</rotorDragCoefficient>
-        <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
-        <motorSpeedPubTopic>/tsd_quad_7/prop_speed/1</motorSpeedPubTopic>
-        <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
-      </plugin>
-    
-      <plugin name="tsd_quad_7_motor_2_plugin" filename='librotors_gazebo_motor_model.so'>
-        <robotNamespace></robotNamespace>
-        <jointName>tsd_quad_7::tsd_quad_prop_2_joint </jointName>
-        <linkName>tsd_quad_7::tsd_quad_prop_2::prop</linkName>
-        <turningDirection>ccw</turningDirection>
-        <timeConstantUp>0.0125</timeConstantUp>
-        <timeConstantDown>0.025</timeConstantDown>
-        <maxRotVelocity>1000</maxRotVelocity>
-        <motorConstant>8.599e-05</motorConstant>
-        <momentConstant>0.25</momentConstant>
-        <commandSubTopic>/tsd_quad_7/gazebo/command/prop_speed</commandSubTopic>
-        <motorNumber>2</motorNumber>
-        <rotorDragCoefficient>0.000806428</rotorDragCoefficient>
-        <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
-        <motorSpeedPubTopic>/tsd_quad_7/prop_speed/2</motorSpeedPubTopic>
-        <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
-      </plugin>
-    
-      <plugin name="tsd_quad_7_motor_3_plugin" filename='librotors_gazebo_motor_model.so'>
-        <robotNamespace></robotNamespace>
-        <jointName>tsd_quad_7::tsd_quad_prop_3_joint </jointName>
-        <linkName>tsd_quad_7::tsd_quad_prop_3::prop</linkName>
-        <turningDirection>cw</turningDirection>
-        <timeConstantUp>0.0125</timeConstantUp>
-        <timeConstantDown>0.025</timeConstantDown>
-        <maxRotVelocity>1000</maxRotVelocity>
-        <motorConstant>8.599e-05</motorConstant>
-        <momentConstant>0.25</momentConstant>
-        <commandSubTopic>/tsd_quad_7/gazebo/command/prop_speed</commandSubTopic>
-        <motorNumber>3</motorNumber>
-        <rotorDragCoefficient>0.000806428</rotorDragCoefficient>
-        <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
-        <motorSpeedPubTopic>/tsd_quad_7/prop_speed/3</motorSpeedPubTopic>
-        <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
-      </plugin>
-    
-  </model>
-
-    <model name="tsd_quad_8">
-      <pose>-21 0 1 0 0 0 </pose>
-      <include>
-        <uri>model://tsd_quad</uri>
-        <pose> 0 0 0 0 0 0</pose>
-        <name>tsd_quad_8</name>
-      </include>
-      <plugin name="ArduRotorNormPlugin_8" filename='libArduRotorNormPlugin.so'>
-        <fdm_addr>127.0.0.1</fdm_addr>
-        <fdm_port_in>9072</fdm_port_in>
-        <fdm_port_out>9073</fdm_port_out>
-        <modelXYZToAirplaneXForwardZDown>0 0 0 3.141593 0 0</modelXYZToAirplaneXForwardZDown>
-        <gazeboXYZToNED>0 0 0 3.141593 0 0</gazeboXYZToNED>
-        <motor_num>4</motor_num>
-        <motor_pub>/tsd_quad_8/gazebo/command/prop_speed </motor_pub>
-        <imuName>tsd_quad_8::tsd_quad_base::imu_link::imu_sensor</imuName>
-        <connectionTimeoutMaxCount>5</connectionTimeoutMaxCount>
-      </plugin>
-      
-      <plugin name="tsd_quad_8_motor_0_plugin" filename='librotors_gazebo_motor_model.so'>
-        <robotNamespace></robotNamespace>
-        <jointName>tsd_quad_8::tsd_quad_prop_0_joint </jointName>
-        <linkName>tsd_quad_8::tsd_quad_prop_0::prop</linkName>
-        <turningDirection>ccw</turningDirection>
-        <timeConstantUp>0.0125</timeConstantUp>
-        <timeConstantDown>0.025</timeConstantDown>
-        <maxRotVelocity>1000</maxRotVelocity>
-        <motorConstant>8.599e-05</motorConstant>
-        <momentConstant>0.25</momentConstant>
-        <commandSubTopic>/tsd_quad_8/gazebo/command/prop_speed</commandSubTopic>
-        <motorNumber>0</motorNumber>
-        <rotorDragCoefficient>0.000806428</rotorDragCoefficient>
-        <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
-        <motorSpeedPubTopic>/tsd_quad_8/prop_speed/0</motorSpeedPubTopic>
-        <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
-      </plugin>
-    
-      <plugin name="tsd_quad_8_motor_1_plugin" filename='librotors_gazebo_motor_model.so'>
-        <robotNamespace></robotNamespace>
-        <jointName>tsd_quad_8::tsd_quad_prop_1_joint </jointName>
-        <linkName>tsd_quad_8::tsd_quad_prop_1::prop</linkName>
-        <turningDirection>cw</turningDirection>
-        <timeConstantUp>0.0125</timeConstantUp>
-        <timeConstantDown>0.025</timeConstantDown>
-        <maxRotVelocity>1000</maxRotVelocity>
-        <motorConstant>8.599e-05</motorConstant>
-        <momentConstant>0.25</momentConstant>
-        <commandSubTopic>/tsd_quad_8/gazebo/command/prop_speed</commandSubTopic>
-        <motorNumber>1</motorNumber>
-        <rotorDragCoefficient>0.000806428</rotorDragCoefficient>
-        <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
-        <motorSpeedPubTopic>/tsd_quad_8/prop_speed/1</motorSpeedPubTopic>
-        <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
-      </plugin>
-    
-      <plugin name="tsd_quad_8_motor_2_plugin" filename='librotors_gazebo_motor_model.so'>
-        <robotNamespace></robotNamespace>
-        <jointName>tsd_quad_8::tsd_quad_prop_2_joint </jointName>
-        <linkName>tsd_quad_8::tsd_quad_prop_2::prop</linkName>
-        <turningDirection>ccw</turningDirection>
-        <timeConstantUp>0.0125</timeConstantUp>
-        <timeConstantDown>0.025</timeConstantDown>
-        <maxRotVelocity>1000</maxRotVelocity>
-        <motorConstant>8.599e-05</motorConstant>
-        <momentConstant>0.25</momentConstant>
-        <commandSubTopic>/tsd_quad_8/gazebo/command/prop_speed</commandSubTopic>
-        <motorNumber>2</motorNumber>
-        <rotorDragCoefficient>0.000806428</rotorDragCoefficient>
-        <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
-        <motorSpeedPubTopic>/tsd_quad_8/prop_speed/2</motorSpeedPubTopic>
-        <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
-      </plugin>
-    
-      <plugin name="tsd_quad_8_motor_3_plugin" filename='librotors_gazebo_motor_model.so'>
-        <robotNamespace></robotNamespace>
-        <jointName>tsd_quad_8::tsd_quad_prop_3_joint </jointName>
-        <linkName>tsd_quad_8::tsd_quad_prop_3::prop</linkName>
-        <turningDirection>cw</turningDirection>
-        <timeConstantUp>0.0125</timeConstantUp>
-        <timeConstantDown>0.025</timeConstantDown>
-        <maxRotVelocity>1000</maxRotVelocity>
-        <motorConstant>8.599e-05</motorConstant>
-        <momentConstant>0.25</momentConstant>
-        <commandSubTopic>/tsd_quad_8/gazebo/command/prop_speed</commandSubTopic>
-        <motorNumber>3</motorNumber>
-        <rotorDragCoefficient>0.000806428</rotorDragCoefficient>
-        <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
-        <motorSpeedPubTopic>/tsd_quad_8/prop_speed/3</motorSpeedPubTopic>
+        <motorSpeedPubTopic>/tsduav_quad/prop_speed/3</motorSpeedPubTopic>
         <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
       </plugin>
     

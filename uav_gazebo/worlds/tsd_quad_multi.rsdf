@@ -80,15 +80,15 @@
     </model>
     <%
       i = 0
-      while i <8 do
+      while i <2 do
       i +=1
     %>
-    <model name=<%= '"' + 'tsd_quad_' + i.to_s + '"' %>>
+    <model name=<%= '"' + 'tsduav_quad_' + i.to_s + '"' %>>
       <pose><%=(1-i)*3%> 0 1 0 0 0 </pose>
       <include>
-        <uri>model://tsd_quad</uri>
+        <uri>model://tsduav_quad</uri>
         <pose> 0 0 0 0 0 0</pose>
-        <name><%= 'tsd_quad_' + i.to_s %></name>
+        <name><%= 'tsduav_quad_' + i.to_s %></name>
       </include>
       <plugin name=<%='"ArduRotorNormPlugin_' + i.to_s + '"' %> filename='libArduRotorNormPlugin.so'>
         <fdm_addr>127.0.0.1</fdm_addr>
@@ -97,8 +97,8 @@
         <modelXYZToAirplaneXForwardZDown>0 0 0 3.141593 0 0</modelXYZToAirplaneXForwardZDown>
         <gazeboXYZToNED>0 0 0 3.141593 0 0</gazeboXYZToNED>
         <motor_num>4</motor_num>
-        <motor_pub><%='/tsd_quad_' + i.to_s + '/gazebo/command/prop_speed'%> </motor_pub>
-        <imuName><%='tsd_quad_' + i.to_s + '::tsd_quad_base::imu_link::imu_sensor'%></imuName>
+        <motor_pub><%='/tsduav_quad_' + i.to_s + '/gazebo/command/prop_speed'%> </motor_pub>
+        <imuName><%='tsduav_quad_' + i.to_s + '::tsduav_quad_base::imu_link::imu_sensor'%></imuName>
         <connectionTimeoutMaxCount>5</connectionTimeoutMaxCount>
       </plugin>
       <%
@@ -116,21 +116,21 @@
     prop_motors.keys.each do |j|
 				dir = prop_motors[j][:dir]
       %>
-      <plugin name=<%= '"tsd_quad_' + i.to_s + '_motor_'+ j + '_plugin"' %> filename='librotors_gazebo_motor_model.so'>
+      <plugin name=<%= '"tsduav_quad_' + i.to_s + '_motor_'+ j + '_plugin"' %> filename='librotors_gazebo_motor_model.so'>
         <robotNamespace></robotNamespace>
-        <jointName><%= 'tsd_quad_'+ i.to_s + '::' + 'tsd_quad_prop_' + j + '_joint' %> </jointName>
-        <linkName><%= 'tsd_quad_'+ i.to_s + '::' + 'tsd_quad_prop_' + j + '::prop' %></linkName>
+        <jointName><%= 'tsduav_quad_'+ i.to_s + '::' + 'tsduav_quad_prop_' + j + '_joint' %> </jointName>
+        <linkName><%= 'tsduav_quad_'+ i.to_s + '::' + 'tsduav_quad_prop_' + j + '::prop' %></linkName>
         <turningDirection><%= dir %></turningDirection>
         <timeConstantUp><%= prop_timeConstantUp %></timeConstantUp>
         <timeConstantDown><%= prop_timeConstantDown %></timeConstantDown>
         <maxRotVelocity><%= prop_maxRotVelocity %></maxRotVelocity>
         <motorConstant><%= prop_motorConstant %></motorConstant>
         <momentConstant><%= prop_momentConstant %></momentConstant>
-        <commandSubTopic><%='/tsd_quad_'+ i.to_s + '/gazebo/command/prop_speed'%></commandSubTopic>
+        <commandSubTopic><%='/tsduav_quad_'+ i.to_s + '/gazebo/command/prop_speed'%></commandSubTopic>
         <motorNumber><%= j %></motorNumber>
         <rotorDragCoefficient>0.000806428</rotorDragCoefficient>
         <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
-        <motorSpeedPubTopic><%= '/tsd_quad_'+ i.to_s + '/prop_speed/' + j %></motorSpeedPubTopic>
+        <motorSpeedPubTopic><%= '/tsduav_quad_'+ i.to_s + '/prop_speed/' + j %></motorSpeedPubTopic>
         <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
       </plugin>
     <% end %>
