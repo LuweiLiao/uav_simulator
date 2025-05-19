@@ -77,12 +77,12 @@
       </link>
     </model>
     
-    <model name="uni350">
+    <model name="tsduav_quad_1">
       <pose>0 0 1 0 0 0 </pose>
       <include>
-        <uri>model://uni350</uri>
+        <uri>model://tsduav_quad</uri>
         <pose> 0 0 0 0 0 0</pose>
-        <name>uni350</name>
+        <name>tsduav_quad_1</name>
       </include>
       <plugin name="ArduRotorNormPlugin_1" filename='libArduRotorNormPlugin.so'>
         <fdm_addr>127.0.0.1</fdm_addr>
@@ -91,91 +91,91 @@
         <modelXYZToAirplaneXForwardZDown>0 0 0 3.141593 0 0</modelXYZToAirplaneXForwardZDown>
         <gazeboXYZToNED>0 0 0 3.141593 0 0</gazeboXYZToNED>
         <motor_num>4</motor_num>
-        <motor_pub>/uni350/gazebo/command/prop_speed </motor_pub>
-        <imuName>uni350::uni350_base::imu_link::imu_sensor</imuName>
+        <motor_pub>/tsduav_quad_1/gazebo/command/prop_speed </motor_pub>
+        <imuName>tsduav_quad_1::tsduav_quad_base::imu_link::imu_sensor</imuName>
         <connectionTimeoutMaxCount>5</connectionTimeoutMaxCount>
       </plugin>
       
-      <plugin name="uni350_motor_0_plugin" filename='librotors_gazebo_motor_model.so'>
+      <plugin name="tsduav_quad_1_motor_0_plugin" filename='librotors_gazebo_motor_model.so'>
         <robotNamespace></robotNamespace>
-        <jointName>uni350::uni350_prop_0_joint </jointName>
-        <linkName>uni350::uni350_prop_0::prop</linkName>
+        <jointName>tsduav_quad_1::tsduav_quad_prop_0_joint </jointName>
+        <linkName>tsduav_quad_1::tsduav_quad_prop_0::prop</linkName>
         <turningDirection>ccw</turningDirection>
         <timeConstantUp>0.0125</timeConstantUp>
         <timeConstantDown>0.025</timeConstantDown>
         <maxRotVelocity>1000</maxRotVelocity>
         <motorConstant>8.599e-05</motorConstant>
         <momentConstant>0.25</momentConstant>
-        <commandSubTopic>/uni350/gazebo/command/prop_speed</commandSubTopic>
+        <commandSubTopic>/tsduav_quad_1/gazebo/command/prop_speed</commandSubTopic>
         <motorNumber>0</motorNumber>
         <rotorDragCoefficient>0.000806428</rotorDragCoefficient>
         <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
-        <motorSpeedPubTopic>/uni350/prop_speed/0</motorSpeedPubTopic>
+        <motorSpeedPubTopic>/tsduav_quad_1/prop_speed/0</motorSpeedPubTopic>
         <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
       </plugin>
     
-      <plugin name="uni350_motor_1_plugin" filename='librotors_gazebo_motor_model.so'>
+      <plugin name="tsduav_quad_1_motor_1_plugin" filename='librotors_gazebo_motor_model.so'>
         <robotNamespace></robotNamespace>
-        <jointName>uni350::uni350_prop_1_joint </jointName>
-        <linkName>uni350::uni350_prop_1::prop</linkName>
+        <jointName>tsduav_quad_1::tsduav_quad_prop_1_joint </jointName>
+        <linkName>tsduav_quad_1::tsduav_quad_prop_1::prop</linkName>
         <turningDirection>cw</turningDirection>
         <timeConstantUp>0.0125</timeConstantUp>
         <timeConstantDown>0.025</timeConstantDown>
         <maxRotVelocity>1000</maxRotVelocity>
         <motorConstant>8.599e-05</motorConstant>
         <momentConstant>0.25</momentConstant>
-        <commandSubTopic>/uni350/gazebo/command/prop_speed</commandSubTopic>
+        <commandSubTopic>/tsduav_quad_1/gazebo/command/prop_speed</commandSubTopic>
         <motorNumber>1</motorNumber>
         <rotorDragCoefficient>0.000806428</rotorDragCoefficient>
         <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
-        <motorSpeedPubTopic>/uni350/prop_speed/1</motorSpeedPubTopic>
+        <motorSpeedPubTopic>/tsduav_quad_1/prop_speed/1</motorSpeedPubTopic>
         <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
       </plugin>
     
-      <plugin name="uni350_motor_2_plugin" filename='librotors_gazebo_motor_model.so'>
+      <plugin name="tsduav_quad_1_motor_2_plugin" filename='librotors_gazebo_motor_model.so'>
         <robotNamespace></robotNamespace>
-        <jointName>uni350::uni350_prop_2_joint </jointName>
-        <linkName>uni350::uni350_prop_2::prop</linkName>
+        <jointName>tsduav_quad_1::tsduav_quad_prop_2_joint </jointName>
+        <linkName>tsduav_quad_1::tsduav_quad_prop_2::prop</linkName>
         <turningDirection>ccw</turningDirection>
         <timeConstantUp>0.0125</timeConstantUp>
         <timeConstantDown>0.025</timeConstantDown>
         <maxRotVelocity>1000</maxRotVelocity>
         <motorConstant>8.599e-05</motorConstant>
         <momentConstant>0.25</momentConstant>
-        <commandSubTopic>/uni350/gazebo/command/prop_speed</commandSubTopic>
+        <commandSubTopic>/tsduav_quad_1/gazebo/command/prop_speed</commandSubTopic>
         <motorNumber>2</motorNumber>
         <rotorDragCoefficient>0.000806428</rotorDragCoefficient>
         <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
-        <motorSpeedPubTopic>/uni350/prop_speed/2</motorSpeedPubTopic>
+        <motorSpeedPubTopic>/tsduav_quad_1/prop_speed/2</motorSpeedPubTopic>
         <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
       </plugin>
     
-      <plugin name="uni350_motor_3_plugin" filename='librotors_gazebo_motor_model.so'>
+      <plugin name="tsduav_quad_1_motor_3_plugin" filename='librotors_gazebo_motor_model.so'>
         <robotNamespace></robotNamespace>
-        <jointName>uni350::uni350_prop_3_joint </jointName>
-        <linkName>uni350::uni350_prop_3::prop</linkName>
+        <jointName>tsduav_quad_1::tsduav_quad_prop_3_joint </jointName>
+        <linkName>tsduav_quad_1::tsduav_quad_prop_3::prop</linkName>
         <turningDirection>cw</turningDirection>
         <timeConstantUp>0.0125</timeConstantUp>
         <timeConstantDown>0.025</timeConstantDown>
         <maxRotVelocity>1000</maxRotVelocity>
         <motorConstant>8.599e-05</motorConstant>
         <momentConstant>0.25</momentConstant>
-        <commandSubTopic>/uni350/gazebo/command/prop_speed</commandSubTopic>
+        <commandSubTopic>/tsduav_quad_1/gazebo/command/prop_speed</commandSubTopic>
         <motorNumber>3</motorNumber>
         <rotorDragCoefficient>0.000806428</rotorDragCoefficient>
         <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
-        <motorSpeedPubTopic>/uni350/prop_speed/3</motorSpeedPubTopic>
+        <motorSpeedPubTopic>/tsduav_quad_1/prop_speed/3</motorSpeedPubTopic>
         <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
       </plugin>
     
   </model>
 
-    <model name="tsduav_quad">
+    <model name="tsduav_quad_2">
       <pose>-3 0 1 0 0 0 </pose>
       <include>
         <uri>model://tsduav_quad</uri>
         <pose> 0 0 0 0 0 0</pose>
-        <name>tsduav_quad</name>
+        <name>tsduav_quad_2</name>
       </include>
       <plugin name="ArduRotorNormPlugin_2" filename='libArduRotorNormPlugin.so'>
         <fdm_addr>127.0.0.1</fdm_addr>
@@ -184,80 +184,80 @@
         <modelXYZToAirplaneXForwardZDown>0 0 0 3.141593 0 0</modelXYZToAirplaneXForwardZDown>
         <gazeboXYZToNED>0 0 0 3.141593 0 0</gazeboXYZToNED>
         <motor_num>4</motor_num>
-        <motor_pub>/tsduav_quad/gazebo/command/prop_speed </motor_pub>
-        <imuName>tsduav_quad::tsduav_quad_base::imu_link::imu_sensor</imuName>
+        <motor_pub>/tsduav_quad_2/gazebo/command/prop_speed </motor_pub>
+        <imuName>tsduav_quad_2::tsduav_quad_base::imu_link::imu_sensor</imuName>
         <connectionTimeoutMaxCount>5</connectionTimeoutMaxCount>
       </plugin>
       
-      <plugin name="tsduav_quad_motor_0_plugin" filename='librotors_gazebo_motor_model.so'>
+      <plugin name="tsduav_quad_2_motor_0_plugin" filename='librotors_gazebo_motor_model.so'>
         <robotNamespace></robotNamespace>
-        <jointName>tsduav_quad::tsduav_quad_prop_0_joint </jointName>
-        <linkName>tsduav_quad::tsduav_quad_prop_0::prop</linkName>
+        <jointName>tsduav_quad_2::tsduav_quad_prop_0_joint </jointName>
+        <linkName>tsduav_quad_2::tsduav_quad_prop_0::prop</linkName>
         <turningDirection>ccw</turningDirection>
         <timeConstantUp>0.0125</timeConstantUp>
         <timeConstantDown>0.025</timeConstantDown>
         <maxRotVelocity>1000</maxRotVelocity>
         <motorConstant>8.599e-05</motorConstant>
         <momentConstant>0.25</momentConstant>
-        <commandSubTopic>/tsduav_quad/gazebo/command/prop_speed</commandSubTopic>
+        <commandSubTopic>/tsduav_quad_2/gazebo/command/prop_speed</commandSubTopic>
         <motorNumber>0</motorNumber>
         <rotorDragCoefficient>0.000806428</rotorDragCoefficient>
         <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
-        <motorSpeedPubTopic>/tsduav_quad/prop_speed/0</motorSpeedPubTopic>
+        <motorSpeedPubTopic>/tsduav_quad_2/prop_speed/0</motorSpeedPubTopic>
         <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
       </plugin>
     
-      <plugin name="tsduav_quad_motor_1_plugin" filename='librotors_gazebo_motor_model.so'>
+      <plugin name="tsduav_quad_2_motor_1_plugin" filename='librotors_gazebo_motor_model.so'>
         <robotNamespace></robotNamespace>
-        <jointName>tsduav_quad::tsduav_quad_prop_1_joint </jointName>
-        <linkName>tsduav_quad::tsduav_quad_prop_1::prop</linkName>
+        <jointName>tsduav_quad_2::tsduav_quad_prop_1_joint </jointName>
+        <linkName>tsduav_quad_2::tsduav_quad_prop_1::prop</linkName>
         <turningDirection>cw</turningDirection>
         <timeConstantUp>0.0125</timeConstantUp>
         <timeConstantDown>0.025</timeConstantDown>
         <maxRotVelocity>1000</maxRotVelocity>
         <motorConstant>8.599e-05</motorConstant>
         <momentConstant>0.25</momentConstant>
-        <commandSubTopic>/tsduav_quad/gazebo/command/prop_speed</commandSubTopic>
+        <commandSubTopic>/tsduav_quad_2/gazebo/command/prop_speed</commandSubTopic>
         <motorNumber>1</motorNumber>
         <rotorDragCoefficient>0.000806428</rotorDragCoefficient>
         <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
-        <motorSpeedPubTopic>/tsduav_quad/prop_speed/1</motorSpeedPubTopic>
+        <motorSpeedPubTopic>/tsduav_quad_2/prop_speed/1</motorSpeedPubTopic>
         <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
       </plugin>
     
-      <plugin name="tsduav_quad_motor_2_plugin" filename='librotors_gazebo_motor_model.so'>
+      <plugin name="tsduav_quad_2_motor_2_plugin" filename='librotors_gazebo_motor_model.so'>
         <robotNamespace></robotNamespace>
-        <jointName>tsduav_quad::tsduav_quad_prop_2_joint </jointName>
-        <linkName>tsduav_quad::tsduav_quad_prop_2::prop</linkName>
+        <jointName>tsduav_quad_2::tsduav_quad_prop_2_joint </jointName>
+        <linkName>tsduav_quad_2::tsduav_quad_prop_2::prop</linkName>
         <turningDirection>ccw</turningDirection>
         <timeConstantUp>0.0125</timeConstantUp>
         <timeConstantDown>0.025</timeConstantDown>
         <maxRotVelocity>1000</maxRotVelocity>
         <motorConstant>8.599e-05</motorConstant>
         <momentConstant>0.25</momentConstant>
-        <commandSubTopic>/tsduav_quad/gazebo/command/prop_speed</commandSubTopic>
+        <commandSubTopic>/tsduav_quad_2/gazebo/command/prop_speed</commandSubTopic>
         <motorNumber>2</motorNumber>
         <rotorDragCoefficient>0.000806428</rotorDragCoefficient>
         <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
-        <motorSpeedPubTopic>/tsduav_quad/prop_speed/2</motorSpeedPubTopic>
+        <motorSpeedPubTopic>/tsduav_quad_2/prop_speed/2</motorSpeedPubTopic>
         <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
       </plugin>
     
-      <plugin name="tsduav_quad_motor_3_plugin" filename='librotors_gazebo_motor_model.so'>
+      <plugin name="tsduav_quad_2_motor_3_plugin" filename='librotors_gazebo_motor_model.so'>
         <robotNamespace></robotNamespace>
-        <jointName>tsduav_quad::tsduav_quad_prop_3_joint </jointName>
-        <linkName>tsduav_quad::tsduav_quad_prop_3::prop</linkName>
+        <jointName>tsduav_quad_2::tsduav_quad_prop_3_joint </jointName>
+        <linkName>tsduav_quad_2::tsduav_quad_prop_3::prop</linkName>
         <turningDirection>cw</turningDirection>
         <timeConstantUp>0.0125</timeConstantUp>
         <timeConstantDown>0.025</timeConstantDown>
         <maxRotVelocity>1000</maxRotVelocity>
         <motorConstant>8.599e-05</motorConstant>
         <momentConstant>0.25</momentConstant>
-        <commandSubTopic>/tsduav_quad/gazebo/command/prop_speed</commandSubTopic>
+        <commandSubTopic>/tsduav_quad_2/gazebo/command/prop_speed</commandSubTopic>
         <motorNumber>3</motorNumber>
         <rotorDragCoefficient>0.000806428</rotorDragCoefficient>
         <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
-        <motorSpeedPubTopic>/tsduav_quad/prop_speed/3</motorSpeedPubTopic>
+        <motorSpeedPubTopic>/tsduav_quad_2/prop_speed/3</motorSpeedPubTopic>
         <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
       </plugin>
     

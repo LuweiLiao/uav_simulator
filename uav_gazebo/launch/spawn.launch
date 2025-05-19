@@ -20,7 +20,7 @@
     <arg name="usl" default="$(find uav_gazebo)/models/arduwoodpecker/models:$(find uav_gazebo)/models/usl_balancebot/models:$(find uav_gazebo)/models/usl_balanceTailsitter/models:$(find uav_gazebo)/models/usl_bv2/models:$(find uav_gazebo)/models/usl_quadruped/models:$(find uav_gazebo)/models/usl_quadruped2/models:$(find uav_gazebo)/models/usl_quadruped2_bicopter/models" />
 
     <arg name="common" default="$(find uav_gazebo)/models/common/models" />
-    <arg name="uni350" default="$(find uav_gazebo)/models/uni350/models" />
+    <arg name="uni350" default="$(find uav_gazebo)/models/uni350/models:$(find uav_gazebo)/models/uni350_multi/models" />
 
     <env name="GAZEBO_MODEL_PATH" value="${GAZEBO_MODEL_PATH}:$(arg tsduav):$(arg equipment):$(arg usl):$(arg common):$(arg uni350)"/>
     <env name="GAZEBO_RESOURCE_PATH" value="${GAZEBO_RESOURCE_PATH}:$(find uav_gazebo)/models/ground/models" />
