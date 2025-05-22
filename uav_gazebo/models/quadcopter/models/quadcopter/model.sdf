@@ -11,22 +11,22 @@
       <include>
         <uri>model://quadcopter_prop</uri>
         <name>quadcopter_prop_0</name>
-        <pose>0.0 -0.0 0.0 0 0 0</pose>
+        <pose>0.08839 0.08839 0.025 0 0 0</pose>
       </include>
       <include>
         <uri>model://quadcopter_prop</uri>
         <name>quadcopter_prop_1</name>
-        <pose>-0.0 -0.0 0.0 0 0 0</pose>
+        <pose>-0.08839 -0.08839 0.025 0 0 0</pose>
       </include>
       <include>
         <uri>model://quadcopter_prop</uri>
         <name>quadcopter_prop_2</name>
-        <pose>-0.0 0.0 0.0 0 0 3.141592653589793</pose>
+        <pose>-0.08839 0.08839 0.025 0 0 0</pose>
       </include>
       <include>
         <uri>model://quadcopter_prop</uri>
         <name>quadcopter_prop_3</name>
-        <pose>0.0 0.0 0.0 0 0 3.141592653589793</pose>
+        <pose>0.08839 -0.08839 0.025 0 0 0</pose>
       </include>
       
       <joint name="quadcopter_prop_0_joint" type="revolute">

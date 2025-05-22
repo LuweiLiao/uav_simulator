@@ -1,9 +1,9 @@
 <?xml version="1.0" ?>
   <%
 
-prop_dx = 0.0
-prop_dy = 0.0
-prop_dz = 0.0
+prop_dx = 0.08839
+prop_dy = 0.08839
+prop_dz = 0.025
 
 prop_timeConstantUp = 0.0125
 prop_timeConstantDown = 0.025
@@ -41,12 +41,12 @@ prop_motors={
       <include>
         <uri>model://quadcopter_prop</uri>
         <name>quadcopter_prop_2</name>
-        <pose><%= -prop_dx %> <%= prop_dy %> <%= prop_dz %> 0 0 <%= Math::PI %></pose>
+        <pose><%= -prop_dx %> <%= prop_dy %> <%= prop_dz %> 0 0 0</pose>
       </include>
       <include>
         <uri>model://quadcopter_prop</uri>
         <name>quadcopter_prop_3</name>
-        <pose><%= prop_dx %> <%= prop_dy %> <%= prop_dz %> 0 0 <%= Math::PI %></pose>
+        <pose><%= prop_dx %> <%= -prop_dy %> <%= prop_dz %> 0 0 0</pose>
       </include>
       <%
 			prop_motors.keys.each do |k|
