@@ -31,7 +31,7 @@ prop_motors={
       <include>
         <uri>model://quadcopter_prop</uri>
         <name>quadcopter_prop_0</name>
-        <pose><%= prop_dx %> <%= prop_dy %> <%= prop_dz %> 0 0 0</pose>
+        <pose><%= prop_dx %> <%= -prop_dy %> <%= prop_dz %> 0 0 0</pose>
       </include>
       <include>
         <uri>model://quadcopter_prop</uri>
@@ -46,7 +46,7 @@ prop_motors={
       <include>
         <uri>model://quadcopter_prop</uri>
         <name>quadcopter_prop_3</name>
-        <pose><%= prop_dx %> <%= -prop_dy %> <%= prop_dz %> 0 0 0</pose>
+        <pose><%= prop_dx %> <%= prop_dy %> <%= prop_dz %> 0 0 0</pose>
       </include>
       <%
 			prop_motors.keys.each do |k|
