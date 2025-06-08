@@ -596,7 +596,6 @@ void ArduRotorQuadruped::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
     gzlog << "[" << this->dataPtr->modelName << "] "
           << "ArduPilot ready to fly. The force will be with you" << std::endl;
 
-
     for (uint8_t i = 0; i < MAX_MOTORS; i++) {
         this->dataPtr->coxa_speed[i] = 1500.0;
     }
@@ -812,10 +811,10 @@ void ArduRotorQuadruped::ReceiveMotorCommand()
         for (unsigned i = 0; i < this->dataPtr->coxa_num; ++i) {
             if (i < MAX_MOTORS) {
                 const double cmd = ignition::math::clamp(pkt.motorSpeed[i],
-                                                         -1.0f,
-                                                         1.0f);
+                                                         0.2f,
+                                                         0.8f);
 
-                this->dataPtr->coxa_speed[i] = (cmd - 0.5f) * 500.0f + 1500.0f;
+                this->dataPtr->coxa_speed[i] = (cmd - 0.5f) * 1000.0f + 1500.0f;
             } else {
                 gzerr << "[" << this->dataPtr->modelName << "] "
                       << "too many motors, skipping [" << i << " > " << MAX_MOTORS << "].\n";
@@ -825,10 +824,10 @@ void ArduRotorQuadruped::ReceiveMotorCommand()
         for (unsigned i = 0; i < this->dataPtr->femur_num; ++i) {
             if (i < MAX_MOTORS) {
                 const double cmd = ignition::math::clamp(pkt.motorSpeed[i + this->dataPtr->coxa_num],
-                                                         -1.0f,
-                                                         1.0f);
+                                                         0.2f,
+                                                         0.8f);
 
-                this->dataPtr->femur_speed[i] = (cmd - 0.5f) * 500.0f + 1500.0f;
+                this->dataPtr->femur_speed[i] = (cmd - 0.5f) * 1000.0f + 1500.0f;
             } else {
                 gzerr << "[" << this->dataPtr->modelName << "] "
                       << "too many motors, skipping [" << i << " > " << MAX_MOTORS << "].\n";
@@ -837,11 +836,10 @@ void ArduRotorQuadruped::ReceiveMotorCommand()
 
         for (unsigned i = 0; i < this->dataPtr->tibia_num; ++i) {
             if (i < MAX_MOTORS) {
-                const double cmd = ignition::math::clamp(pkt.motorSpeed[i + this->dataPtr->coxa_num + this->dataPtr->femur_num],
-                                                         -1.0f,
-                                                         1.0f);
-
-                this->dataPtr->tibia_speed[i] = (cmd - 0.5f) * 500.0f + 1500.0f;
+                const double cmd              = ignition::math::clamp(pkt.motorSpeed[i + this->dataPtr->coxa_num + this->dataPtr->femur_num],
+                                                         0.2f,
+                                                         0.8f);
+                this->dataPtr->tibia_speed[i] = (cmd - 0.5f) * 1000.0f + 1500.0f;
             } else {
                 gzerr << "[" << this->dataPtr->modelName << "] "
                       << "too many motors, skipping [" << i << " > " << MAX_MOTORS << "].\n";
