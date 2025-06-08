@@ -55,11 +55,11 @@
         <maxRotVelocity>1000</maxRotVelocity>
         <motorConstant>8.599e-05</motorConstant>
         <momentConstant>0.25</momentConstant>
-        <commandSubTopic>/tsduav_quad/gazebo/command/prop_speed</commandSubTopic>
+        <commandSubTopic>/gazebo/command/prop_speed</commandSubTopic>
         <motorNumber>0</motorNumber>
         <rotorDragCoefficient>0.000806428</rotorDragCoefficient>
         <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
-        <motorSpeedPubTopic>/tsduav_quad/prop_speed/0</motorSpeedPubTopic>
+        <motorSpeedPubTopic>prop_speed/0</motorSpeedPubTopic>
         <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
       </plugin>
     
@@ -89,11 +89,11 @@
         <maxRotVelocity>1000</maxRotVelocity>
         <motorConstant>8.599e-05</motorConstant>
         <momentConstant>0.25</momentConstant>
-        <commandSubTopic>/tsduav_quad/gazebo/command/prop_speed</commandSubTopic>
+        <commandSubTopic>/gazebo/command/prop_speed</commandSubTopic>
         <motorNumber>1</motorNumber>
         <rotorDragCoefficient>0.000806428</rotorDragCoefficient>
         <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
-        <motorSpeedPubTopic>/tsduav_quad/prop_speed/1</motorSpeedPubTopic>
+        <motorSpeedPubTopic>prop_speed/1</motorSpeedPubTopic>
         <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
       </plugin>
     
@@ -123,11 +123,11 @@
         <maxRotVelocity>1000</maxRotVelocity>
         <motorConstant>8.599e-05</motorConstant>
         <momentConstant>0.25</momentConstant>
-        <commandSubTopic>/tsduav_quad/gazebo/command/prop_speed</commandSubTopic>
+        <commandSubTopic>/gazebo/command/prop_speed</commandSubTopic>
         <motorNumber>2</motorNumber>
         <rotorDragCoefficient>0.000806428</rotorDragCoefficient>
         <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
-        <motorSpeedPubTopic>/tsduav_quad/prop_speed/2</motorSpeedPubTopic>
+        <motorSpeedPubTopic>prop_speed/2</motorSpeedPubTopic>
         <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
       </plugin>
     
@@ -157,24 +157,24 @@
         <maxRotVelocity>1000</maxRotVelocity>
         <motorConstant>8.599e-05</motorConstant>
         <momentConstant>0.25</momentConstant>
-        <commandSubTopic>/tsduav_quad/gazebo/command/prop_speed</commandSubTopic>
+        <commandSubTopic>/gazebo/command/prop_speed</commandSubTopic>
         <motorNumber>3</motorNumber>
         <rotorDragCoefficient>0.000806428</rotorDragCoefficient>
         <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
-        <motorSpeedPubTopic>/tsduav_quad/prop_speed/3</motorSpeedPubTopic>
+        <motorSpeedPubTopic>prop_speed/3</motorSpeedPubTopic>
         <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
       </plugin>
     
     <plugin name="ArduRotorNormPlugin" filename="libArduRotorNormPlugin.so">
       <fdm_addr>127.0.0.1</fdm_addr>
-      <fdm_port_in>9012</fdm_port_in>
-      <fdm_port_out>9013</fdm_port_out>
+      <fdm_port_in>9002</fdm_port_in>
+      <fdm_port_out>9003</fdm_port_out>
       <modelXYZToAirplaneXForwardZDown>0 0 0 3.141593 0 0</modelXYZToAirplaneXForwardZDown>
       <gazeboXYZToNED>0 0 0 3.141593 0 0</gazeboXYZToNED>
       <motor_num>4</motor_num>
       <servo_num>0</servo_num>
-      <motor_pub>/tsduav_quad/gazebo/command/prop_speed</motor_pub>
-      <imuName>tsduav_quad::tsduav_quad_base::imu_link::imu_sensor</imuName>
+      <motor_pub>/gazebo/command/prop_speed</motor_pub>
+      <imuName>tsduav_quad_base::imu_link::imu_sensor</imuName>
       <connectionTimeoutMaxCount>5</connectionTimeoutMaxCount>
     </plugin>
   </model>
