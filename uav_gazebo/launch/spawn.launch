@@ -17,7 +17,7 @@
 
     <arg name="equipment" default="$(find uav_gazebo)/models/ground/models:$(find uav_gazebo)/models/tsd_electric_tower/models" />
 
-    <arg name="usl" default="$(find uav_gazebo)/models/arduwoodpecker/models:$(find uav_gazebo)/models/usl_balancebot/models:$(find uav_gazebo)/models/usl_balanceTailsitter/models:$(find uav_gazebo)/models/usl_bv2/models:$(find uav_gazebo)/models/usl_bv2_second/models:$(find uav_gazebo)/models/usl_quadruped/models:$(find uav_gazebo)/models/usl_quadruped2/models:$(find uav_gazebo)/models/usl_quadruped2_bicopter/models" />
+    <arg name="usl" default="$(find uav_gazebo)/models/arduwoodpecker/models:$(find uav_gazebo)/models/usl_balancebot/models:$(find uav_gazebo)/models/usl_balanceTailsitter/models:$(find uav_gazebo)/models/usl_bv2/models:$(find uav_gazebo)/models/usl_bv2_second/models:$(find uav_gazebo)/models/usl_quadruped/models:$(find uav_gazebo)/models/usl_quadruped2/models:$(find uav_gazebo)/models/usl_quadruped2_bicopter/models:$(find uav_gazebo)/models/usl_quadruped3_bicopter/models" />
     <arg name="ck"  default="$(find uav_gazebo)/models/quadruped_ck/models"/>
 
     <arg name="quadcopter" default="$(find uav_gazebo)/models/quadcopter/models" />
