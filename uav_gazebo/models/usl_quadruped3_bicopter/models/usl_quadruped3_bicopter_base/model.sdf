@@ -19,9 +19,9 @@
       <collision name="base_collision">
         <pose>0 0 0  0 0 0</pose>
         <geometry>
-          <mesh>
-            <uri>model://usl_quadruped3_bicopter_base/meshes/body.dae</uri>
-          </mesh>
+          <box>
+            <size>0.14 0.14 0.06</size>
+          </box>
         </geometry>
         <surface>
           <contact>
@@ -40,7 +40,7 @@
         </geometry>
         <material>
           <script>
-            <name>Gazebo/Red</name>
+            <name>Gazebo/Green</name>
           </script>
         </material>
       </visual>

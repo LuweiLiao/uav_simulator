@@ -410,7 +410,7 @@
     <pose relative_to= "quadruped3_tibia_0_joint" > 0 0 0 0 0 0</pose>
   </include>
   <joint name = "quadruped3_tibia_0_joint" type="revolute">
-    <pose relative_to= "quadruped3_femur_0::base" >0.0558 0.0 -0.05 0.0 1.5707963267948966 0</pose>
+    <pose relative_to= "quadruped3_femur_0::base" >0.0558 0.0 -0.05 0.0 0.0 0</pose>
     <parent>quadruped3_femur_0::base</parent>
     <child>quadruped3_tibia_0::base</child>
     <axis>
@@ -461,7 +461,7 @@
     <pose relative_to= "quadruped3_tibia_1_joint" > 0 0 0 0 0 0</pose>
   </include>
   <joint name = "quadruped3_tibia_1_joint" type="revolute">
-    <pose relative_to= "quadruped3_femur_1::base" >0.0558 0.0 -0.05 0.0 1.5707963267948966 0</pose>
+    <pose relative_to= "quadruped3_femur_1::base" >0.0558 0.0 -0.05 0.0 0.0 0</pose>
     <parent>quadruped3_femur_1::base</parent>
     <child>quadruped3_tibia_1::base</child>
     <axis>
@@ -512,7 +512,7 @@
     <pose relative_to= "quadruped3_tibia_2_joint" > 0 0 0 0 0 0</pose>
   </include>
   <joint name = "quadruped3_tibia_2_joint" type="revolute">
-    <pose relative_to= "quadruped3_femur_2::base" >0.0558 0.0 -0.05 0.0 1.5707963267948966 0</pose>
+    <pose relative_to= "quadruped3_femur_2::base" >0.0558 0.0 -0.05 0.0 0.0 0</pose>
     <parent>quadruped3_femur_2::base</parent>
     <child>quadruped3_tibia_2::base</child>
     <axis>
@@ -563,7 +563,7 @@
     <pose relative_to= "quadruped3_tibia_3_joint" > 0 0 0 0 0 0</pose>
   </include>
   <joint name = "quadruped3_tibia_3_joint" type="revolute">
-    <pose relative_to= "quadruped3_femur_3::base" >0.0558 0.0 -0.05 0.0 1.5707963267948966 0</pose>
+    <pose relative_to= "quadruped3_femur_3::base" >0.0558 0.0 -0.05 0.0 0.0 0</pose>
     <parent>quadruped3_femur_3::base</parent>
     <child>quadruped3_tibia_3::base</child>
     <axis>

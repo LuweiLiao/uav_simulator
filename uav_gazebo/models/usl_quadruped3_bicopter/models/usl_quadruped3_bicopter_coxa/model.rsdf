@@ -52,7 +52,7 @@
         </geometry>
         <material>
           <script>
-            <name>Gazebo/Black</name>
+            <name>Gazebo/Yellow</name>
           </script>
         </material>
       </visual>

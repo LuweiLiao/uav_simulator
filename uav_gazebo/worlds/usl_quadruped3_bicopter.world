@@ -15,8 +15,8 @@
           <sor>1.0</sor>
         </solver>
         <constraints>
-          <cfm>0.0</cfm>
-          <erp>0.2</erp>
+            <cfm>0.001</cfm>          <!-- 从0.0改为0.001，增加约束柔软度 -->
+            <erp>0.1</erp>            <!-- 从0.2改为0.1，减少弹性 -->
           <contact_max_correcting_vel>0.1</contact_max_correcting_vel>
           <contact_surface_layer>0.0</contact_surface_layer>
         </constraints>
@@ -44,7 +44,10 @@
               </torsional>
             </friction>
             <contact>
-              <ode/>
+              <ode>
+                <soft_cfm>0.01</soft_cfm>   <!-- 增加接触柔软度，减少弹跳 -->
+                <soft_erp>0.1</soft_erp>    <!-- 减小弹性恢复系数 -->
+              </ode>
             </contact>
             <bounce/>
           </surface>

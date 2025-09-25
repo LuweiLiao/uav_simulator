@@ -5,9 +5,9 @@
   base_dx = 0
   base_dy = 0
   base_dz = 0.0
-  base_x  = 0.3
-  base_y  = 0.403
-  base_z  = 0.3
+  base_x  = 0.14
+  base_y  = 0.14
+  base_z  = 0.06
   base_mass = 0.5
 %>
   <sdf version="1.5">
@@ -29,9 +29,9 @@
       <collision name="base_collision">
         <pose>0 0 0  0 0 0</pose>
         <geometry>
-          <mesh>
-            <uri>model://usl_quadruped3_bicopter_base/meshes/body.dae</uri>
-          </mesh>
+          <box>
+            <size><%= base_x%> <%= base_y%> <%= base_z%></size>
+          </box>
         </geometry>
         <surface>
           <contact>
@@ -50,7 +50,7 @@
         </geometry>
         <material>
           <script>
-            <name>Gazebo/Red</name>
+            <name>Gazebo/Green</name>
           </script>
         </material>
       </visual>

@@ -72,7 +72,7 @@ tibia_pos_dx = 0.05580
 tibia_pos_dy = 0.00
 tibia_pos_dz = -0.05000
 tibia_pos_rot_x = 0.0
-tibia_pos_rot_y = Math::PI/2
+tibia_pos_rot_y = Math::PI/2*0
 tibia_pos_rot_z = 0
 
 tibia_legs = {

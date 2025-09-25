@@ -34,10 +34,16 @@
             <ode>
               <mu>1</mu>
               <mu2>1</mu2>
+              <kp>1e8</kp>
+              <kd>1e4</kd>
             </ode>
           </friction>
           <contact>
-            <ode/>
+            <ode>
+              <soft_cfm>0.01</soft_cfm>
+              <kp>1e5</kp>             <!-- 减小接触刚度 -->
+              <kd>1e3</kd>             <!-- 增加阻尼 -->
+            </ode>
           </contact>
         </surface>
       </collision>

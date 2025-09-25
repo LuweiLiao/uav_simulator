@@ -725,15 +725,15 @@ void ArduRotorQuadrupedBicopter::ApplyMotorForces(const double _dt)
     // this->dataPtr->motor_pub.publish(actuator_msg);
 
     for (int i = 0; i < this->dataPtr->coxa_num; i++) {
-        this->dataPtr->coxa_speed[i] = (this->dataPtr->coxa_speed[i] - 1500) / 500.0f * 45.0f / 57.3f;
+        this->dataPtr->coxa_speed[i] = (this->dataPtr->coxa_speed[i] - 1500) / 500.0f * 120.0f / 57.3f;
     }
 
     for (int i = 0; i < this->dataPtr->femur_num; i++) {
-        this->dataPtr->femur_speed[i] = (this->dataPtr->femur_speed[i] - 1500) / 500.0f * 45.0f / 57.3f;
+        this->dataPtr->femur_speed[i] = (this->dataPtr->femur_speed[i] - 1500) / 500.0f * 120.0f / 57.3f;
     }
 
     for (int i = 0; i < this->dataPtr->tibia_num; i++) {
-        this->dataPtr->tibia_speed[i] = (this->dataPtr->tibia_speed[i] - 1500) / 500.0f * 45.0f / 57.3f;
+        this->dataPtr->tibia_speed[i] = (this->dataPtr->tibia_speed[i] - 1500) / 500.0f * 120.0f / 57.3f;
     }
 
     for (int i = 0; i < this->dataPtr->motor_num; i++) {
