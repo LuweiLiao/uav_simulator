@@ -838,7 +838,7 @@ void ArduRotorQuadrupedBicopter::ReceiveMotorCommand()
                        << "Broken ArduPilot connection, resetting motor control.\n";
                 this->ResetPIDs();
             }
-        } 
+        }
     } else {
         const ssize_t expectedPktSize = sizeof(pkt.motorSpeed[0])
             * (this->dataPtr->coxa_num + this->dataPtr->femur_num + this->dataPtr->tibia_num);
@@ -871,6 +871,10 @@ void ArduRotorQuadrupedBicopter::ReceiveMotorCommand()
                 const double cmd = ignition::math::clamp(pkt.motorSpeed[i],
                                                          -2.0f,
                                                          2.0f);
+                if (cmd == 0) {
+                    this->dataPtr->coxa_speed[i] = 1500.0f;
+                    continue;
+                }
 
                 this->dataPtr->coxa_speed[i] = (cmd - 0.5f) * 1000.0f + 1500.0f;
             } else {
@@ -886,6 +890,11 @@ void ArduRotorQuadrupedBicopter::ReceiveMotorCommand()
                                                          -2.0f,
                                                          2.0f);
 
+                if (cmd == 0) {
+                    this->dataPtr->femur_speed[i] = 1500.0f;
+                    continue;
+                }
+
                 this->dataPtr->femur_speed[i] = (cmd - 0.5f) * 1000.0f + 1500.0f;
             } else {
                 gzerr << "[" << this->dataPtr->modelName << "] "
@@ -899,6 +908,11 @@ void ArduRotorQuadrupedBicopter::ReceiveMotorCommand()
                 const double cmd = ignition::math::clamp(pkt.motorSpeed[i + this->dataPtr->coxa_num + this->dataPtr->femur_num],
                                                          -2.0f,
                                                          2.0f);
+
+                if (cmd == 0) {
+                    this->dataPtr->tibia_speed[i] = 1500.0f;
+                    continue;
+                }
 
                 this->dataPtr->tibia_speed[i] = (cmd - 0.5f) * 1000.0f + 1500.0f;
             } else {
