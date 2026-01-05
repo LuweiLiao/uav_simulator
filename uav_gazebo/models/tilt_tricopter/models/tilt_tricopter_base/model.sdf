@@ -20,9 +20,9 @@
       <collision name="base_collision">
         <pose>0 0 0  0 0 0</pose>
         <geometry>
-          <box>
-            <size>0.3 0.403 0.3</size>
-          </box>
+          <mesh>
+            <uri>model://tilt_tricopter_base/meshes/base.STL</uri>
+          </mesh>
         </geometry>
         <surface>
           <contact>

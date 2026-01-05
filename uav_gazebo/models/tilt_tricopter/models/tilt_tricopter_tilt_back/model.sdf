@@ -29,7 +29,7 @@
         <pose>0 0 0 0 -0 0</pose>
         <geometry>
           <mesh>
-            <uri>model://tilt_tricopter_tilt2/meshes/tilt_back.STL</uri>
+            <uri>model://tilt_tricopter_tilt_back/meshes/tilt_back.STL</uri>
           </mesh>
         </geometry>
         <material>

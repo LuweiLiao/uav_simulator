@@ -4,7 +4,7 @@
  prop_m = 0.001
   %>
   <sdf version="1.5">
-    <model name="tilt_tricopter_prop">
+    <model name="tilt_tricopter_prop_small">
       <link name='prop'>
       <pose>0.0 -0.0 0.0 0 -0 0</pose>
       <inertial>
@@ -32,7 +32,7 @@
         <pose>0 0 0 0 -0 0</pose>
         <geometry>
           <mesh>
-            <uri>model://tilt_tricopter_prop/meshes/prop_small.STL</uri>
+            <uri>model://tilt_tricopter_prop_small/meshes/prop_small.STL</uri>
           </mesh>
         </geometry>
         <material>

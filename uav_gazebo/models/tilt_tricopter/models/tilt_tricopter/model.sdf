@@ -12,12 +12,12 @@
       
       <include>
         <uri>model://tilt_tricopter_tilt_front</uri>
-        <name>tilt_tricopter_tilt1_0</name>
-        <pose>0.0 -0.2255 0.001 0 0 3.141592653589793</pose>
+        <name>tilt_tricopter_tilt_front_0</name>
+        <pose>0.70328 -0.835 0 0 0 0</pose>
       </include>
-      <joint name = tilt_tricopter_tilt1_0_joint type="revolute">
+      <joint name = tilt_tricopter_tilt_front_0_joint type="revolute">
         <parent>tilt_tricopter_base::base</parent>
-        <child>tilt_tricopter_tilt1_0::tilt</child>
+        <child>tilt_tricopter_tilt_front_0::tilt</child>
         <axis>
           <xyz>0 -1 0</xyz>
           <limit>
@@ -37,15 +37,15 @@
           </ode>
         </physics>
       </joint>
-      <plugin name = "tilt1_0_plugin" filename='librotors_gazebo_motor_model.so'>
+      <plugin name = tilt_tricopter_tilt_front_0_plugin filename='librotors_gazebo_motor_model.so'>
         <robotNamespace></robotNamespace>
-        <jointName>tilt_tricopter_tilt1_0_joint </jointName>
-        <linkName>tilt_tricopter_tilt1_0::tilt</linkName>
+        <jointName>tilt_tricopter_tilt_front_0_joint </jointName>
+        <linkName>tilt_tricopter_tilt_front_0::tilt</linkName>
         <turningDirection>cw</turningDirection>
         <motorType>position</motorType>
         <commandSubTopic>/gazebo/command/tilt1_pos</commandSubTopic>
         <motorNumber>0</motorNumber>
-        <motorSpeedPubTopic>tilt1_pos/0</motorSpeedPubTopic>
+        <motorSpeedPubTopic>tilt_pos/0</motorSpeedPubTopic>
         <joint_control_pid>
           <p>3</p>
           <i>1.2</i>
@@ -59,12 +59,12 @@
     
       <include>
         <uri>model://tilt_tricopter_tilt_front</uri>
-        <name>tilt_tricopter_tilt1_1</name>
-        <pose>0.0 0.2255 0.001 0 0 0</pose>
+        <name>tilt_tricopter_tilt_front_1</name>
+        <pose>0.70328 0.835 0 0 0 3.141592653589793</pose>
       </include>
-      <joint name = tilt_tricopter_tilt1_1_joint type="revolute">
+      <joint name = tilt_tricopter_tilt_front_1_joint type="revolute">
         <parent>tilt_tricopter_base::base</parent>
-        <child>tilt_tricopter_tilt1_1::tilt</child>
+        <child>tilt_tricopter_tilt_front_1::tilt</child>
         <axis>
           <xyz>0 1 0</xyz>
           <limit>
@@ -84,15 +84,62 @@
           </ode>
         </physics>
       </joint>
-      <plugin name = "tilt1_1_plugin" filename='librotors_gazebo_motor_model.so'>
+      <plugin name = tilt_tricopter_tilt_front_1_plugin filename='librotors_gazebo_motor_model.so'>
         <robotNamespace></robotNamespace>
-        <jointName>tilt_tricopter_tilt1_1_joint </jointName>
-        <linkName>tilt_tricopter_tilt1_1::tilt</linkName>
+        <jointName>tilt_tricopter_tilt_front_1_joint </jointName>
+        <linkName>tilt_tricopter_tilt_front_1::tilt</linkName>
         <turningDirection>cw</turningDirection>
         <motorType>position</motorType>
         <commandSubTopic>/gazebo/command/tilt1_pos</commandSubTopic>
         <motorNumber>1</motorNumber>
-        <motorSpeedPubTopic>tilt1_pos/1</motorSpeedPubTopic>
+        <motorSpeedPubTopic>tilt_pos/1</motorSpeedPubTopic>
+        <joint_control_pid>
+          <p>3</p>
+          <i>1.2</i>
+          <d>0.8</d>
+          <iMax>10</iMax>
+          <iMin>-10</iMin>
+          <cmdMax>50</cmdMax>
+          <cmdMin>-50</cmdMin>
+        </joint_control_pid>
+      </plugin>
+    
+      <include>
+        <uri>model://tilt_tricopter_tilt_back</uri>
+        <name>tilt_tricopter_tilt_back_0</name>
+        <pose>-0.82324 0.0 0 0 0 0</pose>
+      </include>
+      <joint name = tilt_tricopter_tilt_back_0_joint type="revolute">
+        <parent>tilt_tricopter_base::base</parent>
+        <child>tilt_tricopter_tilt_back_0::tilt</child>
+        <axis>
+          <xyz>0 -1 0</xyz>
+          <limit>
+            <lower>-1e+16</lower>
+            <upper>1e+16</upper>
+          </limit>
+          <dynamics>
+            <damping>0.1</damping>
+            <spring_stiffness>0</spring_stiffness>
+            <spring_reference>0</spring_reference>
+          </dynamics>
+          <use_parent_model_frame>1</use_parent_model_frame>
+        </axis>
+        <physics>
+          <ode>
+            <implicit_spring_damper>1</implicit_spring_damper>
+          </ode>
+        </physics>
+      </joint>
+      <plugin name = tilt_tricopter_tilt_back_0_plugin filename='librotors_gazebo_motor_model.so'>
+        <robotNamespace></robotNamespace>
+        <jointName>tilt_tricopter_tilt_back_0_joint </jointName>
+        <linkName>tilt_tricopter_tilt_back_0::tilt</linkName>
+        <turningDirection>cw</turningDirection>
+        <motorType>position</motorType>
+        <commandSubTopic>/gazebo/command/tilt1_pos</commandSubTopic>
+        <motorNumber>2</motorNumber>
+        <motorSpeedPubTopic>tilt_pos/2</motorSpeedPubTopic>
         <joint_control_pid>
           <p>3</p>
           <i>1.2</i>
@@ -109,10 +156,10 @@
   <include>
     <uri>model://tilt_tricopter_prop</uri>
     <name>tilt_tricopter_prop_0</name>
-    <pose>0.0 0.2255 0.1565 0 0 0</pose>
+    <pose>0.70328 -0.835 0.0647 0 0 0</pose>
   </include>
   <joint name = tilt_tricopter_prop_0_joint type="revolute">
-    <parent>tilt_tricopter_tilt2_0::tilt</parent>
+    <parent>tilt_tricopter_tilt_front_0::tilt</parent>
     <child>tilt_tricopter_prop_0::prop</child>
     <axis>
       <xyz>0 0 1</xyz>
@@ -152,10 +199,10 @@
   <include>
     <uri>model://tilt_tricopter_prop</uri>
     <name>tilt_tricopter_prop_1</name>
-    <pose>0.0 0.2255 -0.1565 0 0 0</pose>
+    <pose>0.70328 -0.835 -0.0647 0 0 0</pose>
   </include>
   <joint name = tilt_tricopter_prop_1_joint type="revolute">
-    <parent>tilt_tricopter_tilt2_1::tilt</parent>
+    <parent>tilt_tricopter_tilt_front_0::tilt</parent>
     <child>tilt_tricopter_prop_1::prop</child>
     <axis>
       <xyz>0 0 1</xyz>
@@ -195,10 +242,10 @@
   <include>
     <uri>model://tilt_tricopter_prop</uri>
     <name>tilt_tricopter_prop_2</name>
-    <pose>0.0 -0.2255 0.1565 0 0 0</pose>
+    <pose>0.70328 0.835 0.0647 0 0 0</pose>
   </include>
   <joint name = tilt_tricopter_prop_2_joint type="revolute">
-    <parent>tilt_tricopter_tilt2_2::tilt</parent>
+    <parent>tilt_tricopter_tilt_front_1::tilt</parent>
     <child>tilt_tricopter_prop_2::prop</child>
     <axis>
       <xyz>0 0 1</xyz>
@@ -238,10 +285,10 @@
   <include>
     <uri>model://tilt_tricopter_prop</uri>
     <name>tilt_tricopter_prop_3</name>
-    <pose>0.0 -0.2255 -0.1565 0 0 0</pose>
+    <pose>0.70328 0.835 -0.0647 0 0 0</pose>
   </include>
   <joint name = tilt_tricopter_prop_3_joint type="revolute">
-    <parent>tilt_tricopter_tilt2_3::tilt</parent>
+    <parent>tilt_tricopter_tilt_front_1::tilt</parent>
     <child>tilt_tricopter_prop_3::prop</child>
     <axis>
       <xyz>0 0 1</xyz>
@@ -278,6 +325,92 @@
     <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
   </plugin>
 
+  <include>
+    <uri>model://tilt_tricopter_prop_small</uri>
+    <name>tilt_tricopter_prop_4</name>
+    <pose>-0.82324 -0.0 0.0647 0 0 0</pose>
+  </include>
+  <joint name = tilt_tricopter_prop_4_joint type="revolute">
+    <parent>tilt_tricopter_tilt_back_0::tilt</parent>
+    <child>tilt_tricopter_prop_4::prop</child>
+    <axis>
+      <xyz>0 0 1</xyz>
+      <limit>
+        <lower>-1e+16</lower>
+        <upper>1e+16</upper>
+      </limit>
+      <dynamics>
+        <damping>0.004</damping>
+      </dynamics>
+      <use_parent_model_frame>1</use_parent_model_frame>
+    </axis>
+    <physics>
+      <ode>
+        <implicit_spring_damper>1</implicit_spring_damper>
+      </ode>
+    </physics>
+  </joint>
+  <plugin name = "prop_4_plugin" filename='librotors_gazebo_motor_model.so'>
+    <robotNamespace></robotNamespace>
+    <jointName>tilt_tricopter_prop_4_joint </jointName>
+    <linkName>tilt_tricopter_prop_4::prop</linkName>
+    <turningDirection>cw</turningDirection>
+    <timeConstantUp>0.0125</timeConstantUp>
+    <timeConstantDown>0.025</timeConstantDown>
+    <maxRotVelocity>1000</maxRotVelocity>
+    <motorConstant>1.599e-05</motorConstant>
+    <momentConstant>4.599e-07</momentConstant>
+    <commandSubTopic>/gazebo/command/prop_speed</commandSubTopic>
+    <motorNumber>4</motorNumber>
+    <rotorDragCoefficient>0.000806428</rotorDragCoefficient>
+    <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
+    <motorSpeedPubTopic>prop_speed/4</motorSpeedPubTopic>
+    <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
+  </plugin>
+
+  <include>
+    <uri>model://tilt_tricopter_prop_small</uri>
+    <name>tilt_tricopter_prop_5</name>
+    <pose>-0.82324 -0.0 -0.0647 0 0 0</pose>
+  </include>
+  <joint name = tilt_tricopter_prop_5_joint type="revolute">
+    <parent>tilt_tricopter_tilt_back_0::tilt</parent>
+    <child>tilt_tricopter_prop_5::prop</child>
+    <axis>
+      <xyz>0 0 1</xyz>
+      <limit>
+        <lower>-1e+16</lower>
+        <upper>1e+16</upper>
+      </limit>
+      <dynamics>
+        <damping>0.004</damping>
+      </dynamics>
+      <use_parent_model_frame>1</use_parent_model_frame>
+    </axis>
+    <physics>
+      <ode>
+        <implicit_spring_damper>1</implicit_spring_damper>
+      </ode>
+    </physics>
+  </joint>
+  <plugin name = "prop_5_plugin" filename='librotors_gazebo_motor_model.so'>
+    <robotNamespace></robotNamespace>
+    <jointName>tilt_tricopter_prop_5_joint </jointName>
+    <linkName>tilt_tricopter_prop_5::prop</linkName>
+    <turningDirection>ccw</turningDirection>
+    <timeConstantUp>0.0125</timeConstantUp>
+    <timeConstantDown>0.025</timeConstantDown>
+    <maxRotVelocity>1000</maxRotVelocity>
+    <motorConstant>1.599e-05</motorConstant>
+    <momentConstant>4.599e-07</momentConstant>
+    <commandSubTopic>/gazebo/command/prop_speed</commandSubTopic>
+    <motorNumber>5</motorNumber>
+    <rotorDragCoefficient>0.000806428</rotorDragCoefficient>
+    <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
+    <motorSpeedPubTopic>prop_speed/5</motorSpeedPubTopic>
+    <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
+  </plugin>
+
 
 <plugin name="ArduRotorBV2" filename="libArduRotorBV2.so">
   <fdm_addr>127.0.0.1</fdm_addr>
@@ -289,7 +422,6 @@
   <servo_num>2</servo_num>
   <motor_pub>/gazebo/command/prop_speed</motor_pub>
   <servo1_pub>/gazebo/command/tilt1_pos</servo1_pub>
-  <servo2_pub>/gazebo/command/tilt2_pos</servo2_pub>
   <imuName>tilt_tricopter_base::imu_link::imu_sensor</imuName>
   <connectionTimeoutMaxCount>5</connectionTimeoutMaxCount>
 </plugin>
