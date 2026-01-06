@@ -9,9 +9,9 @@
         <pose>0 0 0 0 0 0</pose>
         <mass>1.0</mass>
         <inertia>
-          <ixx>0.1</ixx>
+          <ixx>0.2</ixx>
           <iyy>0.2</iyy>
-          <izz>0.1</izz>
+          <izz>0.2</izz>
           <ixy>0</ixy>
           <ixz>0</ixz>
           <iyz>0</iyz>
