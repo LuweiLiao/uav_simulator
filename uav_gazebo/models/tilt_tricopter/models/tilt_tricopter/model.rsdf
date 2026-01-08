@@ -27,7 +27,7 @@ prop_timeConstantUp = 0.0125
 prop_timeConstantDown = 0.025
 prop_maxRotVelocity = 1000
 prop_motorConstant = 1.599e-5
-prop_momentConstant = 4.599e-8
+prop_momentConstant = 4.599e-7
 
 prop_back_pos_dx = tilt_back_pos_dx
 prop_back_pos_dy = tilt_back_pos_dy
