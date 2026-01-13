@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.8.3)
 
 project(uav_control)
 
-add_definitions(-std=c++11)
+add_definitions(-std=c++17)
 
 find_package(catkin REQUIRED COMPONENTS
   roscpp
@@ -40,6 +40,21 @@ add_library(pid_control
   src/pid_control.cpp
 )
 
+add_library(vectortricopter
+  src/vectortricopter/att_controller.cc
+  src/vectortricopter/control_allocator.cc
+  src/vectortricopter/pos_controller.cc
+  src/vectortricopter/rate_controller.cc
+  src/vectortricopter/scheduler.cc
+  src/vectortricopter/vehicle.cc
+  src/vectortricopter/world.cc
+)
+
+target_link_libraries(vectortricopter PUBLIC ${catkin_LIBRARIES} glog)
+add_dependencies(vectortricopter ${catkin_EXPORTED_TARGETS} mav_msgs_gencpp)
+
+add_executable(tricopter_control_node src/tricopter_control_node.cc)
+target_link_libraries(tricopter_control_node PRIVATE vectortricopter)
 
 target_link_libraries(pid_control ${catkin_LIBRARIES})
 add_dependencies(pid_control ${catkin_EXPORTED_TARGETS})

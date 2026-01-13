@@ -69,6 +69,19 @@
         <izz>0.00002</izz>
       </inertia>
     </inertial>
+    <visual name="imu_visual">
+                <pose>0 0 0 0 0 0</pose>
+                <geometry>
+                    <box>
+                        <size>0.02 0.02 0.02</size>
+                    </box>
+                </geometry>
+                <material>
+                    <script>
+                        <name>Gazebo/Green</name>
+                    </script>
+                </material>
+            </visual>
     <sensor name="imu_sensor" type="imu">
       <pose>0 0 0 3.141593 0 0</pose>
       <always_on>1</always_on>

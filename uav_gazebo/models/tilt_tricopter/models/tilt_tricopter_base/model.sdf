@@ -20,9 +20,9 @@
       <collision name="base_collision">
         <pose>0 0 0  0 0 0</pose>
         <geometry>
-          <mesh>
-            <uri>model://tilt_tricopter_base/meshes/base.STL</uri>
-          </mesh>
+          <box>
+            <size>0.75 0.75 0.45</size>
+          </box>
         </geometry>
         <surface>
           <contact>
@@ -59,20 +59,33 @@
         <izz>0.00002</izz>
       </inertia>
     </inertial>
+    <visual name="imu_visual">
+      <pose>0 0 0 0 0 0</pose>
+      <geometry>
+          <box>
+              <size>0.02 0.02 0.02</size>
+          </box>
+      </geometry>
+      <material>
+          <script>
+              <name>Gazebo/Green</name>
+          </script>
+      </material>
+    </visual>
     <sensor name="imu_sensor" type="imu">
-      <pose>0 0 0 3.141593 0 0</pose>
+      <pose>0 0 0 0 0 0</pose>
       <always_on>1</always_on>
       <update_rate>1000.0</update_rate>
       <topic>__default_topic__</topic>
     </sensor>
   </link>
-  <joint name='imu_joint' type='revolute'>
+  <joint name='imu_joint' type='fixed'>
     <child>imu_link</child>
     <parent>base</parent>
     <axis>
       <xyz>0 0 1</xyz>
       <limit>
-        <lower>-0.0001</lower>
+        <lower>-0.00001</lower>
         <upper>0.00001</upper>
         <effort>0</effort>
         <velocity>0</velocity>

@@ -508,7 +508,7 @@ void ArduRotorBV2::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
     std::string              imuName       = _sdf->Get("imuName", static_cast<std::string>("imu_sensor")).first;
     std::vector<std::string> imuScopedName = this->dataPtr->model->SensorScopedName(imuName);
 
-    ROS_INFO_STREAM("imuName:" << imuName);
+    ROS_INFO_STREAM("imuName is: " << imuName);
 
     if (imuScopedName.size() > 1) {
         gzwarn << "[" << this->dataPtr->modelName << "] "
@@ -583,13 +583,15 @@ void ArduRotorBV2::OnUpdate()
 
     const gazebo::common::Time curTime = this->dataPtr->model->GetWorld()->SimTime();
 
+    // this->SendState();
+
     // Update the control surfaces and publish the new state.
     if (curTime > this->dataPtr->lastControllerUpdateTime) {
         this->ReceiveMotorCommand();
         if (this->dataPtr->arduPilotOnline) {
             this->ApplyMotorForces((curTime - this->dataPtr->lastControllerUpdateTime).Double());
-            this->SendState();
         }
+        this->SendState();
     }
 
     this->dataPtr->lastControllerUpdateTime = curTime;
@@ -798,6 +800,9 @@ void ArduRotorBV2::SendState() const
     pkt.imuLinearAccelerationXYZ[1] = linearAccel.Y();
     pkt.imuLinearAccelerationXYZ[2] = linearAccel.Z();
     // gzerr << "lin accel [" << linearAccel << "]\n";
+
+    ROS_INFO_STREAM("Linear accel: " << linearAccel.X()
+        << ", " << linearAccel.Y() << ", " << linearAccel.Z() << "\n");
 
     // get angular velocity in body frame
     const ignition::math::Vector3d angularVel = this->dataPtr->imuSensor->AngularVelocity();
