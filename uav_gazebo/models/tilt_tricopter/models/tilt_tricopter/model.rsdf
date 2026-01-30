@@ -14,9 +14,9 @@ tilt_back_pos_dz = 0
 
 
 tilt1_motors={
-	"0" => {:tilt1_dx => tilt1_pos_dx, :tilt1_dy => -tilt1_pos_dy, :tilt1_dz => tilt1_pos_dz, :tilt1_rot => 0,        :dir => -1, :link_name => "tilt_tricopter_tilt_front_0", :link => "tilt_tricopter_tilt_front"},
-	"1" => {:tilt1_dx => tilt1_pos_dx, :tilt1_dy =>  tilt1_pos_dy, :tilt1_dz => tilt1_pos_dz, :tilt1_rot => Math::PI, :dir => 1, :link_name => "tilt_tricopter_tilt_front_1", :link => "tilt_tricopter_tilt_front"},
-	"2" => {:tilt1_dx => -tilt_back_pos_dx, :tilt1_dy => tilt_back_pos_dy, :tilt1_dz => tilt_back_pos_dz, :tilt1_rot => 0, :dir => -1, :link_name => "tilt_tricopter_tilt_back_0", :link => "tilt_tricopter_tilt_back"},
+	"0" => {:tilt1_dx => tilt1_pos_dx,      :tilt1_dy => -tilt1_pos_dy,     :tilt1_dz => tilt1_pos_dz,      :tilt1_rot => 0,        :dir => 1,    :link_name => "tilt_tricopter_tilt_front_0",  :link => "tilt_tricopter_tilt_front"},
+	"1" => {:tilt1_dx => -tilt_back_pos_dx, :tilt1_dy => tilt_back_pos_dy,  :tilt1_dz => tilt_back_pos_dz,  :tilt1_rot => 0,        :dir => 1,    :link_name => "tilt_tricopter_tilt_back_0",   :link => "tilt_tricopter_tilt_back"},
+	"2" => {:tilt1_dx => tilt1_pos_dx,      :tilt1_dy =>  tilt1_pos_dy,     :tilt1_dz => tilt1_pos_dz,      :tilt1_rot => Math::PI, :dir => -1,   :link_name => "tilt_tricopter_tilt_front_1",  :link => "tilt_tricopter_tilt_front"},
 }
 
 prop_pos_dx = tilt1_pos_dx
@@ -34,12 +34,12 @@ prop_back_pos_dy = tilt_back_pos_dy
 prop_back_pos_dz = 0.0647
 
 prop_motors={
-	"0" => {:prop_dx => prop_pos_dx, :prop_dy => -prop_pos_dy, :prop_dz => prop_pos_dz, :dir => "cw", :parent_jont => "tilt_tricopter_tilt_front_0::tilt", :link => "tilt_tricopter_prop"},
-	"1" => {:prop_dx => prop_pos_dx, :prop_dy => -prop_pos_dy, :prop_dz => -prop_pos_dz, :dir => "ccw", :parent_jont => "tilt_tricopter_tilt_front_0::tilt", :link => "tilt_tricopter_prop"},
-	"2" => {:prop_dx => prop_pos_dx, :prop_dy => prop_pos_dy, :prop_dz => prop_pos_dz, :dir => "cw", :parent_jont => "tilt_tricopter_tilt_front_1::tilt", :link => "tilt_tricopter_prop"},
-	"3" => {:prop_dx => prop_pos_dx, :prop_dy => prop_pos_dy, :prop_dz => -prop_pos_dz, :dir => "ccw", :parent_jont => "tilt_tricopter_tilt_front_1::tilt", :link => "tilt_tricopter_prop"},
-	"4" => {:prop_dx => -prop_back_pos_dx, :prop_dy => -prop_back_pos_dy, :prop_dz => prop_back_pos_dz, :dir => "cw", :parent_jont => "tilt_tricopter_tilt_back_0::tilt", :link => "tilt_tricopter_prop_small"},
-	"5" => {:prop_dx => -prop_back_pos_dx, :prop_dy => -prop_back_pos_dy, :prop_dz => -prop_back_pos_dz, :dir => "ccw", :parent_jont => "tilt_tricopter_tilt_back_0::tilt", :link => "tilt_tricopter_prop_small"},
+	"0" => {:prop_dx => prop_pos_dx,        :prop_dy => -prop_pos_dy,       :prop_dz => prop_pos_dz,        :dir => "cw",     :parent_jont => "tilt_tricopter_tilt_front_0::tilt",  :link => "tilt_tricopter_prop"},
+	"1" => {:prop_dx => prop_pos_dx,        :prop_dy => -prop_pos_dy,       :prop_dz => -prop_pos_dz,       :dir => "ccw",    :parent_jont => "tilt_tricopter_tilt_front_0::tilt",  :link => "tilt_tricopter_prop"},
+	"2" => {:prop_dx => -prop_back_pos_dx,  :prop_dy => -prop_back_pos_dy,  :prop_dz => prop_back_pos_dz,   :dir => "cw",     :parent_jont => "tilt_tricopter_tilt_back_0::tilt",   :link => "tilt_tricopter_prop_small"},
+	"3" => {:prop_dx => -prop_back_pos_dx,  :prop_dy => -prop_back_pos_dy,  :prop_dz => -prop_back_pos_dz,  :dir => "ccw",    :parent_jont => "tilt_tricopter_tilt_back_0::tilt",   :link => "tilt_tricopter_prop_small"},
+	"4" => {:prop_dx => prop_pos_dx,        :prop_dy => prop_pos_dy,        :prop_dz => prop_pos_dz,        :dir => "cw",     :parent_jont => "tilt_tricopter_tilt_front_1::tilt",  :link => "tilt_tricopter_prop"},
+	"5" => {:prop_dx => prop_pos_dx,        :prop_dy => prop_pos_dy,        :prop_dz => -prop_pos_dz,       :dir => "ccw",    :parent_jont => "tilt_tricopter_tilt_front_1::tilt",  :link => "tilt_tricopter_prop"},
 }
 
 %>
@@ -128,7 +128,7 @@ prop_motors={
     <parent><%= parent_jont %></parent>
     <child><%="tilt_tricopter_prop_" + k + '::prop' %></child>
     <axis>
-      <xyz>0 0 1</xyz>
+      <xyz>0 0 -1</xyz>
       <limit>
         <lower>-1e+16</lower>
         <upper>1e+16</upper>
@@ -163,18 +163,34 @@ prop_motors={
   </plugin>
 <% end %>
 <%# ====================================================================================== %>
-<plugin name="ArduRotorBV2" filename="libArduRotorBV2.so">
+<plugin name="ArduRotorTiltTricopter" filename="libArduRotorTiltTricopter.so">
   <fdm_addr>127.0.0.1</fdm_addr>
   <fdm_port_in>9002</fdm_port_in>
   <fdm_port_out>9003</fdm_port_out>
   <modelXYZToAirplaneXForwardZDown>0 0 0 3.141593 0 0</modelXYZToAirplaneXForwardZDown>
   <gazeboXYZToNED>0 0 0 3.141593 0 0</gazeboXYZToNED>
-  <motor_num>2</motor_num>
-  <servo_num>2</servo_num>
+  <motor_num>6</motor_num>
+  <servo_num>3</servo_num>
   <motor_pub>/gazebo/command/prop_speed</motor_pub>
   <servo1_pub>/gazebo/command/tilt1_pos</servo1_pub>
   <imuName>tilt_tricopter_base::imu_link::imu_sensor</imuName>
   <connectionTimeoutMaxCount>5</connectionTimeoutMaxCount>
 </plugin>
+
+<plugin name="imu_plugin" filename="librotors_gazebo_imu_plugin.so">
+  <robotNamespace>tilt_tricopter</robotNamespace>
+  <linkName>tilt_tricopter_base::imu_link</linkName>
+  <imuTopic>imu</imuTopic>
+  <gyroscopeNoiseDensity>0.000349</gyroscopeNoiseDensity>     <!-- rad/s/√Hz -->
+  <gyroscopeBiasRandomWalk>0.000266</gyroscopeBiasRandomWalk>          <!-- rad/s²/√Hz -->
+  <gyroscopeBiasCorrelationTime>600</gyroscopeBiasCorrelationTime> <!-- s -->
+  <gyroscopeTurnOnBiasSigma>0.0004</gyroscopeTurnOnBiasSigma>  <!-- rad/s -->
+  <accelerometerNoiseDensity>0.00324</accelerometerNoiseDensity> <!-- m/s²/√Hz -->
+  <accelerometerRandomWalk>0.0056</accelerometerRandomWalk>     <!-- m/s³/√Hz -->
+  <accelerometerBiasCorrelationTime>600</accelerometerBiasCorrelationTime> <!-- s -->
+  <accelerometerTurnOnBiasSigma>0.016</accelerometerTurnOnBiasSigma> <!-- m/s² -->
+</plugin>
+
+
 </model>
 </sdf>

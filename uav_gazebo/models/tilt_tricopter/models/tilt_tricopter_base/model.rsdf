@@ -19,9 +19,9 @@
         <pose>0 0 0 0 0 0</pose>
         <mass><%= base_mass %></mass>
         <inertia>
-          <ixx>0.1</ixx>
+          <ixx>0.2</ixx>
           <iyy>0.2</iyy>
-          <izz>0.1</izz>
+          <izz>0.2</izz>
           <ixy>0</ixy>
           <ixz>0</ixz>
           <iyz>0</iyz>
@@ -30,9 +30,9 @@
       <collision name="base_collision">
         <pose>0 0 <%= 0 %>  0 0 0</pose>
         <geometry>
-          <mesh>
-            <uri>model://tilt_tricopter_base/meshes/base.STL</uri>
-          </mesh>
+          <box>
+            <size>0.750 0.750 <%= 0.225*2%></size>
+          </box>
         </geometry>
         <surface>
           <contact>

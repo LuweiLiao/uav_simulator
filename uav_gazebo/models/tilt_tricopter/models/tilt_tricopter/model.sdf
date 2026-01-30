@@ -18,7 +18,7 @@
         <parent>tilt_tricopter_base::base</parent>
         <child>tilt_tricopter_tilt_front_0::tilt</child>
         <axis>
-          <xyz>0 -1 0</xyz>
+          <xyz>0 1 0</xyz>
           <limit>
             <lower>-1e+16</lower>
             <upper>1e+16</upper>
@@ -57,53 +57,6 @@
       </plugin>
     
       <include>
-        <uri>model://tilt_tricopter_tilt_front</uri>
-        <name>tilt_tricopter_tilt_front_1</name>
-        <pose>0.70328 0.835 0 0 0 3.141592653589793</pose>
-      </include>
-      <joint name = tilt_tricopter_tilt_front_1_joint type="revolute">
-        <parent>tilt_tricopter_base::base</parent>
-        <child>tilt_tricopter_tilt_front_1::tilt</child>
-        <axis>
-          <xyz>0 1 0</xyz>
-          <limit>
-            <lower>-1e+16</lower>
-            <upper>1e+16</upper>
-          </limit>
-          <dynamics>
-            <damping>0.1</damping>
-            <spring_stiffness>0</spring_stiffness>
-            <spring_reference>0</spring_reference>
-          </dynamics>
-          <use_parent_model_frame>1</use_parent_model_frame>
-        </axis>
-        <physics>
-          <ode>
-            <implicit_spring_damper>1</implicit_spring_damper>
-          </ode>
-        </physics>
-      </joint>
-      <plugin name = tilt_tricopter_tilt_front_1_plugin filename='librotors_gazebo_motor_model.so'>
-        <robotNamespace></robotNamespace>
-        <jointName>tilt_tricopter_tilt_front_1_joint </jointName>
-        <linkName>tilt_tricopter_tilt_front_1::tilt</linkName>
-        <turningDirection>cw</turningDirection>
-        <motorType>position</motorType>
-        <commandSubTopic>/gazebo/command/tilt1_pos</commandSubTopic>
-        <motorNumber>1</motorNumber>
-        <motorSpeedPubTopic>tilt_pos/1</motorSpeedPubTopic>
-        <joint_control_pid>
-          <p>3</p>
-          <i>1.2</i>
-          <d>0.8</d>
-          <iMax>10</iMax>
-          <iMin>-10</iMin>
-          <cmdMax>50</cmdMax>
-          <cmdMin>-50</cmdMin>
-        </joint_control_pid>
-      </plugin>
-    
-      <include>
         <uri>model://tilt_tricopter_tilt_back</uri>
         <name>tilt_tricopter_tilt_back_0</name>
         <pose>-0.82324 0.0 0 0 0 0</pose>
@@ -112,7 +65,7 @@
         <parent>tilt_tricopter_base::base</parent>
         <child>tilt_tricopter_tilt_back_0::tilt</child>
         <axis>
-          <xyz>0 -1 0</xyz>
+          <xyz>0 1 0</xyz>
           <limit>
             <lower>-1e+16</lower>
             <upper>1e+16</upper>
@@ -134,6 +87,53 @@
         <robotNamespace></robotNamespace>
         <jointName>tilt_tricopter_tilt_back_0_joint </jointName>
         <linkName>tilt_tricopter_tilt_back_0::tilt</linkName>
+        <turningDirection>cw</turningDirection>
+        <motorType>position</motorType>
+        <commandSubTopic>/gazebo/command/tilt1_pos</commandSubTopic>
+        <motorNumber>1</motorNumber>
+        <motorSpeedPubTopic>tilt_pos/1</motorSpeedPubTopic>
+        <joint_control_pid>
+          <p>3</p>
+          <i>1.2</i>
+          <d>0.8</d>
+          <iMax>10</iMax>
+          <iMin>-10</iMin>
+          <cmdMax>50</cmdMax>
+          <cmdMin>-50</cmdMin>
+        </joint_control_pid>
+      </plugin>
+    
+      <include>
+        <uri>model://tilt_tricopter_tilt_front</uri>
+        <name>tilt_tricopter_tilt_front_1</name>
+        <pose>0.70328 0.835 0 0 0 3.141592653589793</pose>
+      </include>
+      <joint name = tilt_tricopter_tilt_front_1_joint type="revolute">
+        <parent>tilt_tricopter_base::base</parent>
+        <child>tilt_tricopter_tilt_front_1::tilt</child>
+        <axis>
+          <xyz>0 -1 0</xyz>
+          <limit>
+            <lower>-1e+16</lower>
+            <upper>1e+16</upper>
+          </limit>
+          <dynamics>
+            <damping>0.1</damping>
+            <spring_stiffness>0</spring_stiffness>
+            <spring_reference>0</spring_reference>
+          </dynamics>
+          <use_parent_model_frame>1</use_parent_model_frame>
+        </axis>
+        <physics>
+          <ode>
+            <implicit_spring_damper>1</implicit_spring_damper>
+          </ode>
+        </physics>
+      </joint>
+      <plugin name = tilt_tricopter_tilt_front_1_plugin filename='librotors_gazebo_motor_model.so'>
+        <robotNamespace></robotNamespace>
+        <jointName>tilt_tricopter_tilt_front_1_joint </jointName>
+        <linkName>tilt_tricopter_tilt_front_1::tilt</linkName>
         <turningDirection>cw</turningDirection>
         <motorType>position</motorType>
         <commandSubTopic>/gazebo/command/tilt1_pos</commandSubTopic>
@@ -161,7 +161,7 @@
     <parent>tilt_tricopter_tilt_front_0::tilt</parent>
     <child>tilt_tricopter_prop_0::prop</child>
     <axis>
-      <xyz>0 0 1</xyz>
+      <xyz>0 0 -1</xyz>
       <limit>
         <lower>-1e+16</lower>
         <upper>1e+16</upper>
@@ -204,7 +204,7 @@
     <parent>tilt_tricopter_tilt_front_0::tilt</parent>
     <child>tilt_tricopter_prop_1::prop</child>
     <axis>
-      <xyz>0 0 1</xyz>
+      <xyz>0 0 -1</xyz>
       <limit>
         <lower>-1e+16</lower>
         <upper>1e+16</upper>
@@ -239,15 +239,15 @@
   </plugin>
 
   <include>
-    <uri>model://tilt_tricopter_prop</uri>
+    <uri>model://tilt_tricopter_prop_small</uri>
     <name>tilt_tricopter_prop_2</name>
-    <pose>0.70328 0.835 0.0647 0 0 0</pose>
+    <pose>-0.82324 -0.0 0.0647 0 0 0</pose>
   </include>
   <joint name = tilt_tricopter_prop_2_joint type="revolute">
-    <parent>tilt_tricopter_tilt_front_1::tilt</parent>
+    <parent>tilt_tricopter_tilt_back_0::tilt</parent>
     <child>tilt_tricopter_prop_2::prop</child>
     <axis>
-      <xyz>0 0 1</xyz>
+      <xyz>0 0 -1</xyz>
       <limit>
         <lower>-1e+16</lower>
         <upper>1e+16</upper>
@@ -282,15 +282,15 @@
   </plugin>
 
   <include>
-    <uri>model://tilt_tricopter_prop</uri>
+    <uri>model://tilt_tricopter_prop_small</uri>
     <name>tilt_tricopter_prop_3</name>
-    <pose>0.70328 0.835 -0.0647 0 0 0</pose>
+    <pose>-0.82324 -0.0 -0.0647 0 0 0</pose>
   </include>
   <joint name = tilt_tricopter_prop_3_joint type="revolute">
-    <parent>tilt_tricopter_tilt_front_1::tilt</parent>
+    <parent>tilt_tricopter_tilt_back_0::tilt</parent>
     <child>tilt_tricopter_prop_3::prop</child>
     <axis>
-      <xyz>0 0 1</xyz>
+      <xyz>0 0 -1</xyz>
       <limit>
         <lower>-1e+16</lower>
         <upper>1e+16</upper>
@@ -325,15 +325,15 @@
   </plugin>
 
   <include>
-    <uri>model://tilt_tricopter_prop_small</uri>
+    <uri>model://tilt_tricopter_prop</uri>
     <name>tilt_tricopter_prop_4</name>
-    <pose>-0.82324 -0.0 0.0647 0 0 0</pose>
+    <pose>0.70328 0.835 0.0647 0 0 0</pose>
   </include>
   <joint name = tilt_tricopter_prop_4_joint type="revolute">
-    <parent>tilt_tricopter_tilt_back_0::tilt</parent>
+    <parent>tilt_tricopter_tilt_front_1::tilt</parent>
     <child>tilt_tricopter_prop_4::prop</child>
     <axis>
-      <xyz>0 0 1</xyz>
+      <xyz>0 0 -1</xyz>
       <limit>
         <lower>-1e+16</lower>
         <upper>1e+16</upper>
@@ -368,15 +368,15 @@
   </plugin>
 
   <include>
-    <uri>model://tilt_tricopter_prop_small</uri>
+    <uri>model://tilt_tricopter_prop</uri>
     <name>tilt_tricopter_prop_5</name>
-    <pose>-0.82324 -0.0 -0.0647 0 0 0</pose>
+    <pose>0.70328 0.835 -0.0647 0 0 0</pose>
   </include>
   <joint name = tilt_tricopter_prop_5_joint type="revolute">
-    <parent>tilt_tricopter_tilt_back_0::tilt</parent>
+    <parent>tilt_tricopter_tilt_front_1::tilt</parent>
     <child>tilt_tricopter_prop_5::prop</child>
     <axis>
-      <xyz>0 0 1</xyz>
+      <xyz>0 0 -1</xyz>
       <limit>
         <lower>-1e+16</lower>
         <upper>1e+16</upper>
@@ -411,33 +411,34 @@
   </plugin>
 
 
-  <!-- <plugin name="ArduRotorBV2" filename="libArduRotorBV2.so">
-    <fdm_addr>127.0.0.1</fdm_addr>
-    <fdm_port_in>9002</fdm_port_in>
-    <fdm_port_out>9003</fdm_port_out>
-    <modelXYZToAirplaneXForwardZDown>0 0 0 3.141593 0 0</modelXYZToAirplaneXForwardZDown>
-    <gazeboXYZToNED>0 0 0 3.141593 0 0</gazeboXYZToNED>
-    <motor_num>2</motor_num>
-    <servo_num>2</servo_num>
-    <motor_pub>/gazebo/command/prop_speed</motor_pub>
-    <servo1_pub>/gazebo/command/tilt1_pos</servo1_pub>
-    <imuName>tilt_tricopter_base::imu_link::imu_sensor</imuName>
-    <connectionTimeoutMaxCount>5</connectionTimeoutMaxCount>
-  </plugin> -->
+<plugin name="ArduRotorTiltTricopter" filename="libArduRotorTiltTricopter.so">
+  <fdm_addr>127.0.0.1</fdm_addr>
+  <fdm_port_in>9002</fdm_port_in>
+  <fdm_port_out>9003</fdm_port_out>
+  <modelXYZToAirplaneXForwardZDown>0 0 0 3.141593 0 0</modelXYZToAirplaneXForwardZDown>
+  <gazeboXYZToNED>0 0 0 3.141593 0 0</gazeboXYZToNED>
+  <motor_num>6</motor_num>
+  <servo_num>3</servo_num>
+  <motor_pub>/gazebo/command/prop_speed</motor_pub>
+  <servo1_pub>/gazebo/command/tilt1_pos</servo1_pub>
+  <imuName>tilt_tricopter_base::imu_link::imu_sensor</imuName>
+  <connectionTimeoutMaxCount>5</connectionTimeoutMaxCount>
+</plugin>
 
-  <plugin name="imu_plugin" filename="librotors_gazebo_imu_plugin.so">
-    <robotNamespace>tilt_tricopter</robotNamespace>
-    <linkName>tilt_tricopter_base::imu_link</linkName>
-    <imuTopic>imu</imuTopic>
-    <gyroscopeNoiseDensity>0.000349</gyroscopeNoiseDensity>     <!-- rad/s/√Hz -->
-    <gyroscopeBiasRandomWalk>0.000266</gyroscopeBiasRandomWalk>          <!-- rad/s²/√Hz -->
-    <gyroscopeBiasCorrelationTime>600</gyroscopeBiasCorrelationTime> <!-- s -->
-    <gyroscopeTurnOnBiasSigma>0.0004</gyroscopeTurnOnBiasSigma>  <!-- rad/s -->
-    <accelerometerNoiseDensity>0.00324</accelerometerNoiseDensity> <!-- m/s²/√Hz -->
-    <accelerometerRandomWalk>0.0056</accelerometerRandomWalk>     <!-- m/s³/√Hz -->
-    <accelerometerBiasCorrelationTime>600</accelerometerBiasCorrelationTime> <!-- s -->
-    <accelerometerTurnOnBiasSigma>0.016</accelerometerTurnOnBiasSigma> <!-- m/s² -->
-  </plugin>
+<plugin name="imu_plugin" filename="librotors_gazebo_imu_plugin.so">
+  <robotNamespace>tilt_tricopter</robotNamespace>
+  <linkName>tilt_tricopter_base::imu_link</linkName>
+  <imuTopic>imu</imuTopic>
+  <gyroscopeNoiseDensity>0.000349</gyroscopeNoiseDensity>     <!-- rad/s/√Hz -->
+  <gyroscopeBiasRandomWalk>0.000266</gyroscopeBiasRandomWalk>          <!-- rad/s²/√Hz -->
+  <gyroscopeBiasCorrelationTime>600</gyroscopeBiasCorrelationTime> <!-- s -->
+  <gyroscopeTurnOnBiasSigma>0.0004</gyroscopeTurnOnBiasSigma>  <!-- rad/s -->
+  <accelerometerNoiseDensity>0.00324</accelerometerNoiseDensity> <!-- m/s²/√Hz -->
+  <accelerometerRandomWalk>0.0056</accelerometerRandomWalk>     <!-- m/s³/√Hz -->
+  <accelerometerBiasCorrelationTime>600</accelerometerBiasCorrelationTime> <!-- s -->
+  <accelerometerTurnOnBiasSigma>0.016</accelerometerTurnOnBiasSigma> <!-- m/s² -->
+</plugin>
+
 
 </model>
 </sdf>
