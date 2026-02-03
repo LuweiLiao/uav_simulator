@@ -128,7 +128,7 @@ prop_motors={
     <parent><%= parent_jont %></parent>
     <child><%="tilt_tricopter_prop_" + k + '::prop' %></child>
     <axis>
-      <xyz>0 0 -1</xyz>
+      <xyz>0 0 1</xyz>
       <limit>
         <lower>-1e+16</lower>
         <upper>1e+16</upper>

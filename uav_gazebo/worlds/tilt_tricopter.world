@@ -25,6 +25,7 @@
       <!--<max_step_size>0.0020</max_step_size>-->
     </physics>
     <gravity>0 0 -9.8</gravity>
+    <!-- <gravity>0 0 0</gravity> -->
     
     <include>
       <uri>model://sun</uri>

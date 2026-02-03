@@ -162,7 +162,7 @@
     <parent>tilt_tricopter_tilt_front_0::tilt</parent>
     <child>tilt_tricopter_prop_0::prop</child>
     <axis>
-      <xyz>0 0 -1</xyz>
+      <xyz>0 0 1</xyz>
       <limit>
         <lower>-1e+16</lower>
         <upper>1e+16</upper>
@@ -205,7 +205,7 @@
     <parent>tilt_tricopter_tilt_front_0::tilt</parent>
     <child>tilt_tricopter_prop_1::prop</child>
     <axis>
-      <xyz>0 0 -1</xyz>
+      <xyz>0 0 1</xyz>
       <limit>
         <lower>-1e+16</lower>
         <upper>1e+16</upper>
@@ -248,7 +248,7 @@
     <parent>tilt_tricopter_tilt_back_0::tilt</parent>
     <child>tilt_tricopter_prop_2::prop</child>
     <axis>
-      <xyz>0 0 -1</xyz>
+      <xyz>0 0 1</xyz>
       <limit>
         <lower>-1e+16</lower>
         <upper>1e+16</upper>
@@ -291,7 +291,7 @@
     <parent>tilt_tricopter_tilt_back_0::tilt</parent>
     <child>tilt_tricopter_prop_3::prop</child>
     <axis>
-      <xyz>0 0 -1</xyz>
+      <xyz>0 0 1</xyz>
       <limit>
         <lower>-1e+16</lower>
         <upper>1e+16</upper>
@@ -334,7 +334,7 @@
     <parent>tilt_tricopter_tilt_front_1::tilt</parent>
     <child>tilt_tricopter_prop_4::prop</child>
     <axis>
-      <xyz>0 0 -1</xyz>
+      <xyz>0 0 1</xyz>
       <limit>
         <lower>-1e+16</lower>
         <upper>1e+16</upper>
@@ -377,7 +377,7 @@
     <parent>tilt_tricopter_tilt_front_1::tilt</parent>
     <child>tilt_tricopter_prop_5::prop</child>
     <axis>
-      <xyz>0 0 -1</xyz>
+      <xyz>0 0 1</xyz>
       <limit>
         <lower>-1e+16</lower>
         <upper>1e+16</upper>
