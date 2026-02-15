@@ -10,7 +10,7 @@
 
   platform_base_ixx  = 0.5
   platform_base_iyy  = 0.5
-  platform_base_izz  = 0.2
+  platform_base_izz  = 0.5
 
 %>
   <sdf version="1.5">

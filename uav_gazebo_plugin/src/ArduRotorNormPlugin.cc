@@ -870,13 +870,13 @@ void ArduRotorNormPlugin::ReceiveMotorCommand()
         }
 
         // compute command based on requested motorSpeed
-        std::cout << "motorSpeed:";
+        // std::cout << "motorSpeed:";
         for (unsigned i = 0; i < this->dataPtr->motor_num; ++i) {
             if (i < MAX_MOTORS) {
                 const double cmd = ignition::math::clamp(pkt.motorSpeed[i], -1.0f, 1.0f);
                 this->dataPtr->motor_speed[i] = cmd * 1000.0f;
 
-                std::cout << cmd << "\t";
+                // std::cout << cmd << "\t";
             } else {
                 gzerr << "[" << this->dataPtr->modelName << "] "
                       << "too many motors, skipping [" << i << " > " << MAX_MOTORS << "].\n";
