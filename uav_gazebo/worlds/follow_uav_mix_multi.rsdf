@@ -131,12 +131,12 @@
       while i < 1 do
       i +=1
     %>
-    <model name=<%= '"' + 'uni350_multi_' + i.to_s + '"' %>>
+    <model name=<%= '"' + 'follow_uav_multi_' + i.to_s + '"' %>>
       <pose><%=(1-i)*3%> 0 1 0 0 0 </pose>
       <include>
-        <uri>model://uni350_multi</uri>
+        <uri>model://follow_uav_multi</uri>
         <pose> 5 5 0.5 0 0 0</pose>
-        <name><%= 'uni350_multi_' + i.to_s %></name>
+        <name><%= 'follow_uav_multi_' + i.to_s %></name>
       </include>
       <plugin name=<%='"ArduRotorNormPlugin_' + i.to_s + '"' %> filename='libArduRotorNormPlugin.so'>
         <fdm_addr>127.0.0.1</fdm_addr>
@@ -145,8 +145,8 @@
         <modelXYZToAirplaneXForwardZDown>0 0 0 3.141593 0 0</modelXYZToAirplaneXForwardZDown>
         <gazeboXYZToNED>0 0 0 3.141593 0 0</gazeboXYZToNED>
         <motor_num>4</motor_num>
-        <motor_pub><%='/uni350_multi_' + i.to_s + '/gazebo/command/prop_speed'%> </motor_pub>
-        <imuName><%='uni350_multi_' + i.to_s + '::uni350_multi_base::imu_link::imu_sensor'%></imuName>
+        <motor_pub><%='/follow_uav_multi_' + i.to_s + '/gazebo/command/prop_speed'%> </motor_pub>
+        <imuName><%='follow_uav_multi_' + i.to_s + '::follow_uav_multi_base::imu_link::imu_sensor'%></imuName>
         <connectionTimeoutMaxCount>5</connectionTimeoutMaxCount>
       </plugin>
       <%
@@ -164,21 +164,21 @@
     prop_motors.keys.each do |j|
 				dir = prop_motors[j][:dir]
       %>
-      <plugin name=<%= '"uni350_multi_' + i.to_s + '_motor_'+ j + '_plugin"' %> filename='librotors_gazebo_motor_model.so'>
+      <plugin name=<%= '"follow_uav_multi_' + i.to_s + '_motor_'+ j + '_plugin"' %> filename='librotors_gazebo_motor_model.so'>
         <robotNamespace></robotNamespace>
-        <jointName><%= 'uni350_multi_'+ i.to_s + '::' + 'uni350_multi_prop_' + j + '_joint' %> </jointName>
-        <linkName><%= 'uni350_multi_'+ i.to_s + '::' + 'uni350_multi_prop_' + j + '::prop' %></linkName>
+        <jointName><%= 'follow_uav_multi_'+ i.to_s + '::' + 'follow_uav_multi_prop_' + j + '_joint' %> </jointName>
+        <linkName><%= 'follow_uav_multi_'+ i.to_s + '::' + 'follow_uav_multi_prop_' + j + '::prop' %></linkName>
         <turningDirection><%= dir %></turningDirection>
         <timeConstantUp><%= prop_timeConstantUp %></timeConstantUp>
         <timeConstantDown><%= prop_timeConstantDown %></timeConstantDown>
         <maxRotVelocity><%= prop_maxRotVelocity %></maxRotVelocity>
         <motorConstant><%= prop_motorConstant %></motorConstant>
         <momentConstant><%= prop_momentConstant %></momentConstant>
-        <commandSubTopic><%='/uni350_multi_'+ i.to_s + '/gazebo/command/prop_speed'%></commandSubTopic>
+        <commandSubTopic><%='/follow_uav_multi_'+ i.to_s + '/gazebo/command/prop_speed'%></commandSubTopic>
         <motorNumber><%= j %></motorNumber>
         <rotorDragCoefficient>0.000806428</rotorDragCoefficient>
         <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
-        <motorSpeedPubTopic><%= '/uni350_multi_'+ i.to_s + '/prop_speed/' + j %></motorSpeedPubTopic>
+        <motorSpeedPubTopic><%= '/follow_uav_multi_'+ i.to_s + '/prop_speed/' + j %></motorSpeedPubTopic>
         <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
       </plugin>
     <% end %>

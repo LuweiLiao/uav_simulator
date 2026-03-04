@@ -1,0 +1,62 @@
+<?xml version="1.0" ?>
+  <%
+
+# ---------------------------------------------------------------
+link_base_mass = 4.2
+
+link_base_ixx  = 1.01
+link_base_iyy  = 1.01
+link_base_izz  = 0.5
+
+
+%>
+  <sdf version="1.5">
+    <model name="tsduav_t4_multi_link">
+      <%# ====================================================================================== %>
+      <link name="link_base">
+      <pose>0 0 0 0 0 0</pose>
+      <inertial>
+        <pose>0 0 0 0 0 0</pose>
+        <mass><%= link_base_mass %></mass>
+        <inertia>
+          <ixx><%= link_base_ixx %></ixx>
+          <iyy><%= link_base_iyy %></iyy>
+          <izz><%= link_base_izz %></izz>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyz>0</iyz>
+        </inertia>
+      </inertial>
+      <collision name="link_base_collision">
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://tsduav_t4_multi_link/meshes/link2.STL</uri>
+          </mesh>
+        </geometry>
+        <surface>
+          <contact>
+            <ode>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode />
+          </friction>
+        </surface>
+      </collision>
+      <visual name="link_base_visual">
+        <geometry>
+          <mesh>
+            <uri>model://tsduav_t4_multi_link/meshes/link2.STL</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Yellow</name>
+          </script>
+        </material>
+      </visual>
+    </link>
+</model>
+</sdf>
