@@ -25,7 +25,7 @@
     <arg name="common" default="$(find uav_gazebo)/models/common/models" />
     <arg name="uni350" default="$(find uav_gazebo)/models/uni350/models:$(find uav_gazebo)/models/uni350_multi/models" />
 
-    <arg name="other" default="$(find uav_gazebo)/models/tilt_tricopter/models:$(find uav_gazebo)/models/tilt_tricopter_fix/models" />
+    <arg name="other" default="$(find uav_gazebo)/models/tilt_tricopter/models:$(find uav_gazebo)/models/tilt_tricopter_fix/models:$(find uav_gazebo)/models/tilt_quadcopter/models:$(find uav_gazebo)/models/tilt_quadcopter_armbot/models:$(find uav_gazebo)/models/nonplant_hex/models" />
 
     <env name="GAZEBO_MODEL_PATH" value="${GAZEBO_MODEL_PATH}:$(arg tsduav):$(arg equipment):$(arg usl):$(arg common):$(arg uni350):$(arg quadcopter):$(arg ck):$(arg other)"/>
     <env name="GAZEBO_RESOURCE_PATH" value="${GAZEBO_RESOURCE_PATH}:$(find uav_gazebo)/models/ground/models" />

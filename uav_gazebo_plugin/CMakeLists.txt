@@ -88,3 +88,9 @@ target_link_libraries(ArduRotorQuadruped_ck ${catkin_LIBRARIES} ${GAZEBO_LIBRARI
 
 add_library(ArduRotorTiltTricopter SHARED src/ArduRotorTiltTricopter.cc)
 target_link_libraries(ArduRotorTiltTricopter ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
+
+add_library(ArduRotorTiltQuadcopter SHARED src/ArduRotorTiltQuadcopter.cc)
+target_link_libraries(ArduRotorTiltQuadcopter ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
+
+add_library(ArduRotorTiltQuadcopterArm SHARED src/ArduRotorTiltQuadcopterArm.cc)
+target_link_libraries(ArduRotorTiltQuadcopterArm ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})

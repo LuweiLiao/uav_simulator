@@ -17,25 +17,25 @@
 #include <fcntl.h>
 #include <functional>
 #ifdef _WIN32
-#include <Winsock2.h>
-#include <Ws2def.h>
-#include <Ws2ipdef.h>
-#include <Ws2tcpip.h>
+# include <Winsock2.h>
+# include <Ws2def.h>
+# include <Ws2ipdef.h>
+# include <Ws2tcpip.h>
 using raw_type = char;
 #else
-#include <arpa/inet.h>
-#include <netinet/in.h>
-#include <netinet/tcp.h>
-#include <sys/socket.h>
+# include <arpa/inet.h>
+# include <netinet/in.h>
+# include <netinet/tcp.h>
+# include <sys/socket.h>
 using raw_type = void;
 #endif
 
 #if defined(_MSC_VER)
-#include <BaseTsd.h>
+# include <BaseTsd.h>
 typedef SSIZE_T ssize_t;
 #endif
 
-#include "ArduRotorNormPlugin.hh"
+#include "ArduRotorTiltQuadcopter.hh"
 #include <gazebo/common/Assert.hh>
 #include <gazebo/common/Plugin.hh>
 #include <gazebo/msgs/msgs.hh>
@@ -51,7 +51,7 @@ typedef SSIZE_T ssize_t;
 
 using namespace gazebo;
 
-GZ_REGISTER_MODEL_PLUGIN(ArduRotorNormPlugin)
+GZ_REGISTER_MODEL_PLUGIN(ArduRotorTiltQuadcopter)
 
 /// \brief A servo packet.
 struct ServoPacket {
@@ -111,8 +111,8 @@ public:
     {
         // most of these coefficients are not used yet.
         this->rotorVelocitySlowdownSim = this->kDefaultRotorVelocitySlowdownSim;
-        this->frequencyCutoff = this->kDefaultFrequencyCutoff;
-        this->samplingRate = this->kDefaultSamplingRate;
+        this->frequencyCutoff          = this->kDefaultFrequencyCutoff;
+        this->samplingRate             = this->kDefaultSamplingRate;
 
         this->pid.Init(0.1, 0, 0, 0, 0, 1.0, -1.0);
     }
@@ -180,8 +180,8 @@ public:
 };
 
 double Control::kDefaultRotorVelocitySlowdownSim = 10.0;
-double Control::kDefaultFrequencyCutoff = 5.0;
-double Control::kDefaultSamplingRate = 0.2;
+double Control::kDefaultFrequencyCutoff          = 5.0;
+double Control::kDefaultSamplingRate             = 0.2;
 
 // Private data class
 class gazebo::ArduPilotSocketPrivate {
@@ -282,8 +282,8 @@ public:
         _sockaddr.sin_len = sizeof(_sockaddr);
 #endif
 
-        _sockaddr.sin_port = htons(_port);
-        _sockaddr.sin_family = AF_INET;
+        _sockaddr.sin_port        = htons(_port);
+        _sockaddr.sin_family      = AF_INET;
         _sockaddr.sin_addr.s_addr = inet_addr(_address);
     }
 
@@ -297,13 +297,13 @@ public:
 public:
     ssize_t Recv(void* _buf, const size_t _size, uint32_t _timeoutMs)
     {
-        fd_set fds;
+        fd_set         fds;
         struct timeval tv;
 
         FD_ZERO(&fds);
         FD_SET(this->fd, &fds);
 
-        tv.tv_sec = _timeoutMs / 1000;
+        tv.tv_sec  = _timeoutMs / 1000;
         tv.tv_usec = (_timeoutMs % 1000) * 1000UL;
 
         if (select(this->fd + 1, &fds, NULL, NULL, &tv) != 1) {
@@ -404,43 +404,54 @@ public:
     ros::CallbackQueue rosQueue;
 
     ros::Publisher motor_pub;
+    std::string    motor_pub_name;
 
-    ros::Publisher servo_pub;
+    ros::Publisher servo1_pub;
+    std::string    servo1_pub_name;
 
-    std::string motor_pub_name;
+    ros::Publisher servo2_pub;
+    std::string    servo2_pub_name;
 
     int motor_num;
 
     int servo_num;
 
     float motor_speed[MAX_MOTORS];
+    float servo1_speed[MAX_MOTORS];
+    // float servo2_speed[MAX_MOTORS];
 };
 
 /////////////////////////////////////////////////
-ArduRotorNormPlugin::ArduRotorNormPlugin()
+ArduRotorTiltQuadcopter::ArduRotorTiltQuadcopter()
     : dataPtr(new ArduPilotPluginPrivate)
 {
-    this->dataPtr->arduPilotOnline = false;
+    this->dataPtr->arduPilotOnline        = false;
     this->dataPtr->connectionTimeoutCount = 0;
-    this->dataPtr->servo_num=0;
-    this->dataPtr->motor_num=0;
+
+    for (uint8_t i = 0; i < MAX_MOTORS; i++) {
+        this->dataPtr->servo1_speed[i] = 0.5;
+    }
+
+    // for (uint8_t i = 0; i < MAX_MOTORS; i++) {
+    //     this->dataPtr->servo2_speed[i] = 0.5;
+    // }
 }
 
 /////////////////////////////////////////////////
-ArduRotorNormPlugin::~ArduRotorNormPlugin() { }
+ArduRotorTiltQuadcopter::~ArduRotorTiltQuadcopter() { }
 
 /////////////////////////////////////////////////
-void ArduRotorNormPlugin::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
+void ArduRotorTiltQuadcopter::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
 {
-    GZ_ASSERT(_model, "ArduRotorNormPlugin _model pointer is null");
-    GZ_ASSERT(_sdf, "ArduRotorNormPlugin _sdf pointer is null");
+    GZ_ASSERT(_model, "ArduRotorTiltQuadcopter _model pointer is null");
+    GZ_ASSERT(_sdf, "ArduRotorTiltQuadcopter _sdf pointer is null");
 
-    this->dataPtr->model = _model;
+    this->dataPtr->model     = _model;
     this->dataPtr->modelName = this->dataPtr->model->GetName();
 
     // Initialize ros, if it has not already bee initialized.
     if (!ros::isInitialized()) {
-        int argc = 0;
+        int    argc = 0;
         char** argv = NULL;
         ros::init(argc, argv, this->dataPtr->modelName + "_plugin", ros::init_options::NoSigintHandler);
     }
@@ -464,178 +475,6 @@ void ArduRotorNormPlugin::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
         this->gazeboXYZToNED = _sdf->Get<ignition::math::Pose3d>("gazeboXYZToNED");
     }
 
-    // // per control channel
-    // sdf::ElementPtr controlSDF;
-    // if (_sdf->HasElement("control")) {
-    //     controlSDF = _sdf->GetElement("control");
-    // } else if (_sdf->HasElement("rotor")) {
-    //     gzwarn << "[" << this->dataPtr->modelName << "] "
-    //            << "please deprecate <rotor> block, use <control> block instead.\n";
-    //     controlSDF = _sdf->GetElement("rotor");
-    // }
-
-    // while (controlSDF) {
-    //     Control control;
-
-    //     if (controlSDF->HasAttribute("channel")) {
-    //         control.channel = atoi(controlSDF->GetAttribute("channel")->GetAsString().c_str());
-    //     } else if (controlSDF->HasAttribute("id")) {
-    //         gzwarn << "[" << this->dataPtr->modelName << "] "
-    //                << "please deprecate attribute id, use channel instead.\n";
-    //         control.channel = atoi(controlSDF->GetAttribute("id")->GetAsString().c_str());
-    //     } else {
-    //         control.channel = this->dataPtr->controls.size();
-    //         gzwarn << "[" << this->dataPtr->modelName << "] "
-    //                << "id/channel attribute not specified, use order parsed ["
-    //                << control.channel << "].\n";
-    //     }
-
-    //     if (controlSDF->HasElement("type")) {
-    //         control.type = controlSDF->Get<std::string>("type");
-    //     } else {
-    //         gzerr << "[" << this->dataPtr->modelName << "] "
-    //               << "Control type not specified,"
-    //               << " using velocity control by default.\n";
-    //         control.type = "VELOCITY";
-    //     }
-
-    //     if (control.type != "VELOCITY" && control.type != "POSITION" && control.type != "EFFORT") {
-    //         gzwarn << "[" << this->dataPtr->modelName << "] "
-    //                << "Control type [" << control.type
-    //                << "] not recognized, must be one of VELOCITY, POSITION, EFFORT."
-    //                << " default to VELOCITY.\n";
-    //         control.type = "VELOCITY";
-    //     }
-
-    //     if (controlSDF->HasElement("useForce")) {
-    //         control.useForce = controlSDF->Get<bool>("useForce");
-    //     }
-
-    //     if (controlSDF->HasElement("jointName")) {
-    //         control.jointName = controlSDF->Get<std::string>("jointName");
-    //     } else {
-    //         gzerr << "[" << this->dataPtr->modelName << "] "
-    //               << "Please specify a jointName,"
-    //               << " where the control channel is attached.\n";
-    //     }
-
-    //     // Get the pointer to the joint.
-    //     control.joint = _model->GetJoint(control.jointName);
-    //     if (control.joint == nullptr) {
-    //         gzerr << "[" << this->dataPtr->modelName << "] "
-    //               << "Couldn't find specified joint ["
-    //               << control.jointName << "]. This plugin will not run.\n";
-    //         return;
-    //     }
-
-    //     if (controlSDF->HasElement("multiplier")) {
-    //         // overwrite turningDirection, deprecated.
-    //         control.multiplier = controlSDF->Get<double>("multiplier");
-    //     } else if (controlSDF->HasElement("turningDirection")) {
-    //         gzwarn << "[" << this->dataPtr->modelName << "] "
-    //                << "<turningDirection> is deprecated. Please use"
-    //                << " <multiplier>. Map 'cw' to '-1' and 'ccw' to '1'.\n";
-    //         std::string turningDirection = controlSDF->Get<std::string>(
-    //             "turningDirection");
-    //         // special cases mimic from controls_gazebo_plugins
-    //         if (turningDirection == "cw") {
-    //             control.multiplier = -1;
-    //         } else if (turningDirection == "ccw") {
-    //             control.multiplier = 1;
-    //         } else {
-    //             gzdbg << "[" << this->dataPtr->modelName << "] "
-    //                   << "not string, check turningDirection as float\n";
-    //             control.multiplier = controlSDF->Get<double>("turningDirection");
-    //         }
-    //     } else {
-    //         gzdbg << "[" << this->dataPtr->modelName << "] "
-    //               << "<multiplier> (or deprecated <turningDirection>) not specified,"
-    //               << " Default 1 (or deprecated <turningDirection> 'ccw').\n";
-    //         control.multiplier = 1;
-    //     }
-
-    //     if (controlSDF->HasElement("offset")) {
-    //         control.offset = controlSDF->Get<double>("offset");
-    //     } else {
-    //         gzdbg << "[" << this->dataPtr->modelName << "] "
-    //               << "<offset> not specified, default to 0.\n";
-    //         control.offset = 0;
-    //     }
-
-    //     control.rotorVelocitySlowdownSim = controlSDF->Get("rotorVelocitySlowdownSim", 1).first;
-
-    //     if (ignition::math::equal(control.rotorVelocitySlowdownSim, 0.0)) {
-    //         gzwarn << "[" << this->dataPtr->modelName << "] "
-    //                << "control for joint [" << control.jointName
-    //                << "] rotorVelocitySlowdownSim is zero,"
-    //                << " assume no slowdown.\n";
-    //         control.rotorVelocitySlowdownSim = 1.0;
-    //     }
-
-    //     control.frequencyCutoff = controlSDF->Get("frequencyCutoff", control.frequencyCutoff).first;
-    //     control.samplingRate = controlSDF->Get("samplingRate", control.samplingRate).first;
-
-    //     // use gazebo::math::Filter
-    //     control.filter.Fc(control.frequencyCutoff, control.samplingRate);
-
-    //     // initialize filter to zero value
-    //     control.filter.Set(0.0);
-
-    //     // note to use this filter, do
-    //     // stateFiltered = filter.Process(stateRaw);
-
-    //     // Overload the PID parameters if they are available.
-    //     double param;
-    //     // carry over from ArduCopter plugin
-    //     param = controlSDF->Get("vel_p_gain", control.pid.GetPGain()).first;
-    //     control.pid.SetPGain(param);
-
-    //     param = controlSDF->Get("vel_i_gain", control.pid.GetIGain()).first;
-    //     control.pid.SetIGain(param);
-
-    //     param = controlSDF->Get("vel_d_gain", control.pid.GetDGain()).first;
-    //     control.pid.SetDGain(param);
-
-    //     param = controlSDF->Get("vel_i_max", control.pid.GetIMax()).first;
-    //     control.pid.SetIMax(param);
-
-    //     param = controlSDF->Get("vel_i_min", control.pid.GetIMin()).first;
-    //     control.pid.SetIMin(param);
-
-    //     param = controlSDF->Get("vel_cmd_max", control.pid.GetCmdMax()).first;
-    //     control.pid.SetCmdMax(param);
-
-    //     param = controlSDF->Get("vel_cmd_min", control.pid.GetCmdMin()).first;
-    //     control.pid.SetCmdMin(param);
-
-    //     // new params, overwrite old params if exist
-    //     param = controlSDF->Get("p_gain", control.pid.GetPGain()).first;
-    //     control.pid.SetPGain(param);
-
-    //     param = controlSDF->Get("i_gain", control.pid.GetIGain()).first;
-    //     control.pid.SetIGain(param);
-
-    //     param = controlSDF->Get("d_gain", control.pid.GetDGain()).first;
-    //     control.pid.SetDGain(param);
-
-    //     param = controlSDF->Get("i_max", control.pid.GetIMax()).first;
-    //     control.pid.SetIMax(param);
-
-    //     param = controlSDF->Get("i_min", control.pid.GetIMin()).first;
-    //     control.pid.SetIMin(param);
-
-    //     param = controlSDF->Get("cmd_max", control.pid.GetCmdMax()).first;
-    //     control.pid.SetCmdMax(param);
-
-    //     param = controlSDF->Get("cmd_min", control.pid.GetCmdMin()).first;
-    //     control.pid.SetCmdMin(param);
-
-    //     // set pid initial command
-    //     control.pid.SetCmd(0.0);
-
-    //     this->dataPtr->controls.push_back(control);
-    //     controlSDF = controlSDF->GetNextElement("control");
-    // }
     if (_sdf->HasElement("motor_num")) {
         this->dataPtr->motor_num = _sdf->Get<int>("motor_num");
         ROS_INFO_STREAM("motor_num:" << this->dataPtr->motor_num);
@@ -646,10 +485,27 @@ void ArduRotorNormPlugin::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
         ROS_INFO_STREAM("motor_pub_name:" << this->dataPtr->motor_pub_name);
     }
 
-    this->dataPtr->motor_pub = this->rosNode->advertise<mav_msgs::Actuators>("/" + this->dataPtr->motor_pub_name, 10);
+    if (_sdf->HasElement("servo_num")) {
+        this->dataPtr->servo_num = _sdf->Get<int>("servo_num");
+        ROS_INFO_STREAM("servo_num:" << this->dataPtr->servo_num);
+    }
+
+    if (_sdf->HasElement("servo1_pub")) {
+        this->dataPtr->servo1_pub_name = _sdf->Get<std::string>("servo1_pub");
+        ROS_INFO_STREAM("servo1_pub_name:" << this->dataPtr->servo1_pub_name);
+    }
+
+    // if (_sdf->HasElement("servo2_pub")) {
+    //     this->dataPtr->servo2_pub_name = _sdf->Get<std::string>("servo2_pub");
+    //     ROS_INFO_STREAM("servo2_pub_name:" << this->dataPtr->servo2_pub_name);
+    // }
+
+    this->dataPtr->motor_pub  = this->rosNode->advertise<mav_msgs::Actuators>("/" + this->dataPtr->motor_pub_name, 10);
+    this->dataPtr->servo1_pub = this->rosNode->advertise<mav_msgs::Actuators>("/" + this->dataPtr->servo1_pub_name, 10);
+    // this->dataPtr->servo2_pub = this->rosNode->advertise<mav_msgs::Actuators>("/" + this->dataPtr->servo2_pub_name, 10);
 
     // Get sensors
-    std::string imuName = _sdf->Get("imuName", static_cast<std::string>("imu_sensor")).first;
+    std::string              imuName       = _sdf->Get("imuName", static_cast<std::string>("imu_sensor")).first;
     std::vector<std::string> imuScopedName = this->dataPtr->model->SensorScopedName(imuName);
 
     ROS_INFO_STREAM("imuName:" << imuName);
@@ -690,8 +546,7 @@ void ArduRotorNormPlugin::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
             // TODO: this fails for multi-nested models.
             // TODO: and transforms fail for rotated nested model,
             //       joints point the wrong way.
-            this->dataPtr->imuSensor
-                = std::dynamic_pointer_cast<sensors::ImuSensor>(sensors::SensorManager::Instance()->GetSensor(imuName));
+            this->dataPtr->imuSensor = std::dynamic_pointer_cast<sensors::ImuSensor>(sensors::SensorManager::Instance()->GetSensor(imuName));
         }
 
         if (!this->dataPtr->imuSensor) {
@@ -715,15 +570,14 @@ void ArduRotorNormPlugin::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
 
     // Listen to the update event. This event is broadcast every simulation
     // iteration.
-    this->dataPtr->updateConnection
-        = event::Events::ConnectWorldUpdateBegin(std::bind(&ArduRotorNormPlugin::OnUpdate, this));
+    this->dataPtr->updateConnection = event::Events::ConnectWorldUpdateBegin(std::bind(&ArduRotorTiltQuadcopter::OnUpdate, this));
 
     gzlog << "[" << this->dataPtr->modelName << "] "
           << "ArduPilot ready to fly. The force will be with you" << std::endl;
 }
 
 /////////////////////////////////////////////////
-void ArduRotorNormPlugin::OnUpdate()
+void ArduRotorTiltQuadcopter::OnUpdate()
 {
     std::lock_guard<std::mutex> lock(this->dataPtr->mutex);
 
@@ -742,7 +596,7 @@ void ArduRotorNormPlugin::OnUpdate()
 }
 
 /////////////////////////////////////////////////
-void ArduRotorNormPlugin::ResetPIDs()
+void ArduRotorTiltQuadcopter::ResetPIDs()
 {
     // Reset velocity PID for controls
     for (size_t i = 0; i < this->dataPtr->controls.size(); ++i) {
@@ -752,11 +606,11 @@ void ArduRotorNormPlugin::ResetPIDs()
 }
 
 /////////////////////////////////////////////////
-bool ArduRotorNormPlugin::InitArduPilotSockets(sdf::ElementPtr _sdf) const
+bool ArduRotorTiltQuadcopter::InitArduPilotSockets(sdf::ElementPtr _sdf) const
 {
-    this->dataPtr->fdm_addr = _sdf->Get("fdm_addr", static_cast<std::string>("127.0.0.1")).first;
-    this->dataPtr->listen_addr = _sdf->Get("listen_addr", static_cast<std::string>("127.0.0.1")).first;
-    this->dataPtr->fdm_port_in = _sdf->Get("fdm_port_in", static_cast<uint32_t>(9002)).first;
+    this->dataPtr->fdm_addr     = _sdf->Get("fdm_addr", static_cast<std::string>("127.0.0.1")).first;
+    this->dataPtr->listen_addr  = _sdf->Get("listen_addr", static_cast<std::string>("127.0.0.1")).first;
+    this->dataPtr->fdm_port_in  = _sdf->Get("fdm_port_in", static_cast<uint32_t>(9002)).first;
     this->dataPtr->fdm_port_out = _sdf->Get("fdm_port_out", static_cast<uint32_t>(9003)).first;
 
     if (!this->dataPtr->socket_in.Bind(this->dataPtr->listen_addr.c_str(), this->dataPtr->fdm_port_in)) {
@@ -777,28 +631,34 @@ bool ArduRotorNormPlugin::InitArduPilotSockets(sdf::ElementPtr _sdf) const
 }
 
 /////////////////////////////////////////////////
-void ArduRotorNormPlugin::ApplyMotorForces(const double _dt)
+void ArduRotorTiltQuadcopter::ApplyMotorForces(const double _dt)
 {
     mav_msgs::Actuators actuator_msg;
     actuator_msg.angular_velocities.clear();
-
-    if (this->dataPtr->motor_num == 4) {
-        // Preserve the legacy quadrotor output order used by existing models.
-        actuator_msg.angular_velocities.push_back(this->dataPtr->motor_speed[1 - 1]);
-        actuator_msg.angular_velocities.push_back(this->dataPtr->motor_speed[4 - 1]);
-        actuator_msg.angular_velocities.push_back(this->dataPtr->motor_speed[2 - 1]);
-        actuator_msg.angular_velocities.push_back(this->dataPtr->motor_speed[3 - 1]);
-    } else {
-        for (int i = 0; i < this->dataPtr->motor_num && i < MAX_MOTORS; ++i) {
-            actuator_msg.angular_velocities.push_back(this->dataPtr->motor_speed[i]);
-        }
-    }
-
+    actuator_msg.angular_velocities.push_back(this->dataPtr->motor_speed[1 - 1]);
+    actuator_msg.angular_velocities.push_back(this->dataPtr->motor_speed[2 - 1]);
+    actuator_msg.angular_velocities.push_back(this->dataPtr->motor_speed[3 - 1]);
+    actuator_msg.angular_velocities.push_back(this->dataPtr->motor_speed[4 - 1]);
+    actuator_msg.angular_velocities.push_back(this->dataPtr->motor_speed[5 - 1]);
+    actuator_msg.angular_velocities.push_back(this->dataPtr->motor_speed[6 - 1]);
+    actuator_msg.angular_velocities.push_back(this->dataPtr->motor_speed[7 - 1]);
+    actuator_msg.angular_velocities.push_back(this->dataPtr->motor_speed[8 - 1]);
     this->dataPtr->motor_pub.publish(actuator_msg);
+
+    for (int i = 0; i < this->dataPtr->servo_num; i++) {
+        this->dataPtr->servo1_speed[i] = (this->dataPtr->servo1_speed[i] - 1500) / 1000.0f * 135.0f / 57.3f;
+    }
+    mav_msgs::Actuators servo_msg;
+    servo_msg.angular_velocities.clear();
+    servo_msg.angular_velocities.push_back(this->dataPtr->servo1_speed[1 - 1]);
+    servo_msg.angular_velocities.push_back(this->dataPtr->servo1_speed[2 - 1]);
+    servo_msg.angular_velocities.push_back(this->dataPtr->servo1_speed[3 - 1]);
+    servo_msg.angular_velocities.push_back(this->dataPtr->servo1_speed[4 - 1]);
+    this->dataPtr->servo1_pub.publish(servo_msg);
 }
 
 /////////////////////////////////////////////////
-void ArduRotorNormPlugin::ReceiveMotorCommand()
+void ArduRotorTiltQuadcopter::ReceiveMotorCommand()
 {
     // Added detection for whether ArduPilot is online or not.
     // If ArduPilot is detected (receive of fdm packet from someone),
@@ -810,7 +670,7 @@ void ArduRotorNormPlugin::ReceiveMotorCommand()
     // missed receives before declaring the FCS offline.
 
     ServoPacket pkt;
-    uint32_t waitMs;
+    uint32_t    waitMs;
     if (this->dataPtr->arduPilotOnline) {
         // increase timeout for receive once we detect a packet from
         // ArduPilot FCS.
@@ -822,7 +682,7 @@ void ArduRotorNormPlugin::ReceiveMotorCommand()
     ssize_t recvSize = this->dataPtr->socket_in.Recv(&pkt, sizeof(ServoPacket), waitMs);
 
     // Drain the socket in the case we're backed up
-    int counter = 0;
+    int         counter = 0;
     ServoPacket last_pkt;
     while (true) {
         // last_pkt = pkt;
@@ -831,7 +691,7 @@ void ArduRotorNormPlugin::ReceiveMotorCommand()
             break;
         }
         counter++;
-        pkt = last_pkt;
+        pkt      = last_pkt;
         recvSize = recvSize_last;
     }
     if (counter > 0) {
@@ -849,39 +709,40 @@ void ArduRotorNormPlugin::ReceiveMotorCommand()
                    << this->dataPtr->connectionTimeoutMaxCount << "]\n";
             if (++this->dataPtr->connectionTimeoutCount > this->dataPtr->connectionTimeoutMaxCount) {
                 this->dataPtr->connectionTimeoutCount = 0;
-                this->dataPtr->arduPilotOnline = false;
+                this->dataPtr->arduPilotOnline        = false;
                 gzwarn << "[" << this->dataPtr->modelName << "] "
                        << "Broken ArduPilot connection, resetting motor control.\n";
                 this->ResetPIDs();
             }
         }
     } else {
-        const ssize_t expectedPktSize
-            = sizeof(pkt.motorSpeed[0]) * (this->dataPtr->motor_num + this->dataPtr->servo_num);
+        const ssize_t expectedPktSize = sizeof(pkt.motorSpeed[0]) * (this->dataPtr->motor_num + this->dataPtr->servo_num);
         if (recvSize < expectedPktSize) {
             gzerr << "[" << this->dataPtr->modelName << "] "
                   << "got less than model needs. Got: " << recvSize << "commands, expected size: " << expectedPktSize
                   << "\n";
         }
         const ssize_t recvChannels = recvSize / sizeof(pkt.motorSpeed[0]);
-        // for(unsigned int i = 0; i < recvChannels; ++i)
-        // {
-        //   gzdbg << "servo_command [" << i << "]: " << pkt.motorSpeed[i] << "\n";
-        // }
+
+        std::cout << "servo_command:";
+        for (unsigned int i = 0; i < recvChannels; ++i) {
+            std::cout << pkt.motorSpeed[i] << " ";
+        }
+        std::cout << "\r\n";
 
         if (!this->dataPtr->arduPilotOnline) {
             gzdbg << "[" << this->dataPtr->modelName << "] "
                   << "ArduPilot controller online detected.\n";
             // made connection, set some flags
             this->dataPtr->connectionTimeoutCount = 0;
-            this->dataPtr->arduPilotOnline = true;
+            this->dataPtr->arduPilotOnline        = true;
         }
 
         // compute command based on requested motorSpeed
-        // std::cout << "motorSpeed:";
+        // std::cout << "motorSpeed:\t";
         for (unsigned i = 0; i < this->dataPtr->motor_num; ++i) {
             if (i < MAX_MOTORS) {
-                const double cmd = ignition::math::clamp(pkt.motorSpeed[i], -1.0f, 1.0f);
+                const double cmd              = ignition::math::clamp(pkt.motorSpeed[i], 0.0f, 1.0f);
                 this->dataPtr->motor_speed[i] = cmd * 1000.0f;
 
                 // std::cout << cmd << "\t";
@@ -890,12 +751,21 @@ void ArduRotorNormPlugin::ReceiveMotorCommand()
                       << "too many motors, skipping [" << i << " > " << MAX_MOTORS << "].\n";
             }
         }
-        std::cout << "\n";
+
+        for (unsigned i = 0; i < this->dataPtr->servo_num; ++i) {
+            if (i < MAX_MOTORS) {
+                double cmd                     = ignition::math::clamp(pkt.motorSpeed[i + this->dataPtr->motor_num], -2.0f, 2.0f);
+                this->dataPtr->servo1_speed[i] = (cmd - 0.5f) * 1000.0f + 1500.0f;
+            } else {
+                gzerr << "[" << this->dataPtr->modelName << "] "
+                      << "too many motors, skipping [" << i << " > " << MAX_MOTORS << "].\n";
+            }
+        }
     }
 }
 
 /////////////////////////////////////////////////
-void ArduRotorNormPlugin::SendState() const
+void ArduRotorTiltQuadcopter::SendState() const
 {
     // send_fdm
     fdmPacket pkt;
@@ -946,8 +816,7 @@ void ArduRotorNormPlugin::SendState() const
     // adding modelXYZToAirplaneXForwardZDown rotates
     //   from: model XYZ
     //   to: airplane x-forward, y-left, z-down
-    const ignition::math::Pose3d gazeboXYZToModelXForwardZDown
-        = this->modelXYZToAirplaneXForwardZDown + this->dataPtr->model->WorldPose();
+    const ignition::math::Pose3d gazeboXYZToModelXForwardZDown = this->modelXYZToAirplaneXForwardZDown + this->dataPtr->model->WorldPose();
 
     // get transform from world NED to Model frame
     const ignition::math::Pose3d NEDToModelXForwardZUp = gazeboXYZToModelXForwardZDown - this->gazeboXYZToNED;
@@ -979,10 +848,10 @@ void ArduRotorNormPlugin::SendState() const
     // or...
     // Get model velocity in NED frame
     const ignition::math::Vector3d velGazeboWorldFrame = this->dataPtr->model->GetLink()->WorldLinearVel();
-    const ignition::math::Vector3d velNEDFrame = this->gazeboXYZToNED.Rot().RotateVectorReverse(velGazeboWorldFrame);
-    pkt.velocityXYZ[0] = velNEDFrame.X();
-    pkt.velocityXYZ[1] = velNEDFrame.Y();
-    pkt.velocityXYZ[2] = velNEDFrame.Z();
+    const ignition::math::Vector3d velNEDFrame         = this->gazeboXYZToNED.Rot().RotateVectorReverse(velGazeboWorldFrame);
+    pkt.velocityXYZ[0]                                 = velNEDFrame.X();
+    pkt.velocityXYZ[1]                                 = velNEDFrame.Y();
+    pkt.velocityXYZ[2]                                 = velNEDFrame.Z();
     /* NOT MERGED IN MASTER YET
   if (!this->dataPtr->gpsSensor)
     {
