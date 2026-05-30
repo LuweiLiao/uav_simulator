@@ -20,6 +20,40 @@ front_rod_ixx = 0.1
 front_rod_iyy = 0.1
 front_rod_izz = 0.1
 
+front_frame_near_width = 0.25
+front_frame_near_height = 0.18
+front_frame_far_width = 0.45
+front_frame_far_height = 0.28
+front_frame_radius = 0.015
+front_frame_material = "Gazebo/Black"
+
+front_frame_near_x = -front_rod_length / 2.0
+front_frame_far_x = front_rod_length / 2.0
+front_frame_points = {
+  "near_left_top" => [front_frame_near_x, -front_frame_near_width / 2.0, front_frame_near_height / 2.0],
+  "near_right_top" => [front_frame_near_x, front_frame_near_width / 2.0, front_frame_near_height / 2.0],
+  "near_left_bottom" => [front_frame_near_x, -front_frame_near_width / 2.0, -front_frame_near_height / 2.0],
+  "near_right_bottom" => [front_frame_near_x, front_frame_near_width / 2.0, -front_frame_near_height / 2.0],
+  "far_left_top" => [front_frame_far_x, -front_frame_far_width / 2.0, front_frame_far_height / 2.0],
+  "far_right_top" => [front_frame_far_x, front_frame_far_width / 2.0, front_frame_far_height / 2.0],
+  "far_left_bottom" => [front_frame_far_x, -front_frame_far_width / 2.0, -front_frame_far_height / 2.0],
+  "far_right_bottom" => [front_frame_far_x, front_frame_far_width / 2.0, -front_frame_far_height / 2.0],
+}
+front_frame_bars = [
+  {:name => "near_top", :from => "near_left_top", :to => "near_right_top"},
+  {:name => "near_bottom", :from => "near_left_bottom", :to => "near_right_bottom"},
+  {:name => "near_left", :from => "near_left_top", :to => "near_left_bottom"},
+  {:name => "near_right", :from => "near_right_top", :to => "near_right_bottom"},
+  {:name => "far_top", :from => "far_left_top", :to => "far_right_top"},
+  {:name => "far_bottom", :from => "far_left_bottom", :to => "far_right_bottom"},
+  {:name => "far_left", :from => "far_left_top", :to => "far_left_bottom"},
+  {:name => "far_right", :from => "far_right_top", :to => "far_right_bottom"},
+  {:name => "left_top", :from => "near_left_top", :to => "far_left_top"},
+  {:name => "right_top", :from => "near_right_top", :to => "far_right_top"},
+  {:name => "left_bottom", :from => "near_left_bottom", :to => "far_left_bottom"},
+  {:name => "right_bottom", :from => "near_right_bottom", :to => "far_right_bottom"},
+]
+
 
 tilt1_motors={
 	"0" => {:tilt1_dx => tilt1_pos_dx,      :tilt1_dy => -tilt1_pos_dy,     :tilt1_dz => tilt1_pos_dz,      :tilt1_rot => 0,        :dir => 1,    :link_name => "tilt_tricopter_tilt_front_0",  :link => "tilt_tricopter_tilt_front"},
@@ -96,6 +130,45 @@ prop_motors={
             </script>
           </material>
         </visual>
+        <%
+          front_frame_bars.each do |bar|
+            start_point = front_frame_points[bar[:from]]
+            end_point = front_frame_points[bar[:to]]
+            dx = end_point[0] - start_point[0]
+            dy = end_point[1] - start_point[1]
+            dz = end_point[2] - start_point[2]
+            bar_length = Math.sqrt(dx * dx + dy * dy + dz * dz)
+            bar_mid_x = (start_point[0] + end_point[0]) / 2.0
+            bar_mid_y = (start_point[1] + end_point[1]) / 2.0
+            bar_mid_z = (start_point[2] + end_point[2]) / 2.0
+            bar_roll = 0
+            bar_pitch = Math.atan2(Math.sqrt(dx * dx + dy * dy), dz)
+            bar_yaw = Math.atan2(dy, dx)
+        %>
+        <collision name=<%= '"front_frame_' + bar[:name] + '_collision"' %>>
+          <pose><%= bar_mid_x %> <%= bar_mid_y %> <%= bar_mid_z %> <%= bar_roll %> <%= bar_pitch %> <%= bar_yaw %></pose>
+          <geometry>
+            <cylinder>
+              <length><%= bar_length %></length>
+              <radius><%= front_frame_radius %></radius>
+            </cylinder>
+          </geometry>
+        </collision>
+        <visual name=<%= '"front_frame_' + bar[:name] + '_visual"' %>>
+          <pose><%= bar_mid_x %> <%= bar_mid_y %> <%= bar_mid_z %> <%= bar_roll %> <%= bar_pitch %> <%= bar_yaw %></pose>
+          <geometry>
+            <cylinder>
+              <length><%= bar_length %></length>
+              <radius><%= front_frame_radius %></radius>
+            </cylinder>
+          </geometry>
+          <material>
+            <script>
+              <name><%= front_frame_material %></name>
+            </script>
+          </material>
+        </visual>
+        <% end %>
       </link>
       <joint name="front_rod_joint" type="fixed">
         <parent>tilt_tricopter_base::base</parent>
@@ -218,6 +291,13 @@ prop_motors={
   <servo_num>3</servo_num>
   <motor_pub>/gazebo/command/prop_speed</motor_pub>
   <servo1_pub>/gazebo/command/tilt1_pos</servo1_pub>
+  <frontRodLinkName>front_rod</frontRodLinkName>
+  <frontRodCollisionName>front_rod_collision</frontRodCollisionName>
+  <frontRodContactForceXTopic>/tilt_tricopter/front_rod/contact_force_x</frontRodContactForceXTopic>
+  <frontRodContactHoldMs>50.0</frontRodContactHoldMs>
+  <cmcuUdpBindAddr>127.0.0.1</cmcuUdpBindAddr>
+  <cmcuUdpBindPort>9024</cmcuUdpBindPort>
+  <cmcuForceScale>1.0</cmcuForceScale>
   <imuName>tilt_tricopter_base::imu_link::imu_sensor</imuName>
   <connectionTimeoutMaxCount>5</connectionTimeoutMaxCount>
 </plugin>

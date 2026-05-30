@@ -97,6 +97,14 @@ private:
 private:
     void SendState() const;
 
+    /// \brief Update cached external contact wrench acting on front_rod.
+private:
+    void UpdateFrontRodContactWrench();
+
+    /// \brief Serve CMCU-06A Modbus-RTU requests over UDP.
+private:
+    void ProcessCmcuUdp();
+
     /// \brief Init ardupilot socket
 private:
     bool InitArduPilotSockets(sdf::ElementPtr _sdf) const;

@@ -45,6 +45,295 @@
             </script>
           </material>
         </visual>
+        
+        <collision name="front_frame_near_top_collision">
+          <pose>-0.5 0.0 0.09 0 1.5707963267948966 1.5707963267948966</pose>
+          <geometry>
+            <cylinder>
+              <length>0.25</length>
+              <radius>0.015</radius>
+            </cylinder>
+          </geometry>
+        </collision>
+        <visual name="front_frame_near_top_visual">
+          <pose>-0.5 0.0 0.09 0 1.5707963267948966 1.5707963267948966</pose>
+          <geometry>
+            <cylinder>
+              <length>0.25</length>
+              <radius>0.015</radius>
+            </cylinder>
+          </geometry>
+          <material>
+            <script>
+              <name>Gazebo/Black</name>
+            </script>
+          </material>
+        </visual>
+        
+        <collision name="front_frame_near_bottom_collision">
+          <pose>-0.5 0.0 -0.09 0 1.5707963267948966 1.5707963267948966</pose>
+          <geometry>
+            <cylinder>
+              <length>0.25</length>
+              <radius>0.015</radius>
+            </cylinder>
+          </geometry>
+        </collision>
+        <visual name="front_frame_near_bottom_visual">
+          <pose>-0.5 0.0 -0.09 0 1.5707963267948966 1.5707963267948966</pose>
+          <geometry>
+            <cylinder>
+              <length>0.25</length>
+              <radius>0.015</radius>
+            </cylinder>
+          </geometry>
+          <material>
+            <script>
+              <name>Gazebo/Black</name>
+            </script>
+          </material>
+        </visual>
+        
+        <collision name="front_frame_near_left_collision">
+          <pose>-0.5 -0.125 0.0 0 3.141592653589793 0.0</pose>
+          <geometry>
+            <cylinder>
+              <length>0.18</length>
+              <radius>0.015</radius>
+            </cylinder>
+          </geometry>
+        </collision>
+        <visual name="front_frame_near_left_visual">
+          <pose>-0.5 -0.125 0.0 0 3.141592653589793 0.0</pose>
+          <geometry>
+            <cylinder>
+              <length>0.18</length>
+              <radius>0.015</radius>
+            </cylinder>
+          </geometry>
+          <material>
+            <script>
+              <name>Gazebo/Black</name>
+            </script>
+          </material>
+        </visual>
+        
+        <collision name="front_frame_near_right_collision">
+          <pose>-0.5 0.125 0.0 0 3.141592653589793 0.0</pose>
+          <geometry>
+            <cylinder>
+              <length>0.18</length>
+              <radius>0.015</radius>
+            </cylinder>
+          </geometry>
+        </collision>
+        <visual name="front_frame_near_right_visual">
+          <pose>-0.5 0.125 0.0 0 3.141592653589793 0.0</pose>
+          <geometry>
+            <cylinder>
+              <length>0.18</length>
+              <radius>0.015</radius>
+            </cylinder>
+          </geometry>
+          <material>
+            <script>
+              <name>Gazebo/Black</name>
+            </script>
+          </material>
+        </visual>
+        
+        <collision name="front_frame_far_top_collision">
+          <pose>0.5 0.0 0.14 0 1.5707963267948966 1.5707963267948966</pose>
+          <geometry>
+            <cylinder>
+              <length>0.45</length>
+              <radius>0.015</radius>
+            </cylinder>
+          </geometry>
+        </collision>
+        <visual name="front_frame_far_top_visual">
+          <pose>0.5 0.0 0.14 0 1.5707963267948966 1.5707963267948966</pose>
+          <geometry>
+            <cylinder>
+              <length>0.45</length>
+              <radius>0.015</radius>
+            </cylinder>
+          </geometry>
+          <material>
+            <script>
+              <name>Gazebo/Black</name>
+            </script>
+          </material>
+        </visual>
+        
+        <collision name="front_frame_far_bottom_collision">
+          <pose>0.5 0.0 -0.14 0 1.5707963267948966 1.5707963267948966</pose>
+          <geometry>
+            <cylinder>
+              <length>0.45</length>
+              <radius>0.015</radius>
+            </cylinder>
+          </geometry>
+        </collision>
+        <visual name="front_frame_far_bottom_visual">
+          <pose>0.5 0.0 -0.14 0 1.5707963267948966 1.5707963267948966</pose>
+          <geometry>
+            <cylinder>
+              <length>0.45</length>
+              <radius>0.015</radius>
+            </cylinder>
+          </geometry>
+          <material>
+            <script>
+              <name>Gazebo/Black</name>
+            </script>
+          </material>
+        </visual>
+        
+        <collision name="front_frame_far_left_collision">
+          <pose>0.5 -0.225 0.0 0 3.141592653589793 0.0</pose>
+          <geometry>
+            <cylinder>
+              <length>0.28</length>
+              <radius>0.015</radius>
+            </cylinder>
+          </geometry>
+        </collision>
+        <visual name="front_frame_far_left_visual">
+          <pose>0.5 -0.225 0.0 0 3.141592653589793 0.0</pose>
+          <geometry>
+            <cylinder>
+              <length>0.28</length>
+              <radius>0.015</radius>
+            </cylinder>
+          </geometry>
+          <material>
+            <script>
+              <name>Gazebo/Black</name>
+            </script>
+          </material>
+        </visual>
+        
+        <collision name="front_frame_far_right_collision">
+          <pose>0.5 0.225 0.0 0 3.141592653589793 0.0</pose>
+          <geometry>
+            <cylinder>
+              <length>0.28</length>
+              <radius>0.015</radius>
+            </cylinder>
+          </geometry>
+        </collision>
+        <visual name="front_frame_far_right_visual">
+          <pose>0.5 0.225 0.0 0 3.141592653589793 0.0</pose>
+          <geometry>
+            <cylinder>
+              <length>0.28</length>
+              <radius>0.015</radius>
+            </cylinder>
+          </geometry>
+          <material>
+            <script>
+              <name>Gazebo/Black</name>
+            </script>
+          </material>
+        </visual>
+        
+        <collision name="front_frame_left_top_collision">
+          <pose>0.0 -0.175 0.115 0 1.5210854558165732 -0.09966865249116204</pose>
+          <geometry>
+            <cylinder>
+              <length>1.0062305898749053</length>
+              <radius>0.015</radius>
+            </cylinder>
+          </geometry>
+        </collision>
+        <visual name="front_frame_left_top_visual">
+          <pose>0.0 -0.175 0.115 0 1.5210854558165732 -0.09966865249116204</pose>
+          <geometry>
+            <cylinder>
+              <length>1.0062305898749053</length>
+              <radius>0.015</radius>
+            </cylinder>
+          </geometry>
+          <material>
+            <script>
+              <name>Gazebo/Black</name>
+            </script>
+          </material>
+        </visual>
+        
+        <collision name="front_frame_right_top_collision">
+          <pose>0.0 0.175 0.115 0 1.5210854558165732 0.09966865249116204</pose>
+          <geometry>
+            <cylinder>
+              <length>1.0062305898749053</length>
+              <radius>0.015</radius>
+            </cylinder>
+          </geometry>
+        </collision>
+        <visual name="front_frame_right_top_visual">
+          <pose>0.0 0.175 0.115 0 1.5210854558165732 0.09966865249116204</pose>
+          <geometry>
+            <cylinder>
+              <length>1.0062305898749053</length>
+              <radius>0.015</radius>
+            </cylinder>
+          </geometry>
+          <material>
+            <script>
+              <name>Gazebo/Black</name>
+            </script>
+          </material>
+        </visual>
+        
+        <collision name="front_frame_left_bottom_collision">
+          <pose>0.0 -0.175 -0.115 0 1.6205071977732202 -0.09966865249116204</pose>
+          <geometry>
+            <cylinder>
+              <length>1.0062305898749053</length>
+              <radius>0.015</radius>
+            </cylinder>
+          </geometry>
+        </collision>
+        <visual name="front_frame_left_bottom_visual">
+          <pose>0.0 -0.175 -0.115 0 1.6205071977732202 -0.09966865249116204</pose>
+          <geometry>
+            <cylinder>
+              <length>1.0062305898749053</length>
+              <radius>0.015</radius>
+            </cylinder>
+          </geometry>
+          <material>
+            <script>
+              <name>Gazebo/Black</name>
+            </script>
+          </material>
+        </visual>
+        
+        <collision name="front_frame_right_bottom_collision">
+          <pose>0.0 0.175 -0.115 0 1.6205071977732202 0.09966865249116204</pose>
+          <geometry>
+            <cylinder>
+              <length>1.0062305898749053</length>
+              <radius>0.015</radius>
+            </cylinder>
+          </geometry>
+        </collision>
+        <visual name="front_frame_right_bottom_visual">
+          <pose>0.0 0.175 -0.115 0 1.6205071977732202 0.09966865249116204</pose>
+          <geometry>
+            <cylinder>
+              <length>1.0062305898749053</length>
+              <radius>0.015</radius>
+            </cylinder>
+          </geometry>
+          <material>
+            <script>
+              <name>Gazebo/Black</name>
+            </script>
+          </material>
+        </visual>
+        
       </link>
       <joint name="front_rod_joint" type="fixed">
         <parent>tilt_tricopter_base::base</parent>
@@ -434,6 +723,13 @@
   <servo_num>3</servo_num>
   <motor_pub>/gazebo/command/prop_speed</motor_pub>
   <servo1_pub>/gazebo/command/tilt1_pos</servo1_pub>
+  <frontRodLinkName>front_rod</frontRodLinkName>
+  <frontRodCollisionName>front_rod_collision</frontRodCollisionName>
+  <frontRodContactForceXTopic>/tilt_tricopter/front_rod/contact_force_x</frontRodContactForceXTopic>
+  <frontRodContactHoldMs>50.0</frontRodContactHoldMs>
+  <cmcuUdpBindAddr>127.0.0.1</cmcuUdpBindAddr>
+  <cmcuUdpBindPort>9024</cmcuUdpBindPort>
+  <cmcuForceScale>1.0</cmcuForceScale>
   <imuName>tilt_tricopter_base::imu_link::imu_sensor</imuName>
   <connectionTimeoutMaxCount>5</connectionTimeoutMaxCount>
 </plugin>

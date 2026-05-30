@@ -11,6 +11,7 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   sensor_msgs
   geometry_msgs
+  std_msgs
   mav_msgs
 )
 
@@ -21,6 +22,7 @@ find_package(Eigen REQUIRED)
 # Load catkin and all dependencies required for this package
 find_package(catkin REQUIRED COMPONENTS
   roscpp
+  std_msgs
   gazebo_ros
   gazebo_plugins
 )
@@ -28,7 +30,7 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
   INCLUDE_DIRS include ${Eigen_INCLUDE_DIRS}
   # LIBRARIES pid 
-  CATKIN_DEPENDS roscpp geometry_msgs gazebo_plugins mav_msgs
+  CATKIN_DEPENDS roscpp geometry_msgs gazebo_plugins mav_msgs std_msgs
   DEPENDS Eigen3
 )
 
