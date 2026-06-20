@@ -34,6 +34,7 @@
   <depend>octomap</depend>
   <depend>rosbag</depend>
   <depend>roscpp</depend>
+  <depend>std_msgs</depend>
   <depend>std_srvs</depend>
   <depend>tf</depend>
   <depend>yaml-cpp</depend>

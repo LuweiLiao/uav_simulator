@@ -54,7 +54,7 @@
         <timeConstantDown>0.025</timeConstantDown>
         <maxRotVelocity>1000</maxRotVelocity>
         <motorConstant>8.599e-05</motorConstant>
-        <momentConstant>0.25</momentConstant>
+        <momentConstant>0.1</momentConstant>
         <commandSubTopic>/gazebo/command/prop_speed</commandSubTopic>
         <motorNumber>0</motorNumber>
         <rotorDragCoefficient>0.000806428</rotorDragCoefficient>
@@ -88,7 +88,7 @@
         <timeConstantDown>0.025</timeConstantDown>
         <maxRotVelocity>1000</maxRotVelocity>
         <motorConstant>8.599e-05</motorConstant>
-        <momentConstant>0.25</momentConstant>
+        <momentConstant>0.1</momentConstant>
         <commandSubTopic>/gazebo/command/prop_speed</commandSubTopic>
         <motorNumber>1</motorNumber>
         <rotorDragCoefficient>0.000806428</rotorDragCoefficient>
@@ -122,7 +122,7 @@
         <timeConstantDown>0.025</timeConstantDown>
         <maxRotVelocity>1000</maxRotVelocity>
         <motorConstant>8.599e-05</motorConstant>
-        <momentConstant>0.25</momentConstant>
+        <momentConstant>0.1</momentConstant>
         <commandSubTopic>/gazebo/command/prop_speed</commandSubTopic>
         <motorNumber>2</motorNumber>
         <rotorDragCoefficient>0.000806428</rotorDragCoefficient>
@@ -156,7 +156,7 @@
         <timeConstantDown>0.025</timeConstantDown>
         <maxRotVelocity>1000</maxRotVelocity>
         <motorConstant>8.599e-05</motorConstant>
-        <momentConstant>0.25</momentConstant>
+        <momentConstant>0.1</momentConstant>
         <commandSubTopic>/gazebo/command/prop_speed</commandSubTopic>
         <motorNumber>3</motorNumber>
         <rotorDragCoefficient>0.000806428</rotorDragCoefficient>

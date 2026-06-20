@@ -81,11 +81,11 @@
     </model>
 
 
-    <model name="arduiwp_demo">
+    <model name="usl_iwp">
       <include>
-        <uri>model://arduiwp</uri>
+        <uri>model://usl_iwp</uri>
         <pose>0 0 0.360877 0 0 0</pose>
-        <name>arduiwp</name>
+        <name>usl_iwp</name>
       </include>
     </model>
 

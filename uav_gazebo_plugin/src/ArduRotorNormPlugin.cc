@@ -781,10 +781,18 @@ void ArduRotorNormPlugin::ApplyMotorForces(const double _dt)
 {
     mav_msgs::Actuators actuator_msg;
     actuator_msg.angular_velocities.clear();
-    actuator_msg.angular_velocities.push_back(this->dataPtr->motor_speed[1 - 1]);
-    actuator_msg.angular_velocities.push_back(this->dataPtr->motor_speed[4 - 1]);
-    actuator_msg.angular_velocities.push_back(this->dataPtr->motor_speed[2 - 1]);
-    actuator_msg.angular_velocities.push_back(this->dataPtr->motor_speed[3 - 1]);
+
+    if (this->dataPtr->motor_num == 4) {
+        // Preserve the legacy quadrotor output order used by existing models.
+        actuator_msg.angular_velocities.push_back(this->dataPtr->motor_speed[1 - 1]);
+        actuator_msg.angular_velocities.push_back(this->dataPtr->motor_speed[4 - 1]);
+        actuator_msg.angular_velocities.push_back(this->dataPtr->motor_speed[2 - 1]);
+        actuator_msg.angular_velocities.push_back(this->dataPtr->motor_speed[3 - 1]);
+    } else {
+        for (int i = 0; i < this->dataPtr->motor_num && i < MAX_MOTORS; ++i) {
+            actuator_msg.angular_velocities.push_back(this->dataPtr->motor_speed[i]);
+        }
+    }
 
     this->dataPtr->motor_pub.publish(actuator_msg);
 }
@@ -870,13 +878,13 @@ void ArduRotorNormPlugin::ReceiveMotorCommand()
         }
 
         // compute command based on requested motorSpeed
-        std::cout << "motorSpeed:";
+        // std::cout << "motorSpeed:";
         for (unsigned i = 0; i < this->dataPtr->motor_num; ++i) {
             if (i < MAX_MOTORS) {
                 const double cmd = ignition::math::clamp(pkt.motorSpeed[i], -1.0f, 1.0f);
                 this->dataPtr->motor_speed[i] = cmd * 1000.0f;
 
-                std::cout << cmd << "\t";
+                // std::cout << cmd << "\t";
             } else {
                 gzerr << "[" << this->dataPtr->modelName << "] "
                       << "too many motors, skipping [" << i << " > " << MAX_MOTORS << "].\n";

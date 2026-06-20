@@ -14,8 +14,16 @@
  * limitations under the License.
  *
  */
+#include <array>
+#include <cerrno>
+#include <cmath>
+#include <cstddef>
+#include <cstdint>
+#include <cstring>
 #include <fcntl.h>
 #include <functional>
+#include <limits>
+#include <stddef.h>
 #ifdef _WIN32
 # include <Winsock2.h>
 # include <Ws2def.h>
@@ -27,6 +35,7 @@ using raw_type = char;
 # include <netinet/in.h>
 # include <netinet/tcp.h>
 # include <sys/socket.h>
+# include <unistd.h>
 using raw_type = void;
 #endif
 
@@ -44,6 +53,7 @@ typedef SSIZE_T ssize_t;
 #include <ignition/math/Filter.hh>
 #include <mutex>
 #include <sdf/sdf.hh>
+#include <std_msgs/Float64.h>
 #include <string>
 #include <vector>
 
@@ -52,6 +62,65 @@ typedef SSIZE_T ssize_t;
 using namespace gazebo;
 
 GZ_REGISTER_MODEL_PLUGIN(ArduRotorTiltTricopter)
+
+namespace {
+constexpr uint8_t kCmcuAddress = 0x01;
+constexpr uint8_t kModbusReadHoldingRegisters = 0x03;
+constexpr uint8_t kModbusWriteSingleRegister = 0x06;
+constexpr uint16_t kCmcuFinalDataRegister = 0;
+constexpr uint16_t kCmcuFinalDataRegisterCount = 2;
+constexpr uint16_t kCmcuTriggerRegister = 21;
+constexpr uint16_t kCmcuTriggerTare = 1;
+constexpr size_t kCmcuRequestLength = 8;
+constexpr size_t kCmcuReadResponseLength = 9;
+constexpr double kNewtonToGramForce = 1000.0 / 9.80665;
+
+uint16_t Crc16Modbus(const uint8_t* _buf, const size_t _len)
+{
+    uint16_t crc = 0xFFFF;
+    for (size_t i = 0; i < _len; ++i) {
+        crc ^= _buf[i];
+        for (uint8_t bit = 0; bit < 8; ++bit) {
+            if (crc & 1) {
+                crc = (crc >> 1) ^ 0xA001;
+            } else {
+                crc >>= 1;
+            }
+        }
+    }
+    return crc;
+}
+
+void AppendModbusCrc(uint8_t* _buf, const size_t _lenWithoutCrc)
+{
+    const uint16_t crc = Crc16Modbus(_buf, _lenWithoutCrc);
+    _buf[_lenWithoutCrc] = static_cast<uint8_t>(crc & 0xFF);
+    _buf[_lenWithoutCrc + 1] = static_cast<uint8_t>(crc >> 8);
+}
+
+bool HasValidModbusCrc(const uint8_t* _buf, const size_t _len)
+{
+    if (_len < 2) {
+        return false;
+    }
+
+    const uint16_t expected = Crc16Modbus(_buf, _len - 2);
+    const uint16_t received = static_cast<uint16_t>(_buf[_len - 2]) |
+        (static_cast<uint16_t>(_buf[_len - 1]) << 8);
+    return expected == received;
+}
+
+uint16_t ReadBigEndian16(const uint8_t* _buf)
+{
+    return (static_cast<uint16_t>(_buf[0]) << 8) | _buf[1];
+}
+
+void WriteBigEndian16(uint8_t* _buf, const uint16_t _value)
+{
+    _buf[0] = static_cast<uint8_t>(_value >> 8);
+    _buf[1] = static_cast<uint8_t>(_value & 0xFF);
+}
+}
 
 /// \brief A servo packet.
 struct ServoPacket {
@@ -290,6 +359,23 @@ public:
 public:
     ssize_t Send(const void* _buf, size_t _size) { return send(this->fd, _buf, _size, 0); }
 
+    /// \brief Send data to a UDP peer.
+    /// \param[in] _buf Data buffer.
+    /// \param[in] _size Size of the buffer.
+    /// \param[in] _sockaddr Destination socket address.
+    /// \return Bytes sent, or -1 on failure.
+public:
+    ssize_t SendTo(const void* _buf, size_t _size, const struct sockaddr_in& _sockaddr)
+    {
+#ifdef _WIN32
+        return sendto(this->fd, reinterpret_cast<const char*>(_buf), _size, 0,
+            reinterpret_cast<const struct sockaddr*>(&_sockaddr), sizeof(_sockaddr));
+#else
+        return sendto(this->fd, _buf, _size, 0,
+            reinterpret_cast<const struct sockaddr*>(&_sockaddr), sizeof(_sockaddr));
+#endif
+    }
+
     /// \brief Receive data
     /// \param[out] _buf Buffer that receives the data.
     /// \param[in] _size Size of the buffer.
@@ -314,6 +400,37 @@ public:
         return recv(this->fd, reinterpret_cast<char*>(_buf), _size, 0);
 #else
         return recv(this->fd, _buf, _size, 0);
+#endif
+    }
+
+    /// \brief Receive one UDP datagram and remember its source address.
+    /// \param[out] _buf Buffer that receives the data.
+    /// \param[in] _size Size of the buffer.
+    /// \param[out] _sockaddr Source socket address.
+    /// \param[in] _timeoutMS Milliseconds to wait for data.
+public:
+    ssize_t RecvFrom(void* _buf, const size_t _size, struct sockaddr_in& _sockaddr, uint32_t _timeoutMs)
+    {
+        fd_set         fds;
+        struct timeval tv;
+
+        FD_ZERO(&fds);
+        FD_SET(this->fd, &fds);
+
+        tv.tv_sec  = _timeoutMs / 1000;
+        tv.tv_usec = (_timeoutMs % 1000) * 1000UL;
+
+        if (select(this->fd + 1, &fds, NULL, NULL, &tv) != 1) {
+            return -1;
+        }
+
+        socklen_t sockaddrLen = sizeof(_sockaddr);
+#ifdef _WIN32
+        return recvfrom(this->fd, reinterpret_cast<char*>(_buf), _size, 0,
+            reinterpret_cast<struct sockaddr*>(&_sockaddr), &sockaddrLen);
+#else
+        return recvfrom(this->fd, _buf, _size, 0,
+            reinterpret_cast<struct sockaddr*>(&_sockaddr), &sockaddrLen);
 #endif
     }
 
@@ -356,6 +473,10 @@ public:
 public:
     ArduPilotSocketPrivate socket_out;
 
+    /// \brief CMCU-06A Modbus-RTU UDP serial socket.
+public:
+    ArduPilotSocketPrivate cmcu_socket;
+
     /// \brief Ardupilot address
 public:
     std::string fdm_addr;
@@ -384,6 +505,66 @@ public:
 public:
     sensors::RaySensorPtr rangefinderSensor;
 
+    /// \brief Contact manager used to read contact wrenches.
+public:
+    physics::ContactManager* contactMgr = nullptr;
+
+    /// \brief Collision used to measure external wrench on the front rod.
+public:
+    physics::CollisionPtr frontRodCollision;
+
+    /// \brief Link frame name for contact wrench output.
+public:
+    std::string frontRodFrameName;
+
+    /// \brief Scoped collision name for front_rod_collision.
+public:
+    std::string frontRodCollisionScopedName;
+
+    /// \brief External force acting on front_rod, expressed in world frame.
+public:
+    ignition::math::Vector3d frontRodExternalForceWorld;
+
+    /// \brief External torque acting on front_rod, expressed in world frame.
+public:
+    ignition::math::Vector3d frontRodExternalTorqueWorld;
+
+    /// \brief External force along the vehicle body x-axis.
+public:
+    double frontRodExternalForceBodyX = 0.0;
+
+    /// \brief Last valid external force along the vehicle body x-axis.
+public:
+    double frontRodLastContactForceBodyX = 0.0;
+
+    /// \brief Sim time when front_rod last had contact data.
+public:
+    gazebo::common::Time frontRodLastContactTime;
+
+    /// \brief True after at least one valid contact update.
+public:
+    bool frontRodHasHeldContact = false;
+
+    /// \brief Time to hold the last contact force across transient contact gaps.
+public:
+    double frontRodContactHoldMs = 50.0;
+
+    /// \brief CMCU-06A UDP bind address.
+public:
+    std::string cmcuUdpBindAddr = "127.0.0.1";
+
+    /// \brief CMCU-06A UDP bind port.
+public:
+    uint16_t cmcuUdpBindPort = 9024;
+
+    /// \brief Additional scale applied after converting body-x force to gram-force.
+public:
+    double cmcuForceScale = 1.0;
+
+    /// \brief Force offset captured by the CMCU tare command.
+public:
+    double cmcuTareOffset = 0.0;
+
     /// \brief false before ardupilot controller is online
     /// to allow gazebo to continue without waiting
 public:
@@ -411,6 +592,9 @@ public:
 
     ros::Publisher servo2_pub;
     std::string    servo2_pub_name;
+
+    ros::Publisher front_rod_contact_force_x_pub;
+    std::string    front_rod_contact_force_x_topic;
 
     int motor_num;
 
@@ -504,6 +688,62 @@ void ArduRotorTiltTricopter::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf
     this->dataPtr->servo1_pub = this->rosNode->advertise<mav_msgs::Actuators>("/" + this->dataPtr->servo1_pub_name, 10);
     // this->dataPtr->servo2_pub = this->rosNode->advertise<mav_msgs::Actuators>("/" + this->dataPtr->servo2_pub_name, 10);
 
+    const std::string frontRodLinkName =
+        _sdf->Get("frontRodLinkName", static_cast<std::string>("front_rod")).first;
+    const std::string frontRodCollisionName =
+        _sdf->Get("frontRodCollisionName", static_cast<std::string>("front_rod_collision")).first;
+    this->dataPtr->front_rod_contact_force_x_topic =
+        _sdf->Get("frontRodContactForceXTopic", static_cast<std::string>("/tilt_tricopter/front_rod/contact_force_x")).first;
+
+    physics::LinkPtr frontRodLink = this->dataPtr->model->GetLink(frontRodLinkName);
+    if (!frontRodLink) {
+        gzwarn << "[" << this->dataPtr->modelName << "] "
+               << "front rod link [" << frontRodLinkName << "] not found; contact force will stay zero.\n";
+    } else {
+        this->dataPtr->frontRodFrameName = frontRodLink->GetScopedName();
+        for (unsigned int i = 0; i < frontRodLink->GetCollisions().size(); ++i) {
+            physics::CollisionPtr collision = frontRodLink->GetCollision(i);
+            if (collision && collision->GetName() == frontRodCollisionName) {
+                this->dataPtr->frontRodCollision = collision;
+                this->dataPtr->frontRodCollisionScopedName = collision->GetScopedName();
+                break;
+            }
+        }
+
+        if (!this->dataPtr->frontRodCollision) {
+            gzwarn << "[" << this->dataPtr->modelName << "] "
+                   << "front rod collision [" << frontRodCollisionName << "] not found; contact force will stay zero.\n";
+        } else {
+            std::vector<std::string> collisions;
+            collisions.push_back(this->dataPtr->frontRodCollisionScopedName);
+            this->dataPtr->contactMgr = this->dataPtr->model->GetWorld()->Physics()->GetContactManager();
+            this->dataPtr->contactMgr->CreateFilter(this->dataPtr->modelName + "_front_rod_contact", collisions);
+            ROS_INFO_STREAM("front_rod contact collision:" << this->dataPtr->frontRodCollisionScopedName);
+        }
+    }
+    this->dataPtr->front_rod_contact_force_x_pub =
+        this->rosNode->advertise<std_msgs::Float64>(this->dataPtr->front_rod_contact_force_x_topic, 10);
+    this->dataPtr->frontRodContactHoldMs =
+        _sdf->Get("frontRodContactHoldMs", 50.0).first;
+
+    this->dataPtr->cmcuUdpBindAddr =
+        _sdf->Get("cmcuUdpBindAddr", static_cast<std::string>("127.0.0.1")).first;
+    this->dataPtr->cmcuUdpBindPort =
+        _sdf->Get("cmcuUdpBindPort", static_cast<uint32_t>(9024)).first;
+    this->dataPtr->cmcuForceScale =
+        _sdf->Get("cmcuForceScale", 1.0).first;
+    if (!this->dataPtr->cmcu_socket.Bind(
+            this->dataPtr->cmcuUdpBindAddr.c_str(), this->dataPtr->cmcuUdpBindPort)) {
+        gzerr << "[" << this->dataPtr->modelName << "] "
+              << "failed to bind CMCU-06A UDP socket with "
+              << this->dataPtr->cmcuUdpBindAddr << ":" << this->dataPtr->cmcuUdpBindPort
+              << " aborting plugin.\n";
+        return;
+    }
+    ROS_INFO_STREAM("CMCU-06A UDP serial:" << this->dataPtr->cmcuUdpBindAddr
+                    << ":" << this->dataPtr->cmcuUdpBindPort
+                    << " force_scale:" << this->dataPtr->cmcuForceScale);
+
     // Get sensors
     std::string              imuName       = _sdf->Get("imuName", static_cast<std::string>("imu_sensor")).first;
     std::vector<std::string> imuScopedName = this->dataPtr->model->SensorScopedName(imuName);
@@ -585,6 +825,8 @@ void ArduRotorTiltTricopter::OnUpdate()
 
     // Update the control surfaces and publish the new state.
     if (curTime > this->dataPtr->lastControllerUpdateTime) {
+        this->UpdateFrontRodContactWrench();
+        this->ProcessCmcuUdp();
         this->ReceiveMotorCommand();
         if (this->dataPtr->arduPilotOnline) {
             this->ApplyMotorForces((curTime - this->dataPtr->lastControllerUpdateTime).Double());
@@ -593,6 +835,132 @@ void ArduRotorTiltTricopter::OnUpdate()
     }
 
     this->dataPtr->lastControllerUpdateTime = curTime;
+}
+
+/////////////////////////////////////////////////
+void ArduRotorTiltTricopter::UpdateFrontRodContactWrench()
+{
+    this->dataPtr->frontRodExternalForceWorld = ignition::math::Vector3d::Zero;
+    this->dataPtr->frontRodExternalTorqueWorld = ignition::math::Vector3d::Zero;
+    this->dataPtr->frontRodExternalForceBodyX = 0.0;
+
+    if (!this->dataPtr->contactMgr || this->dataPtr->frontRodCollisionScopedName.empty()) {
+        return;
+    }
+
+    bool hasFrontRodContact = false;
+    std::vector<physics::Contact*> contacts = this->dataPtr->contactMgr->GetContacts();
+    const int contactCount = this->dataPtr->contactMgr->GetContactCount();
+    for (int i = 0; i < contactCount; ++i) {
+        physics::Contact* contact = contacts[i];
+        if (!contact || !contact->wrench || !contact->collision1 || !contact->collision2) {
+            continue;
+        }
+
+        const std::string collision1Name = contact->collision1->GetScopedName();
+        const std::string collision2Name = contact->collision2->GetScopedName();
+
+        if (collision1Name == this->dataPtr->frontRodCollisionScopedName) {
+            hasFrontRodContact = true;
+            this->dataPtr->frontRodExternalForceWorld += contact->wrench->body1Force;
+            this->dataPtr->frontRodExternalTorqueWorld += contact->wrench->body1Torque;
+        } else if (collision2Name == this->dataPtr->frontRodCollisionScopedName) {
+            hasFrontRodContact = true;
+            this->dataPtr->frontRodExternalForceWorld += contact->wrench->body2Force;
+            this->dataPtr->frontRodExternalTorqueWorld += contact->wrench->body2Torque;
+        }
+    }
+
+    const gazebo::common::Time now = this->dataPtr->model->GetWorld()->SimTime();
+    if (hasFrontRodContact) {
+        ignition::math::Quaterniond bodyRotation = this->dataPtr->model->WorldPose().Rot();
+        if (this->dataPtr->frontRodCollision && this->dataPtr->frontRodCollision->GetLink()) {
+            bodyRotation = this->dataPtr->frontRodCollision->GetLink()->WorldPose().Rot();
+        }
+        const ignition::math::Vector3d frontRodExternalForceBody =
+            bodyRotation.RotateVectorReverse(this->dataPtr->frontRodExternalForceWorld);
+        this->dataPtr->frontRodExternalForceBodyX = -frontRodExternalForceBody.X();
+        this->dataPtr->frontRodLastContactForceBodyX = this->dataPtr->frontRodExternalForceBodyX;
+        this->dataPtr->frontRodLastContactTime = now;
+        this->dataPtr->frontRodHasHeldContact = true;
+    } else if (this->dataPtr->frontRodHasHeldContact &&
+               (now - this->dataPtr->frontRodLastContactTime).Double() * 1000.0 <=
+                   this->dataPtr->frontRodContactHoldMs) {
+        this->dataPtr->frontRodExternalForceBodyX = this->dataPtr->frontRodLastContactForceBodyX;
+    } else {
+        this->dataPtr->frontRodHasHeldContact = false;
+    }
+
+    if (this->dataPtr->front_rod_contact_force_x_pub) {
+        std_msgs::Float64 msg;
+        msg.data = this->dataPtr->frontRodExternalForceBodyX;
+        this->dataPtr->front_rod_contact_force_x_pub.publish(msg);
+    }
+}
+
+/////////////////////////////////////////////////
+void ArduRotorTiltTricopter::ProcessCmcuUdp()
+{
+    std::array<uint8_t, 256> request;
+    struct sockaddr_in peerAddr;
+
+    while (true) {
+        const ssize_t recvSize = this->dataPtr->cmcu_socket.RecvFrom(
+            request.data(), request.size(), peerAddr, 0ul);
+        if (recvSize == -1) {
+            break;
+        }
+
+        if (recvSize != static_cast<ssize_t>(kCmcuRequestLength) ||
+            !HasValidModbusCrc(request.data(), kCmcuRequestLength) ||
+            request[0] != kCmcuAddress) {
+            continue;
+        }
+
+        if (request[1] == kModbusReadHoldingRegisters &&
+            ReadBigEndian16(&request[2]) == kCmcuFinalDataRegister &&
+            ReadBigEndian16(&request[4]) == kCmcuFinalDataRegisterCount) {
+            const double correctedForceNewton =
+                this->dataPtr->frontRodExternalForceBodyX - this->dataPtr->cmcuTareOffset;
+            double contactForceGram =
+                correctedForceNewton * kNewtonToGramForce * this->dataPtr->cmcuForceScale;
+            if (!std::isfinite(contactForceGram)) {
+                contactForceGram = 0.0;
+            }
+            contactForceGram = ignition::math::clamp(contactForceGram,
+                static_cast<double>(std::numeric_limits<int32_t>::min()),
+                static_cast<double>(std::numeric_limits<int32_t>::max()));
+
+            const int32_t counts = static_cast<int32_t>(std::llround(contactForceGram));
+            const uint32_t rawCounts = static_cast<uint32_t>(counts);
+            const uint16_t lowWord = static_cast<uint16_t>(rawCounts & 0xFFFF);
+            const uint16_t highWord = static_cast<uint16_t>((rawCounts >> 16) & 0xFFFF);
+
+            uint8_t response[kCmcuReadResponseLength] = {
+                kCmcuAddress,
+                kModbusReadHoldingRegisters,
+                4,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+            };
+            WriteBigEndian16(&response[3], lowWord);
+            WriteBigEndian16(&response[5], highWord);
+            AppendModbusCrc(response, kCmcuReadResponseLength - 2);
+            this->dataPtr->cmcu_socket.SendTo(response, sizeof(response), peerAddr);
+            continue;
+        }
+
+        if (request[1] == kModbusWriteSingleRegister &&
+            ReadBigEndian16(&request[2]) == kCmcuTriggerRegister &&
+            ReadBigEndian16(&request[4]) == kCmcuTriggerTare) {
+            this->dataPtr->cmcuTareOffset = this->dataPtr->frontRodExternalForceBodyX;
+            this->dataPtr->cmcu_socket.SendTo(request.data(), kCmcuRequestLength, peerAddr);
+        }
+    }
 }
 
 /////////////////////////////////////////////////
