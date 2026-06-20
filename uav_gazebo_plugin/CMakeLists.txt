@@ -18,6 +18,7 @@ find_package(catkin REQUIRED COMPONENTS
 
 find_package(gazebo REQUIRED)
 find_package(Eigen REQUIRED)
+find_package(mavlink REQUIRED)
 
 # Load catkin and all dependencies required for this package
 find_package(catkin REQUIRED COMPONENTS
@@ -39,6 +40,7 @@ include_directories(
   ${catkin_INCLUDE_DIRS}
   ${GAZEBO_INCLUDE_DIRS}
   ${Eigen_INCLUDE_DIRS}
+  ${mavlink_INCLUDE_DIRS}
 )
 include_directories(${mav_msgs_INCLUDE_DIRS})
 
@@ -53,6 +55,12 @@ target_link_libraries(MotorsPlugin ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
 
 add_library(ArduRotorNormPlugin SHARED src/ArduRotorNormPlugin.cc)
 target_link_libraries(ArduRotorNormPlugin ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
+
+add_library(PoleHoldReleasePlugin SHARED src/PoleHoldReleasePlugin.cc)
+target_link_libraries(PoleHoldReleasePlugin ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
+
+add_library(PoleMavlinkPosePlugin SHARED src/PoleMavlinkPosePlugin.cc)
+target_link_libraries(PoleMavlinkPosePlugin ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
 
 add_library(ArduRotorTiltPlugin SHARED src/ArduRotorTiltPlugin.cc)
 target_link_libraries(ArduRotorTiltPlugin ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
@@ -77,6 +85,9 @@ target_link_libraries(ArduRotorBalanceTailsitter ${catkin_LIBRARIES} ${GAZEBO_LI
 
 add_library(ArduRotorBV2 SHARED src/ArduRotorBV2.cc)
 target_link_libraries(ArduRotorBV2 ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
+
+add_library(ArduRotorBicopter SHARED src/ArduRotorBicopter.cc)
+target_link_libraries(ArduRotorBicopter ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
 
 add_library(ArduRotorQuadruped SHARED src/ArduRotorQuadruped.cc)
 target_link_libraries(ArduRotorQuadruped ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
