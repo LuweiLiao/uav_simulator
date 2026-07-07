@@ -14,7 +14,7 @@ arm_thickness = 0.025
 # Shallow cup/ring on the top plate for the pendulum foot.  The ring is
 # approximated with small wall blocks because SDF primitives do not include a
 # hollow cylinder.  It constrains lateral slip without fixing the pole.
-cup_inner_radius = 0.1
+cup_inner_radius = 0.05
 cup_wall_thickness = 0.006
 cup_wall_height = 0.025
 cup_center_radius = cup_inner_radius + cup_wall_thickness * 0.5
@@ -147,8 +147,8 @@ platform_base_izz = 0.032
           </contact>
           <friction>
             <ode>
-              <mu>100000.0</mu>
-              <mu2>100000.0</mu2>
+              <mu>10.0</mu>
+              <mu2>10.0</mu2>
             </ode>
           </friction>
         </surface>

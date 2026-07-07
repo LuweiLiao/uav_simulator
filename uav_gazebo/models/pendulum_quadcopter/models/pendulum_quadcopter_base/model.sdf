@@ -99,10 +99,10 @@
 
 
       <collision name="pendulum_cup_collision_0">
-        <pose>0.10300000000000001 0.0 0.035 0 0 0.0</pose>
+        <pose>0.053000000000000005 0.0 0.035 0 0 0.0</pose>
         <geometry>
           <box>
-            <size>0.0248081099878474 0.006 0.025</size>
+            <size>0.012765338149086527 0.006 0.025</size>
           </box>
         </geometry>
         <surface>
@@ -114,17 +114,17 @@
           </contact>
           <friction>
             <ode>
-              <mu>100000.0</mu>
-              <mu2>100000.0</mu2>
+              <mu>10.0</mu>
+              <mu2>10.0</mu2>
             </ode>
           </friction>
         </surface>
       </collision>
       <visual name="pendulum_cup_visual_0">
-        <pose>0.10300000000000001 0.0 0.035 0 0 0.0</pose>
+        <pose>0.053000000000000005 0.0 0.035 0 0 0.0</pose>
         <geometry>
           <box>
-            <size>0.0248081099878474 0.006 0.025</size>
+            <size>0.012765338149086527 0.006 0.025</size>
           </box>
         </geometry>
         <material>
@@ -135,10 +135,10 @@
       </visual>
 
       <collision name="pendulum_cup_collision_1">
-        <pose>0.10074920287558199 0.02141490415422921 0.035 0 0 0.20943951023931953</pose>
+        <pose>0.05184182283889171 0.011019319613341245 0.035 0 0 0.20943951023931953</pose>
         <geometry>
           <box>
-            <size>0.0248081099878474 0.006 0.025</size>
+            <size>0.012765338149086527 0.006 0.025</size>
           </box>
         </geometry>
         <surface>
@@ -150,17 +150,17 @@
           </contact>
           <friction>
             <ode>
-              <mu>100000.0</mu>
-              <mu2>100000.0</mu2>
+              <mu>10.0</mu>
+              <mu2>10.0</mu2>
             </ode>
           </friction>
         </surface>
       </collision>
       <visual name="pendulum_cup_visual_1">
-        <pose>0.10074920287558199 0.02141490415422921 0.035 0 0 0.20943951023931953</pose>
+        <pose>0.05184182283889171 0.011019319613341245 0.035 0 0 0.20943951023931953</pose>
         <geometry>
           <box>
-            <size>0.0248081099878474 0.006 0.025</size>
+            <size>0.012765338149086527 0.006 0.025</size>
           </box>
         </geometry>
         <material>
@@ -171,10 +171,10 @@
       </visual>
 
       <collision name="pendulum_cup_collision_2">
-        <pose>0.0940951821371879 0.04189387423680742 0.035 0 0 0.41887902047863906</pose>
+        <pose>0.04841790925505785 0.02155704208301741 0.035 0 0 0.41887902047863906</pose>
         <geometry>
           <box>
-            <size>0.0248081099878474 0.006 0.025</size>
+            <size>0.012765338149086527 0.006 0.025</size>
           </box>
         </geometry>
         <surface>
@@ -186,17 +186,17 @@
           </contact>
           <friction>
             <ode>
-              <mu>100000.0</mu>
-              <mu2>100000.0</mu2>
+              <mu>10.0</mu>
+              <mu2>10.0</mu2>
             </ode>
           </friction>
         </surface>
       </collision>
       <visual name="pendulum_cup_visual_2">
-        <pose>0.0940951821371879 0.04189387423680742 0.035 0 0 0.41887902047863906</pose>
+        <pose>0.04841790925505785 0.02155704208301741 0.035 0 0 0.41887902047863906</pose>
         <geometry>
           <box>
-            <size>0.0248081099878474 0.006 0.025</size>
+            <size>0.012765338149086527 0.006 0.025</size>
           </box>
         </geometry>
         <material>
@@ -207,10 +207,10 @@
       </visual>
 
       <collision name="pendulum_cup_collision_3">
-        <pose>0.08332875042061959 0.06054188098612474 0.035 0 0 0.6283185307179586</pose>
+        <pose>0.04287790070187222 0.03115261837150108 0.035 0 0 0.6283185307179586</pose>
         <geometry>
           <box>
-            <size>0.0248081099878474 0.006 0.025</size>
+            <size>0.012765338149086527 0.006 0.025</size>
           </box>
         </geometry>
         <surface>
@@ -222,17 +222,17 @@
           </contact>
           <friction>
             <ode>
-              <mu>100000.0</mu>
-              <mu2>100000.0</mu2>
+              <mu>10.0</mu>
+              <mu2>10.0</mu2>
             </ode>
           </friction>
         </surface>
       </collision>
       <visual name="pendulum_cup_visual_3">
-        <pose>0.08332875042061959 0.06054188098612474 0.035 0 0 0.6283185307179586</pose>
+        <pose>0.04287790070187222 0.03115261837150108 0.035 0 0 0.6283185307179586</pose>
         <geometry>
           <box>
-            <size>0.0248081099878474 0.006 0.025</size>
+            <size>0.012765338149086527 0.006 0.025</size>
           </box>
         </geometry>
         <material>
@@ -243,10 +243,10 @@
       </visual>
 
       <collision name="pendulum_cup_collision_4">
-        <pose>0.06892045245496241 0.0765439170241716 0.035 0 0 0.8377580409572781</pose>
+        <pose>0.03546392213701949 0.03938667575030189 0.035 0 0 0.8377580409572781</pose>
         <geometry>
           <box>
-            <size>0.0248081099878474 0.006 0.025</size>
+            <size>0.012765338149086527 0.006 0.025</size>
           </box>
         </geometry>
         <surface>
@@ -258,17 +258,17 @@
           </contact>
           <friction>
             <ode>
-              <mu>100000.0</mu>
-              <mu2>100000.0</mu2>
+              <mu>10.0</mu>
+              <mu2>10.0</mu2>
             </ode>
           </friction>
         </surface>
       </collision>
       <visual name="pendulum_cup_visual_4">
-        <pose>0.06892045245496241 0.0765439170241716 0.035 0 0 0.8377580409572781</pose>
+        <pose>0.03546392213701949 0.03938667575030189 0.035 0 0 0.8377580409572781</pose>
         <geometry>
           <box>
-            <size>0.0248081099878474 0.006 0.025</size>
+            <size>0.012765338149086527 0.006 0.025</size>
           </box>
         </geometry>
         <material>
@@ -279,10 +279,10 @@
       </visual>
 
       <collision name="pendulum_cup_collision_5">
-        <pose>0.05150000000000002 0.08920061658979718 0.035 0 0 1.0471975511965976</pose>
+        <pose>0.02650000000000001 0.04589934640057525 0.035 0 0 1.0471975511965976</pose>
         <geometry>
           <box>
-            <size>0.0248081099878474 0.006 0.025</size>
+            <size>0.012765338149086527 0.006 0.025</size>
           </box>
         </geometry>
         <surface>
@@ -294,17 +294,17 @@
           </contact>
           <friction>
             <ode>
-              <mu>100000.0</mu>
-              <mu2>100000.0</mu2>
+              <mu>10.0</mu>
+              <mu2>10.0</mu2>
             </ode>
           </friction>
         </surface>
       </collision>
       <visual name="pendulum_cup_visual_5">
-        <pose>0.05150000000000002 0.08920061658979718 0.035 0 0 1.0471975511965976</pose>
+        <pose>0.02650000000000001 0.04589934640057525 0.035 0 0 1.0471975511965976</pose>
         <geometry>
           <box>
-            <size>0.0248081099878474 0.006 0.025</size>
+            <size>0.012765338149086527 0.006 0.025</size>
           </box>
         </geometry>
         <material>
@@ -315,10 +315,10 @@
       </visual>
 
       <collision name="pendulum_cup_collision_6">
-        <pose>0.03182875042061959 0.09795882117840082 0.035 0 0 1.2566370614359172</pose>
+        <pose>0.016377900701872217 0.050405995363643145 0.035 0 0 1.2566370614359172</pose>
         <geometry>
           <box>
-            <size>0.0248081099878474 0.006 0.025</size>
+            <size>0.012765338149086527 0.006 0.025</size>
           </box>
         </geometry>
         <surface>
@@ -330,17 +330,17 @@
           </contact>
           <friction>
             <ode>
-              <mu>100000.0</mu>
-              <mu2>100000.0</mu2>
+              <mu>10.0</mu>
+              <mu2>10.0</mu2>
             </ode>
           </friction>
         </surface>
       </collision>
       <visual name="pendulum_cup_visual_6">
-        <pose>0.03182875042061959 0.09795882117840082 0.035 0 0 1.2566370614359172</pose>
+        <pose>0.016377900701872217 0.050405995363643145 0.035 0 0 1.2566370614359172</pose>
         <geometry>
           <box>
-            <size>0.0248081099878474 0.006 0.025</size>
+            <size>0.012765338149086527 0.006 0.025</size>
           </box>
         </geometry>
         <material>
@@ -351,10 +351,10 @@
       </visual>
 
       <collision name="pendulum_cup_collision_7">
-        <pose>0.010766431716568306 0.10243575522293216 0.035 0 0 1.4660765716752369</pose>
+        <pose>0.0055400085531856335 0.05270966045451849 0.035 0 0 1.4660765716752369</pose>
         <geometry>
           <box>
-            <size>0.0248081099878474 0.006 0.025</size>
+            <size>0.012765338149086527 0.006 0.025</size>
           </box>
         </geometry>
         <surface>
@@ -366,17 +366,17 @@
           </contact>
           <friction>
             <ode>
-              <mu>100000.0</mu>
-              <mu2>100000.0</mu2>
+              <mu>10.0</mu>
+              <mu2>10.0</mu2>
             </ode>
           </friction>
         </surface>
       </collision>
       <visual name="pendulum_cup_visual_7">
-        <pose>0.010766431716568306 0.10243575522293216 0.035 0 0 1.4660765716752369</pose>
+        <pose>0.0055400085531856335 0.05270966045451849 0.035 0 0 1.4660765716752369</pose>
         <geometry>
           <box>
-            <size>0.0248081099878474 0.006 0.025</size>
+            <size>0.012765338149086527 0.006 0.025</size>
           </box>
         </geometry>
         <material>
@@ -387,10 +387,10 @@
       </visual>
 
       <collision name="pendulum_cup_collision_8">
-        <pose>-0.010766431716568294 0.10243575522293216 0.035 0 0 1.6755160819145563</pose>
+        <pose>-0.005540008553185627 0.0527096604545185 0.035 0 0 1.6755160819145563</pose>
         <geometry>
           <box>
-            <size>0.0248081099878474 0.006 0.025</size>
+            <size>0.012765338149086527 0.006 0.025</size>
           </box>
         </geometry>
         <surface>
@@ -402,17 +402,17 @@
           </contact>
           <friction>
             <ode>
-              <mu>100000.0</mu>
-              <mu2>100000.0</mu2>
+              <mu>10.0</mu>
+              <mu2>10.0</mu2>
             </ode>
           </friction>
         </surface>
       </collision>
       <visual name="pendulum_cup_visual_8">
-        <pose>-0.010766431716568294 0.10243575522293216 0.035 0 0 1.6755160819145563</pose>
+        <pose>-0.005540008553185627 0.0527096604545185 0.035 0 0 1.6755160819145563</pose>
         <geometry>
           <box>
-            <size>0.0248081099878474 0.006 0.025</size>
+            <size>0.012765338149086527 0.006 0.025</size>
           </box>
         </geometry>
         <material>
@@ -423,10 +423,10 @@
       </visual>
 
       <collision name="pendulum_cup_collision_9">
-        <pose>-0.03182875042061958 0.09795882117840084 0.035 0 0 1.8849555921538759</pose>
+        <pose>-0.01637790070187221 0.050405995363643145 0.035 0 0 1.8849555921538759</pose>
         <geometry>
           <box>
-            <size>0.0248081099878474 0.006 0.025</size>
+            <size>0.012765338149086527 0.006 0.025</size>
           </box>
         </geometry>
         <surface>
@@ -438,17 +438,17 @@
           </contact>
           <friction>
             <ode>
-              <mu>100000.0</mu>
-              <mu2>100000.0</mu2>
+              <mu>10.0</mu>
+              <mu2>10.0</mu2>
             </ode>
           </friction>
         </surface>
       </collision>
       <visual name="pendulum_cup_visual_9">
-        <pose>-0.03182875042061958 0.09795882117840084 0.035 0 0 1.8849555921538759</pose>
+        <pose>-0.01637790070187221 0.050405995363643145 0.035 0 0 1.8849555921538759</pose>
         <geometry>
           <box>
-            <size>0.0248081099878474 0.006 0.025</size>
+            <size>0.012765338149086527 0.006 0.025</size>
           </box>
         </geometry>
         <material>
@@ -459,10 +459,10 @@
       </visual>
 
       <collision name="pendulum_cup_collision_10">
-        <pose>-0.05149999999999998 0.0892006165897972 0.035 0 0 2.0943951023931953</pose>
+        <pose>-0.026499999999999992 0.045899346400575254 0.035 0 0 2.0943951023931953</pose>
         <geometry>
           <box>
-            <size>0.0248081099878474 0.006 0.025</size>
+            <size>0.012765338149086527 0.006 0.025</size>
           </box>
         </geometry>
         <surface>
@@ -474,17 +474,17 @@
           </contact>
           <friction>
             <ode>
-              <mu>100000.0</mu>
-              <mu2>100000.0</mu2>
+              <mu>10.0</mu>
+              <mu2>10.0</mu2>
             </ode>
           </friction>
         </surface>
       </collision>
       <visual name="pendulum_cup_visual_10">
-        <pose>-0.05149999999999998 0.0892006165897972 0.035 0 0 2.0943951023931953</pose>
+        <pose>-0.026499999999999992 0.045899346400575254 0.035 0 0 2.0943951023931953</pose>
         <geometry>
           <box>
-            <size>0.0248081099878474 0.006 0.025</size>
+            <size>0.012765338149086527 0.006 0.025</size>
           </box>
         </geometry>
         <material>
@@ -495,10 +495,10 @@
       </visual>
 
       <collision name="pendulum_cup_collision_11">
-        <pose>-0.06892045245496237 0.07654391702417164 0.035 0 0 2.3038346126325147</pose>
+        <pose>-0.035463922137019474 0.039386675750301914 0.035 0 0 2.3038346126325147</pose>
         <geometry>
           <box>
-            <size>0.0248081099878474 0.006 0.025</size>
+            <size>0.012765338149086527 0.006 0.025</size>
           </box>
         </geometry>
         <surface>
@@ -510,17 +510,17 @@
           </contact>
           <friction>
             <ode>
-              <mu>100000.0</mu>
-              <mu2>100000.0</mu2>
+              <mu>10.0</mu>
+              <mu2>10.0</mu2>
             </ode>
           </friction>
         </surface>
       </collision>
       <visual name="pendulum_cup_visual_11">
-        <pose>-0.06892045245496237 0.07654391702417164 0.035 0 0 2.3038346126325147</pose>
+        <pose>-0.035463922137019474 0.039386675750301914 0.035 0 0 2.3038346126325147</pose>
         <geometry>
           <box>
-            <size>0.0248081099878474 0.006 0.025</size>
+            <size>0.012765338149086527 0.006 0.025</size>
           </box>
         </geometry>
         <material>
@@ -531,10 +531,10 @@
       </visual>
 
       <collision name="pendulum_cup_collision_12">
-        <pose>-0.08332875042061959 0.06054188098612475 0.035 0 0 2.5132741228718345</pose>
+        <pose>-0.04287790070187222 0.031152618371501087 0.035 0 0 2.5132741228718345</pose>
         <geometry>
           <box>
-            <size>0.0248081099878474 0.006 0.025</size>
+            <size>0.012765338149086527 0.006 0.025</size>
           </box>
         </geometry>
         <surface>
@@ -546,17 +546,17 @@
           </contact>
           <friction>
             <ode>
-              <mu>100000.0</mu>
-              <mu2>100000.0</mu2>
+              <mu>10.0</mu>
+              <mu2>10.0</mu2>
             </ode>
           </friction>
         </surface>
       </collision>
       <visual name="pendulum_cup_visual_12">
-        <pose>-0.08332875042061959 0.06054188098612475 0.035 0 0 2.5132741228718345</pose>
+        <pose>-0.04287790070187222 0.031152618371501087 0.035 0 0 2.5132741228718345</pose>
         <geometry>
           <box>
-            <size>0.0248081099878474 0.006 0.025</size>
+            <size>0.012765338149086527 0.006 0.025</size>
           </box>
         </geometry>
         <material>
@@ -567,10 +567,10 @@
       </visual>
 
       <collision name="pendulum_cup_collision_13">
-        <pose>-0.09409518213718791 0.041893874236807405 0.035 0 0 2.7227136331111543</pose>
+        <pose>-0.04841790925505786 0.021557042083017404 0.035 0 0 2.7227136331111543</pose>
         <geometry>
           <box>
-            <size>0.0248081099878474 0.006 0.025</size>
+            <size>0.012765338149086527 0.006 0.025</size>
           </box>
         </geometry>
         <surface>
@@ -582,17 +582,17 @@
           </contact>
           <friction>
             <ode>
-              <mu>100000.0</mu>
-              <mu2>100000.0</mu2>
+              <mu>10.0</mu>
+              <mu2>10.0</mu2>
             </ode>
           </friction>
         </surface>
       </collision>
       <visual name="pendulum_cup_visual_13">
-        <pose>-0.09409518213718791 0.041893874236807405 0.035 0 0 2.7227136331111543</pose>
+        <pose>-0.04841790925505786 0.021557042083017404 0.035 0 0 2.7227136331111543</pose>
         <geometry>
           <box>
-            <size>0.0248081099878474 0.006 0.025</size>
+            <size>0.012765338149086527 0.006 0.025</size>
           </box>
         </geometry>
         <material>
@@ -603,10 +603,10 @@
       </visual>
 
       <collision name="pendulum_cup_collision_14">
-        <pose>-0.10074920287558199 0.02141490415422921 0.035 0 0 2.9321531433504737</pose>
+        <pose>-0.05184182283889171 0.011019319613341245 0.035 0 0 2.9321531433504737</pose>
         <geometry>
           <box>
-            <size>0.0248081099878474 0.006 0.025</size>
+            <size>0.012765338149086527 0.006 0.025</size>
           </box>
         </geometry>
         <surface>
@@ -618,17 +618,17 @@
           </contact>
           <friction>
             <ode>
-              <mu>100000.0</mu>
-              <mu2>100000.0</mu2>
+              <mu>10.0</mu>
+              <mu2>10.0</mu2>
             </ode>
           </friction>
         </surface>
       </collision>
       <visual name="pendulum_cup_visual_14">
-        <pose>-0.10074920287558199 0.02141490415422921 0.035 0 0 2.9321531433504737</pose>
+        <pose>-0.05184182283889171 0.011019319613341245 0.035 0 0 2.9321531433504737</pose>
         <geometry>
           <box>
-            <size>0.0248081099878474 0.006 0.025</size>
+            <size>0.012765338149086527 0.006 0.025</size>
           </box>
         </geometry>
         <material>
@@ -639,10 +639,10 @@
       </visual>
 
       <collision name="pendulum_cup_collision_15">
-        <pose>-0.10300000000000001 5.83550506457742e-17 0.035 0 0 3.1415926535897927</pose>
+        <pose>-0.053000000000000005 3.00273561575343e-17 0.035 0 0 3.1415926535897927</pose>
         <geometry>
           <box>
-            <size>0.0248081099878474 0.006 0.025</size>
+            <size>0.012765338149086527 0.006 0.025</size>
           </box>
         </geometry>
         <surface>
@@ -654,17 +654,17 @@
           </contact>
           <friction>
             <ode>
-              <mu>100000.0</mu>
-              <mu2>100000.0</mu2>
+              <mu>10.0</mu>
+              <mu2>10.0</mu2>
             </ode>
           </friction>
         </surface>
       </collision>
       <visual name="pendulum_cup_visual_15">
-        <pose>-0.10300000000000001 5.83550506457742e-17 0.035 0 0 3.1415926535897927</pose>
+        <pose>-0.053000000000000005 3.00273561575343e-17 0.035 0 0 3.1415926535897927</pose>
         <geometry>
           <box>
-            <size>0.0248081099878474 0.006 0.025</size>
+            <size>0.012765338149086527 0.006 0.025</size>
           </box>
         </geometry>
         <material>
@@ -675,10 +675,10 @@
       </visual>
 
       <collision name="pendulum_cup_collision_16">
-        <pose>-0.10074920287558199 -0.021414904154229187 0.035 0 0 3.3510321638291125</pose>
+        <pose>-0.05184182283889171 -0.011019319613341232 0.035 0 0 3.3510321638291125</pose>
         <geometry>
           <box>
-            <size>0.0248081099878474 0.006 0.025</size>
+            <size>0.012765338149086527 0.006 0.025</size>
           </box>
         </geometry>
         <surface>
@@ -690,17 +690,17 @@
           </contact>
           <friction>
             <ode>
-              <mu>100000.0</mu>
-              <mu2>100000.0</mu2>
+              <mu>10.0</mu>
+              <mu2>10.0</mu2>
             </ode>
           </friction>
         </surface>
       </collision>
       <visual name="pendulum_cup_visual_16">
-        <pose>-0.10074920287558199 -0.021414904154229187 0.035 0 0 3.3510321638291125</pose>
+        <pose>-0.05184182283889171 -0.011019319613341232 0.035 0 0 3.3510321638291125</pose>
         <geometry>
           <box>
-            <size>0.0248081099878474 0.006 0.025</size>
+            <size>0.012765338149086527 0.006 0.025</size>
           </box>
         </geometry>
         <material>
@@ -711,10 +711,10 @@
       </visual>
 
       <collision name="pendulum_cup_collision_17">
-        <pose>-0.0940951821371879 -0.041893874236807425 0.035 0 0 3.5604716740684323</pose>
+        <pose>-0.04841790925505785 -0.021557042083017414 0.035 0 0 3.5604716740684323</pose>
         <geometry>
           <box>
-            <size>0.0248081099878474 0.006 0.025</size>
+            <size>0.012765338149086527 0.006 0.025</size>
           </box>
         </geometry>
         <surface>
@@ -726,17 +726,17 @@
           </contact>
           <friction>
             <ode>
-              <mu>100000.0</mu>
-              <mu2>100000.0</mu2>
+              <mu>10.0</mu>
+              <mu2>10.0</mu2>
             </ode>
           </friction>
         </surface>
       </collision>
       <visual name="pendulum_cup_visual_17">
-        <pose>-0.0940951821371879 -0.041893874236807425 0.035 0 0 3.5604716740684323</pose>
+        <pose>-0.04841790925505785 -0.021557042083017414 0.035 0 0 3.5604716740684323</pose>
         <geometry>
           <box>
-            <size>0.0248081099878474 0.006 0.025</size>
+            <size>0.012765338149086527 0.006 0.025</size>
           </box>
         </geometry>
         <material>
@@ -747,10 +747,10 @@
       </visual>
 
       <collision name="pendulum_cup_collision_18">
-        <pose>-0.0833287504206196 -0.06054188098612473 0.035 0 0 3.7699111843077517</pose>
+        <pose>-0.042877900701872224 -0.031152618371501073 0.035 0 0 3.7699111843077517</pose>
         <geometry>
           <box>
-            <size>0.0248081099878474 0.006 0.025</size>
+            <size>0.012765338149086527 0.006 0.025</size>
           </box>
         </geometry>
         <surface>
@@ -762,17 +762,17 @@
           </contact>
           <friction>
             <ode>
-              <mu>100000.0</mu>
-              <mu2>100000.0</mu2>
+              <mu>10.0</mu>
+              <mu2>10.0</mu2>
             </ode>
           </friction>
         </surface>
       </collision>
       <visual name="pendulum_cup_visual_18">
-        <pose>-0.0833287504206196 -0.06054188098612473 0.035 0 0 3.7699111843077517</pose>
+        <pose>-0.042877900701872224 -0.031152618371501073 0.035 0 0 3.7699111843077517</pose>
         <geometry>
           <box>
-            <size>0.0248081099878474 0.006 0.025</size>
+            <size>0.012765338149086527 0.006 0.025</size>
           </box>
         </geometry>
         <material>
@@ -783,10 +783,10 @@
       </visual>
 
       <collision name="pendulum_cup_collision_19">
-        <pose>-0.06892045245496242 -0.07654391702417158 0.035 0 0 3.979350694547071</pose>
+        <pose>-0.0354639221370195 -0.039386675750301886 0.035 0 0 3.979350694547071</pose>
         <geometry>
           <box>
-            <size>0.0248081099878474 0.006 0.025</size>
+            <size>0.012765338149086527 0.006 0.025</size>
           </box>
         </geometry>
         <surface>
@@ -798,17 +798,17 @@
           </contact>
           <friction>
             <ode>
-              <mu>100000.0</mu>
-              <mu2>100000.0</mu2>
+              <mu>10.0</mu>
+              <mu2>10.0</mu2>
             </ode>
           </friction>
         </surface>
       </collision>
       <visual name="pendulum_cup_visual_19">
-        <pose>-0.06892045245496242 -0.07654391702417158 0.035 0 0 3.979350694547071</pose>
+        <pose>-0.0354639221370195 -0.039386675750301886 0.035 0 0 3.979350694547071</pose>
         <geometry>
           <box>
-            <size>0.0248081099878474 0.006 0.025</size>
+            <size>0.012765338149086527 0.006 0.025</size>
           </box>
         </geometry>
         <material>
@@ -819,10 +819,10 @@
       </visual>
 
       <collision name="pendulum_cup_collision_20">
-        <pose>-0.05150000000000005 -0.08920061658979717 0.035 0 0 4.1887902047863905</pose>
+        <pose>-0.026500000000000027 -0.04589934640057524 0.035 0 0 4.1887902047863905</pose>
         <geometry>
           <box>
-            <size>0.0248081099878474 0.006 0.025</size>
+            <size>0.012765338149086527 0.006 0.025</size>
           </box>
         </geometry>
         <surface>
@@ -834,17 +834,17 @@
           </contact>
           <friction>
             <ode>
-              <mu>100000.0</mu>
-              <mu2>100000.0</mu2>
+              <mu>10.0</mu>
+              <mu2>10.0</mu2>
             </ode>
           </friction>
         </surface>
       </collision>
       <visual name="pendulum_cup_visual_20">
-        <pose>-0.05150000000000005 -0.08920061658979717 0.035 0 0 4.1887902047863905</pose>
+        <pose>-0.026500000000000027 -0.04589934640057524 0.035 0 0 4.1887902047863905</pose>
         <geometry>
           <box>
-            <size>0.0248081099878474 0.006 0.025</size>
+            <size>0.012765338149086527 0.006 0.025</size>
           </box>
         </geometry>
         <material>
@@ -855,10 +855,10 @@
       </visual>
 
       <collision name="pendulum_cup_collision_21">
-        <pose>-0.031828750420619605 -0.09795882117840082 0.035 0 0 4.39822971502571</pose>
+        <pose>-0.01637790070187222 -0.050405995363643145 0.035 0 0 4.39822971502571</pose>
         <geometry>
           <box>
-            <size>0.0248081099878474 0.006 0.025</size>
+            <size>0.012765338149086527 0.006 0.025</size>
           </box>
         </geometry>
         <surface>
@@ -870,17 +870,17 @@
           </contact>
           <friction>
             <ode>
-              <mu>100000.0</mu>
-              <mu2>100000.0</mu2>
+              <mu>10.0</mu>
+              <mu2>10.0</mu2>
             </ode>
           </friction>
         </surface>
       </collision>
       <visual name="pendulum_cup_visual_21">
-        <pose>-0.031828750420619605 -0.09795882117840082 0.035 0 0 4.39822971502571</pose>
+        <pose>-0.01637790070187222 -0.050405995363643145 0.035 0 0 4.39822971502571</pose>
         <geometry>
           <box>
-            <size>0.0248081099878474 0.006 0.025</size>
+            <size>0.012765338149086527 0.006 0.025</size>
           </box>
         </geometry>
         <material>
@@ -891,10 +891,10 @@
       </visual>
 
       <collision name="pendulum_cup_collision_22">
-        <pose>-0.010766431716568386 -0.10243575522293216 0.035 0 0 4.607669225265029</pose>
+        <pose>-0.005540008553185675 -0.05270966045451849 0.035 0 0 4.607669225265029</pose>
         <geometry>
           <box>
-            <size>0.0248081099878474 0.006 0.025</size>
+            <size>0.012765338149086527 0.006 0.025</size>
           </box>
         </geometry>
         <surface>
@@ -906,17 +906,17 @@
           </contact>
           <friction>
             <ode>
-              <mu>100000.0</mu>
-              <mu2>100000.0</mu2>
+              <mu>10.0</mu>
+              <mu2>10.0</mu2>
             </ode>
           </friction>
         </surface>
       </collision>
       <visual name="pendulum_cup_visual_22">
-        <pose>-0.010766431716568386 -0.10243575522293216 0.035 0 0 4.607669225265029</pose>
+        <pose>-0.005540008553185675 -0.05270966045451849 0.035 0 0 4.607669225265029</pose>
         <geometry>
           <box>
-            <size>0.0248081099878474 0.006 0.025</size>
+            <size>0.012765338149086527 0.006 0.025</size>
           </box>
         </geometry>
         <material>
@@ -927,10 +927,10 @@
       </visual>
 
       <collision name="pendulum_cup_collision_23">
-        <pose>0.010766431716568258 -0.10243575522293216 0.035 0 0 4.817108735504349</pose>
+        <pose>0.005540008553185609 -0.0527096604545185 0.035 0 0 4.817108735504349</pose>
         <geometry>
           <box>
-            <size>0.0248081099878474 0.006 0.025</size>
+            <size>0.012765338149086527 0.006 0.025</size>
           </box>
         </geometry>
         <surface>
@@ -942,17 +942,17 @@
           </contact>
           <friction>
             <ode>
-              <mu>100000.0</mu>
-              <mu2>100000.0</mu2>
+              <mu>10.0</mu>
+              <mu2>10.0</mu2>
             </ode>
           </friction>
         </surface>
       </collision>
       <visual name="pendulum_cup_visual_23">
-        <pose>0.010766431716568258 -0.10243575522293216 0.035 0 0 4.817108735504349</pose>
+        <pose>0.005540008553185609 -0.0527096604545185 0.035 0 0 4.817108735504349</pose>
         <geometry>
           <box>
-            <size>0.0248081099878474 0.006 0.025</size>
+            <size>0.012765338149086527 0.006 0.025</size>
           </box>
         </geometry>
         <material>
@@ -963,10 +963,10 @@
       </visual>
 
       <collision name="pendulum_cup_collision_24">
-        <pose>0.03182875042061957 -0.09795882117840084 0.035 0 0 5.026548245743669</pose>
+        <pose>0.016377900701872204 -0.050405995363643145 0.035 0 0 5.026548245743669</pose>
         <geometry>
           <box>
-            <size>0.0248081099878474 0.006 0.025</size>
+            <size>0.012765338149086527 0.006 0.025</size>
           </box>
         </geometry>
         <surface>
@@ -978,17 +978,17 @@
           </contact>
           <friction>
             <ode>
-              <mu>100000.0</mu>
-              <mu2>100000.0</mu2>
+              <mu>10.0</mu>
+              <mu2>10.0</mu2>
             </ode>
           </friction>
         </surface>
       </collision>
       <visual name="pendulum_cup_visual_24">
-        <pose>0.03182875042061957 -0.09795882117840084 0.035 0 0 5.026548245743669</pose>
+        <pose>0.016377900701872204 -0.050405995363643145 0.035 0 0 5.026548245743669</pose>
         <geometry>
           <box>
-            <size>0.0248081099878474 0.006 0.025</size>
+            <size>0.012765338149086527 0.006 0.025</size>
           </box>
         </geometry>
         <material>
@@ -999,10 +999,10 @@
       </visual>
 
       <collision name="pendulum_cup_collision_25">
-        <pose>0.05150000000000002 -0.08920061658979718 0.035 0 0 5.235987755982989</pose>
+        <pose>0.02650000000000001 -0.04589934640057525 0.035 0 0 5.235987755982989</pose>
         <geometry>
           <box>
-            <size>0.0248081099878474 0.006 0.025</size>
+            <size>0.012765338149086527 0.006 0.025</size>
           </box>
         </geometry>
         <surface>
@@ -1014,17 +1014,17 @@
           </contact>
           <friction>
             <ode>
-              <mu>100000.0</mu>
-              <mu2>100000.0</mu2>
+              <mu>10.0</mu>
+              <mu2>10.0</mu2>
             </ode>
           </friction>
         </surface>
       </collision>
       <visual name="pendulum_cup_visual_25">
-        <pose>0.05150000000000002 -0.08920061658979718 0.035 0 0 5.235987755982989</pose>
+        <pose>0.02650000000000001 -0.04589934640057525 0.035 0 0 5.235987755982989</pose>
         <geometry>
           <box>
-            <size>0.0248081099878474 0.006 0.025</size>
+            <size>0.012765338149086527 0.006 0.025</size>
           </box>
         </geometry>
         <material>
@@ -1035,10 +1035,10 @@
       </visual>
 
       <collision name="pendulum_cup_collision_26">
-        <pose>0.06892045245496242 -0.07654391702417158 0.035 0 0 5.445427266222309</pose>
+        <pose>0.0354639221370195 -0.039386675750301886 0.035 0 0 5.445427266222309</pose>
         <geometry>
           <box>
-            <size>0.0248081099878474 0.006 0.025</size>
+            <size>0.012765338149086527 0.006 0.025</size>
           </box>
         </geometry>
         <surface>
@@ -1050,17 +1050,17 @@
           </contact>
           <friction>
             <ode>
-              <mu>100000.0</mu>
-              <mu2>100000.0</mu2>
+              <mu>10.0</mu>
+              <mu2>10.0</mu2>
             </ode>
           </friction>
         </surface>
       </collision>
       <visual name="pendulum_cup_visual_26">
-        <pose>0.06892045245496242 -0.07654391702417158 0.035 0 0 5.445427266222309</pose>
+        <pose>0.0354639221370195 -0.039386675750301886 0.035 0 0 5.445427266222309</pose>
         <geometry>
           <box>
-            <size>0.0248081099878474 0.006 0.025</size>
+            <size>0.012765338149086527 0.006 0.025</size>
           </box>
         </geometry>
         <material>
@@ -1071,10 +1071,10 @@
       </visual>
 
       <collision name="pendulum_cup_collision_27">
-        <pose>0.08332875042061959 -0.06054188098612476 0.035 0 0 5.654866776461628</pose>
+        <pose>0.04287790070187222 -0.03115261837150109 0.035 0 0 5.654866776461628</pose>
         <geometry>
           <box>
-            <size>0.0248081099878474 0.006 0.025</size>
+            <size>0.012765338149086527 0.006 0.025</size>
           </box>
         </geometry>
         <surface>
@@ -1086,17 +1086,17 @@
           </contact>
           <friction>
             <ode>
-              <mu>100000.0</mu>
-              <mu2>100000.0</mu2>
+              <mu>10.0</mu>
+              <mu2>10.0</mu2>
             </ode>
           </friction>
         </surface>
       </collision>
       <visual name="pendulum_cup_visual_27">
-        <pose>0.08332875042061959 -0.06054188098612476 0.035 0 0 5.654866776461628</pose>
+        <pose>0.04287790070187222 -0.03115261837150109 0.035 0 0 5.654866776461628</pose>
         <geometry>
           <box>
-            <size>0.0248081099878474 0.006 0.025</size>
+            <size>0.012765338149086527 0.006 0.025</size>
           </box>
         </geometry>
         <material>
@@ -1107,10 +1107,10 @@
       </visual>
 
       <collision name="pendulum_cup_collision_28">
-        <pose>0.09409518213718791 -0.04189387423680742 0.035 0 0 5.8643062867009474</pose>
+        <pose>0.04841790925505786 -0.02155704208301741 0.035 0 0 5.8643062867009474</pose>
         <geometry>
           <box>
-            <size>0.0248081099878474 0.006 0.025</size>
+            <size>0.012765338149086527 0.006 0.025</size>
           </box>
         </geometry>
         <surface>
@@ -1122,17 +1122,17 @@
           </contact>
           <friction>
             <ode>
-              <mu>100000.0</mu>
-              <mu2>100000.0</mu2>
+              <mu>10.0</mu>
+              <mu2>10.0</mu2>
             </ode>
           </friction>
         </surface>
       </collision>
       <visual name="pendulum_cup_visual_28">
-        <pose>0.09409518213718791 -0.04189387423680742 0.035 0 0 5.8643062867009474</pose>
+        <pose>0.04841790925505786 -0.02155704208301741 0.035 0 0 5.8643062867009474</pose>
         <geometry>
           <box>
-            <size>0.0248081099878474 0.006 0.025</size>
+            <size>0.012765338149086527 0.006 0.025</size>
           </box>
         </geometry>
         <material>
@@ -1143,10 +1143,10 @@
       </visual>
 
       <collision name="pendulum_cup_collision_29">
-        <pose>0.10074920287558199 -0.021414904154229177 0.035 0 0 6.073745796940267</pose>
+        <pose>0.05184182283889171 -0.011019319613341226 0.035 0 0 6.073745796940267</pose>
         <geometry>
           <box>
-            <size>0.0248081099878474 0.006 0.025</size>
+            <size>0.012765338149086527 0.006 0.025</size>
           </box>
         </geometry>
         <surface>
@@ -1158,17 +1158,17 @@
           </contact>
           <friction>
             <ode>
-              <mu>100000.0</mu>
-              <mu2>100000.0</mu2>
+              <mu>10.0</mu>
+              <mu2>10.0</mu2>
             </ode>
           </friction>
         </surface>
       </collision>
       <visual name="pendulum_cup_visual_29">
-        <pose>0.10074920287558199 -0.021414904154229177 0.035 0 0 6.073745796940267</pose>
+        <pose>0.05184182283889171 -0.011019319613341226 0.035 0 0 6.073745796940267</pose>
         <geometry>
           <box>
-            <size>0.0248081099878474 0.006 0.025</size>
+            <size>0.012765338149086527 0.006 0.025</size>
           </box>
         </geometry>
         <material>
