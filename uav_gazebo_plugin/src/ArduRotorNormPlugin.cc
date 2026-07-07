@@ -890,7 +890,6 @@ void ArduRotorNormPlugin::ReceiveMotorCommand()
                       << "too many motors, skipping [" << i << " > " << MAX_MOTORS << "].\n";
             }
         }
-        std::cout << "\n";
     }
 }
 

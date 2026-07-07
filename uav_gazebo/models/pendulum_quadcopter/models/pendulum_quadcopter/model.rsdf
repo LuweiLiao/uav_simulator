@@ -56,7 +56,7 @@ prop_motors = {
 
     <plugin name=<%= '"' + "pendulum_quadcopter_prop_" + k + "_plugin" + '"' %> filename="librotors_gazebo_motor_model.so">
       <robotNamespace></robotNamespace>
-      <jointName><%= "pendulum_quadcopter_prop_" + k + "_joint" %> </jointName>
+      <jointName><%= "pendulum_quadcopter_prop_" + k + "_joint" %></jointName>
       <linkName><%= "pendulum_quadcopter_prop_" + k + "::prop" %></linkName>
       <turningDirection><%= motor[:dir] %></turningDirection>
       <timeConstantUp><%= prop_timeConstantUp %></timeConstantUp>
