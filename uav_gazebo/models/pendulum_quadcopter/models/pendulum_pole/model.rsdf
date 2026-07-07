@@ -2,7 +2,7 @@
 <%
 
 # Independent pole dimensions (meters)
-pole_length = 0.7
+pole_length = 1.5
 pole_radius = 0.01
 pole_mass = 0.08
 
@@ -16,6 +16,10 @@ pole_izz = pole_mass * pole_radius ** 2 / 2.0
   <model name="pendulum_pole">
     <link name="pole">
       <pose>0 0 0 0 0 0</pose>
+      <velocity_decay>
+        <linear>0.01</linear>
+        <angular>0.10</angular>
+      </velocity_decay>
       <inertial>
         <pose>0 0 0 0 0 0</pose>
         <mass><%= pole_mass %></mass>
@@ -39,14 +43,14 @@ pole_izz = pole_mass * pole_radius ** 2 / 2.0
         <surface>
           <contact>
             <ode>
-              <max_vel>100.0</max_vel>
-              <min_depth>0.001</min_depth>
+              <max_vel>1.0</max_vel>
+              <min_depth>0.002</min_depth>
             </ode>
           </contact>
           <friction>
             <ode>
-              <mu>1.0</mu>
-              <mu2>1.0</mu2>
+              <mu>100000</mu>
+              <mu2>100000</mu2>
             </ode>
           </friction>
         </surface>
@@ -86,6 +90,7 @@ pole_izz = pole_mass * pole_radius ** 2 / 2.0
       <sendRateHz>200</sendRateHz>
       <rosTargetTopic>/pendulum_pole/set_position_ned</rosTargetTopic>
       <rosFrameId>local_ned</rosFrameId>
+      <odomPointOffset>0 0 <%= pole_length * 0.5 %></odomPointOffset>
       <systemId>42</systemId>
       <componentId>191</componentId>
     </plugin>
