@@ -60,6 +60,9 @@ public:
     ros_frame_id_ = sdf->HasElement("rosFrameId")
                         ? sdf->Get<std::string>("rosFrameId")
                         : ros_frame_id_;
+    odom_point_offset_link_ = sdf->HasElement("odomPointOffset")
+                                  ? sdf->Get<ignition::math::Vector3d>("odomPointOffset")
+                                  : odom_point_offset_link_;
     system_id_ = static_cast<uint8_t>(
         sdf->HasElement("systemId") ? sdf->Get<int>("systemId") : system_id_);
     component_id_ = static_cast<uint8_t>(
@@ -77,7 +80,8 @@ public:
         std::bind(&PoleMavlinkPosePlugin::OnUpdate, this, std::placeholders::_1));
 
     gzmsg << "[PoleMavlinkPosePlugin] Sending " << model_->GetName()
-          << "::" << link_name << " pose as MAVLink ODOMETRY to "
+          << "::" << link_name << " point offset " << odom_point_offset_link_
+          << " as MAVLink ODOMETRY to "
           << tcp_addr_ << ":" << tcp_port_ << " via TCP at " << send_rate_hz_ << " Hz\n";
     gzmsg << "[PoleMavlinkPosePlugin] Listening for ROS pole position commands on ["
           << ros_target_topic_ << "] frame [" << ros_frame_id_
@@ -175,8 +179,10 @@ private:
     }
     last_send_time_ = now;
 
-    const ignition::math::Vector3d pos = link_->WorldPose().Pos();
-    const ignition::math::Vector3d vel = link_->WorldLinearVel();
+    const ignition::math::Pose3d pose = link_->WorldPose();
+    const ignition::math::Vector3d point_offset_world = pose.Rot().RotateVector(odom_point_offset_link_);
+    const ignition::math::Vector3d pos = pose.Pos() + point_offset_world;
+    const ignition::math::Vector3d vel = link_->WorldLinearVel() + link_->WorldAngularVel().Cross(point_offset_world);
     SendOdometry(static_cast<uint64_t>(now * 1.0e6), WorldToNed(pos), WorldToNed(vel));
   }
 
@@ -265,6 +271,7 @@ private:
   double last_connect_attempt_time_ = -1.0;
   std::string ros_target_topic_ = "/pendulum_pole/set_position_ned";
   std::string ros_frame_id_ = "local_ned";
+  ignition::math::Vector3d odom_point_offset_link_{0, 0, 0};
   uint8_t system_id_ = 42;
   uint8_t component_id_ = MAV_COMP_ID_ONBOARD_COMPUTER;
 
