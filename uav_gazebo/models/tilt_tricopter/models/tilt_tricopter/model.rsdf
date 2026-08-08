@@ -169,10 +169,38 @@ prop_motors={
           </material>
         </visual>
         <% end %>
+        <sensor name="front_rangefinder" type="ray">
+          <pose><%= front_rod_length / 2.0 %> 0 0 0 0 0</pose>
+          <always_on>true</always_on>
+          <update_rate>50</update_rate>
+          <ray>
+            <scan>
+              <horizontal>
+                <samples>1</samples>
+                <resolution>1</resolution>
+                <min_angle>0</min_angle>
+                <max_angle>0</max_angle>
+              </horizontal>
+            </scan>
+            <range>
+              <min>0.05</min>
+              <max>10.0</max>
+              <resolution>0.001</resolution>
+            </range>
+          </ray>
+        </sensor>
       </link>
       <joint name="front_rod_joint" type="fixed">
         <parent>tilt_tricopter_base::base</parent>
         <child>front_rod</child>
+        <sensor name="front_rod_force_torque" type="force_torque">
+          <always_on>true</always_on>
+          <update_rate>100</update_rate>
+          <force_torque>
+            <frame>child</frame>
+            <measure_direction>parent_to_child</measure_direction>
+          </force_torque>
+        </sensor>
       </joint>
       <%# ====================================================================================== %>
       <%
@@ -291,13 +319,18 @@ prop_motors={
   <servo_num>3</servo_num>
   <motor_pub>/gazebo/command/prop_speed</motor_pub>
   <servo1_pub>/gazebo/command/tilt1_pos</servo1_pub>
-  <frontRodLinkName>front_rod</frontRodLinkName>
-  <frontRodCollisionName>front_rod_collision</frontRodCollisionName>
   <frontRodContactForceXTopic>/tilt_tricopter/front_rod/contact_force_x</frontRodContactForceXTopic>
-  <frontRodContactHoldMs>50.0</frontRodContactHoldMs>
-  <cmcuUdpBindAddr>127.0.0.1</cmcuUdpBindAddr>
-  <cmcuUdpBindPort>9024</cmcuUdpBindPort>
-  <cmcuForceScale>1.0</cmcuForceScale>
+  <frontRodForceTorqueName>front_rod_force_torque</frontRodForceTorqueName>
+  <adm002UdpBindAddr>127.0.0.1</adm002UdpBindAddr>
+  <adm002UdpBindPort>9024</adm002UdpBindPort>
+  <adm002ForceScale>1.0</adm002ForceScale>
+  <adm002StreamRateHz>100.0</adm002StreamRateHz>
+  <rangefinderName>front_rangefinder</rangefinderName>
+  <rangefinderUdpBindAddr>127.0.0.1</rangefinderUdpBindAddr>
+  <rangefinderUdpBindPort>9025</rangefinderUdpBindPort>
+  <rangefinderMinDistanceM>0.05</rangefinderMinDistanceM>
+  <rangefinderMaxDistanceM>10.0</rangefinderMaxDistanceM>
+  <rangefinderRateHz>50.0</rangefinderRateHz>
   <imuName>tilt_tricopter_base::imu_link::imu_sensor</imuName>
   <connectionTimeoutMaxCount>5</connectionTimeoutMaxCount>
 </plugin>

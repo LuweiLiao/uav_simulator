@@ -22,7 +22,6 @@
 #include <cstring>
 #include <fcntl.h>
 #include <functional>
-#include <limits>
 #include <stddef.h>
 #ifdef _WIN32
 # include <Winsock2.h>
@@ -51,6 +50,7 @@ typedef SSIZE_T ssize_t;
 #include <gazebo/sensors/sensors.hh>
 #include <gazebo/transport/transport.hh>
 #include <ignition/math/Filter.hh>
+#include <mavlink/v2.0/common/mavlink.h>
 #include <mutex>
 #include <sdf/sdf.hh>
 #include <std_msgs/Float64.h>
@@ -64,61 +64,23 @@ using namespace gazebo;
 GZ_REGISTER_MODEL_PLUGIN(ArduRotorTiltTricopter)
 
 namespace {
-constexpr uint8_t kCmcuAddress = 0x01;
-constexpr uint8_t kModbusReadHoldingRegisters = 0x03;
-constexpr uint8_t kModbusWriteSingleRegister = 0x06;
-constexpr uint16_t kCmcuFinalDataRegister = 0;
-constexpr uint16_t kCmcuFinalDataRegisterCount = 2;
-constexpr uint16_t kCmcuTriggerRegister = 21;
-constexpr uint16_t kCmcuTriggerTare = 1;
-constexpr size_t kCmcuRequestLength = 8;
-constexpr size_t kCmcuReadResponseLength = 9;
+constexpr uint8_t kAdm002DeviceAddress = 0x01;
+constexpr uint8_t kAdm002EnableStreamFunction = 0x28;
+constexpr uint8_t kAdm002WriteOperation = 0x01;
+constexpr uint8_t kAdm002EnableStream = 0x01;
+constexpr size_t kAdm002EnableFrameLength = 5;
+constexpr uint8_t kAdm002StatusPositive = 1U << 0;
+constexpr uint8_t kAdm002StatusStable = 1U << 1;
+constexpr size_t kAdm002StreamFrameLength = 5;
 constexpr double kNewtonToGramForce = 1000.0 / 9.80665;
 
-uint16_t Crc16Modbus(const uint8_t* _buf, const size_t _len)
+uint8_t AdditiveChecksum(const uint8_t* _buf, const size_t _len)
 {
-    uint16_t crc = 0xFFFF;
+    uint8_t checksum = 0;
     for (size_t i = 0; i < _len; ++i) {
-        crc ^= _buf[i];
-        for (uint8_t bit = 0; bit < 8; ++bit) {
-            if (crc & 1) {
-                crc = (crc >> 1) ^ 0xA001;
-            } else {
-                crc >>= 1;
-            }
-        }
+        checksum += _buf[i];
     }
-    return crc;
-}
-
-void AppendModbusCrc(uint8_t* _buf, const size_t _lenWithoutCrc)
-{
-    const uint16_t crc = Crc16Modbus(_buf, _lenWithoutCrc);
-    _buf[_lenWithoutCrc] = static_cast<uint8_t>(crc & 0xFF);
-    _buf[_lenWithoutCrc + 1] = static_cast<uint8_t>(crc >> 8);
-}
-
-bool HasValidModbusCrc(const uint8_t* _buf, const size_t _len)
-{
-    if (_len < 2) {
-        return false;
-    }
-
-    const uint16_t expected = Crc16Modbus(_buf, _len - 2);
-    const uint16_t received = static_cast<uint16_t>(_buf[_len - 2]) |
-        (static_cast<uint16_t>(_buf[_len - 1]) << 8);
-    return expected == received;
-}
-
-uint16_t ReadBigEndian16(const uint8_t* _buf)
-{
-    return (static_cast<uint16_t>(_buf[0]) << 8) | _buf[1];
-}
-
-void WriteBigEndian16(uint8_t* _buf, const uint16_t _value)
-{
-    _buf[0] = static_cast<uint8_t>(_value >> 8);
-    _buf[1] = static_cast<uint8_t>(_value & 0xFF);
+    return checksum;
 }
 }
 
@@ -473,9 +435,13 @@ public:
 public:
     ArduPilotSocketPrivate socket_out;
 
-    /// \brief CMCU-06A Modbus-RTU UDP serial socket.
+    /// \brief ADM002 UDP serial socket.
 public:
-    ArduPilotSocketPrivate cmcu_socket;
+    ArduPilotSocketPrivate adm002_socket;
+
+    /// \brief Forward-rangefinder MAVLink UDP socket.
+public:
+    ArduPilotSocketPrivate rangefinder_socket;
 
     /// \brief Ardupilot address
 public:
@@ -505,65 +471,81 @@ public:
 public:
     sensors::RaySensorPtr rangefinderSensor;
 
-    /// \brief Contact manager used to read contact wrenches.
+    /// \brief Joint force sensor whose reaction force is measured by the ADM002.
 public:
-    physics::ContactManager* contactMgr = nullptr;
+    sensors::ForceTorqueSensorPtr frontRodForceTorqueSensor;
 
-    /// \brief Collision used to measure external wrench on the front rod.
+    /// \brief Unscoped name used to resolve the force sensor after it is registered.
 public:
-    physics::CollisionPtr frontRodCollision;
-
-    /// \brief Link frame name for contact wrench output.
-public:
-    std::string frontRodFrameName;
-
-    /// \brief Scoped collision name for front_rod_collision.
-public:
-    std::string frontRodCollisionScopedName;
-
-    /// \brief External force acting on front_rod, expressed in world frame.
-public:
-    ignition::math::Vector3d frontRodExternalForceWorld;
-
-    /// \brief External torque acting on front_rod, expressed in world frame.
-public:
-    ignition::math::Vector3d frontRodExternalTorqueWorld;
+    std::string frontRodForceTorqueName;
 
     /// \brief External force along the vehicle body x-axis.
 public:
     double frontRodExternalForceBodyX = 0.0;
 
-    /// \brief Last valid external force along the vehicle body x-axis.
+    /// \brief ADM002 UDP bind address.
 public:
-    double frontRodLastContactForceBodyX = 0.0;
+    std::string adm002UdpBindAddr = "127.0.0.1";
 
-    /// \brief Sim time when front_rod last had contact data.
+    /// \brief ADM002 UDP bind port.
 public:
-    gazebo::common::Time frontRodLastContactTime;
-
-    /// \brief True after at least one valid contact update.
-public:
-    bool frontRodHasHeldContact = false;
-
-    /// \brief Time to hold the last contact force across transient contact gaps.
-public:
-    double frontRodContactHoldMs = 50.0;
-
-    /// \brief CMCU-06A UDP bind address.
-public:
-    std::string cmcuUdpBindAddr = "127.0.0.1";
-
-    /// \brief CMCU-06A UDP bind port.
-public:
-    uint16_t cmcuUdpBindPort = 9024;
+    uint16_t adm002UdpBindPort = 9024;
 
     /// \brief Additional scale applied after converting body-x force to gram-force.
 public:
-    double cmcuForceScale = 1.0;
+    double adm002ForceScale = 1.0;
 
-    /// \brief Force offset captured by the CMCU tare command.
+    /// \brief True after ArduPilot requests the unsolicited ADM002 stream.
 public:
-    double cmcuTareOffset = 0.0;
+    bool adm002StreamEnabled = false;
+
+    /// \brief UDP peer which requested the ADM002 stream.
+public:
+    struct sockaddr_in adm002PeerAddr {};
+
+    /// \brief Sim time of the previous ADM002 stream sample.
+public:
+    gazebo::common::Time adm002LastStreamTime;
+
+    /// \brief ADM002 stream rate.
+public:
+    double adm002StreamRateHz = 100.0;
+
+    /// \brief UDP bind address for forward rangefinder MAVLink messages.
+public:
+    std::string rangefinderUdpBindAddr = "127.0.0.1";
+
+    /// \brief UDP bind port for forward rangefinder MAVLink messages.
+public:
+    uint16_t rangefinderUdpBindPort = 9025;
+
+    /// \brief True after the ArduPilot MAVLink UART sends its first packet.
+public:
+    bool rangefinderPeerKnown = false;
+
+    /// \brief ArduPilot MAVLink UART peer for rangefinder messages.
+public:
+    struct sockaddr_in rangefinderPeerAddr {};
+
+    /// \brief Forward rangefinder minimum distance.
+public:
+    double rangefinderMinDistanceM = 0.05;
+
+    /// \brief Forward rangefinder maximum distance.
+public:
+    double rangefinderMaxDistanceM = 10.0;
+
+    /// \brief Forward rangefinder update rate.
+public:
+    double rangefinderRateHz = 50.0;
+
+    /// \brief Sim time of the previous rangefinder message.
+public:
+    gazebo::common::Time rangefinderLastSendTime;
+
+    /// \brief MAVLink channel sequence state for the rangefinder stream.
+public:
+    mavlink_status_t rangefinderMavlinkStatus {};
 
     /// \brief false before ardupilot controller is online
     /// to allow gazebo to continue without waiting
@@ -688,61 +670,95 @@ void ArduRotorTiltTricopter::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf
     this->dataPtr->servo1_pub = this->rosNode->advertise<mav_msgs::Actuators>("/" + this->dataPtr->servo1_pub_name, 10);
     // this->dataPtr->servo2_pub = this->rosNode->advertise<mav_msgs::Actuators>("/" + this->dataPtr->servo2_pub_name, 10);
 
-    const std::string frontRodLinkName =
-        _sdf->Get("frontRodLinkName", static_cast<std::string>("front_rod")).first;
-    const std::string frontRodCollisionName =
-        _sdf->Get("frontRodCollisionName", static_cast<std::string>("front_rod_collision")).first;
     this->dataPtr->front_rod_contact_force_x_topic =
         _sdf->Get("frontRodContactForceXTopic", static_cast<std::string>("/tilt_tricopter/front_rod/contact_force_x")).first;
-
-    physics::LinkPtr frontRodLink = this->dataPtr->model->GetLink(frontRodLinkName);
-    if (!frontRodLink) {
-        gzwarn << "[" << this->dataPtr->modelName << "] "
-               << "front rod link [" << frontRodLinkName << "] not found; contact force will stay zero.\n";
-    } else {
-        this->dataPtr->frontRodFrameName = frontRodLink->GetScopedName();
-        for (unsigned int i = 0; i < frontRodLink->GetCollisions().size(); ++i) {
-            physics::CollisionPtr collision = frontRodLink->GetCollision(i);
-            if (collision && collision->GetName() == frontRodCollisionName) {
-                this->dataPtr->frontRodCollision = collision;
-                this->dataPtr->frontRodCollisionScopedName = collision->GetScopedName();
-                break;
-            }
-        }
-
-        if (!this->dataPtr->frontRodCollision) {
-            gzwarn << "[" << this->dataPtr->modelName << "] "
-                   << "front rod collision [" << frontRodCollisionName << "] not found; contact force will stay zero.\n";
-        } else {
-            std::vector<std::string> collisions;
-            collisions.push_back(this->dataPtr->frontRodCollisionScopedName);
-            this->dataPtr->contactMgr = this->dataPtr->model->GetWorld()->Physics()->GetContactManager();
-            this->dataPtr->contactMgr->CreateFilter(this->dataPtr->modelName + "_front_rod_contact", collisions);
-            ROS_INFO_STREAM("front_rod contact collision:" << this->dataPtr->frontRodCollisionScopedName);
-        }
-    }
     this->dataPtr->front_rod_contact_force_x_pub =
         this->rosNode->advertise<std_msgs::Float64>(this->dataPtr->front_rod_contact_force_x_topic, 10);
-    this->dataPtr->frontRodContactHoldMs =
-        _sdf->Get("frontRodContactHoldMs", 50.0).first;
 
-    this->dataPtr->cmcuUdpBindAddr =
-        _sdf->Get("cmcuUdpBindAddr", static_cast<std::string>("127.0.0.1")).first;
-    this->dataPtr->cmcuUdpBindPort =
-        _sdf->Get("cmcuUdpBindPort", static_cast<uint32_t>(9024)).first;
-    this->dataPtr->cmcuForceScale =
-        _sdf->Get("cmcuForceScale", 1.0).first;
-    if (!this->dataPtr->cmcu_socket.Bind(
-            this->dataPtr->cmcuUdpBindAddr.c_str(), this->dataPtr->cmcuUdpBindPort)) {
+    this->dataPtr->frontRodForceTorqueName =
+        _sdf->Get("frontRodForceTorqueName", static_cast<std::string>("front_rod_force_torque")).first;
+    const std::vector<std::string> frontRodForceTorqueScopedNames =
+        this->dataPtr->model->SensorScopedName(this->dataPtr->frontRodForceTorqueName);
+    for (const std::string& scopedName : frontRodForceTorqueScopedNames) {
+        this->dataPtr->frontRodForceTorqueSensor =
+            std::dynamic_pointer_cast<sensors::ForceTorqueSensor>(
+                sensors::SensorManager::Instance()->GetSensor(scopedName));
+        if (this->dataPtr->frontRodForceTorqueSensor) {
+            break;
+        }
+    }
+    if (this->dataPtr->frontRodForceTorqueSensor) {
+        ROS_INFO_STREAM("front_rod force sensor:"
+                        << this->dataPtr->frontRodForceTorqueSensor->ScopedName());
+    } else {
+        ROS_INFO_STREAM("front_rod force sensor ["
+                        << this->dataPtr->frontRodForceTorqueName
+                        << "] will be resolved after Gazebo registers sensors");
+    }
+
+    this->dataPtr->adm002UdpBindAddr =
+        _sdf->Get("adm002UdpBindAddr", static_cast<std::string>("127.0.0.1")).first;
+    this->dataPtr->adm002UdpBindPort =
+        _sdf->Get("adm002UdpBindPort", static_cast<uint32_t>(9024)).first;
+    this->dataPtr->adm002ForceScale =
+        _sdf->Get("adm002ForceScale", 1.0).first;
+    this->dataPtr->adm002StreamRateHz =
+        _sdf->Get("adm002StreamRateHz", 100.0).first;
+    if (!this->dataPtr->adm002_socket.Bind(
+            this->dataPtr->adm002UdpBindAddr.c_str(), this->dataPtr->adm002UdpBindPort)) {
         gzerr << "[" << this->dataPtr->modelName << "] "
-              << "failed to bind CMCU-06A UDP socket with "
-              << this->dataPtr->cmcuUdpBindAddr << ":" << this->dataPtr->cmcuUdpBindPort
+              << "failed to bind ADM002 UDP socket with "
+              << this->dataPtr->adm002UdpBindAddr << ":" << this->dataPtr->adm002UdpBindPort
               << " aborting plugin.\n";
         return;
     }
-    ROS_INFO_STREAM("CMCU-06A UDP serial:" << this->dataPtr->cmcuUdpBindAddr
-                    << ":" << this->dataPtr->cmcuUdpBindPort
-                    << " force_scale:" << this->dataPtr->cmcuForceScale);
+    ROS_INFO_STREAM("ADM002 UDP serial:" << this->dataPtr->adm002UdpBindAddr
+                    << ":" << this->dataPtr->adm002UdpBindPort
+                    << " force_scale:" << this->dataPtr->adm002ForceScale
+                    << " stream_rate_hz:" << this->dataPtr->adm002StreamRateHz);
+
+    this->dataPtr->rangefinderUdpBindAddr =
+        _sdf->Get("rangefinderUdpBindAddr", static_cast<std::string>("127.0.0.1")).first;
+    this->dataPtr->rangefinderUdpBindPort =
+        _sdf->Get("rangefinderUdpBindPort", static_cast<uint32_t>(9025)).first;
+    this->dataPtr->rangefinderMinDistanceM =
+        _sdf->Get("rangefinderMinDistanceM", 0.05).first;
+    this->dataPtr->rangefinderMaxDistanceM =
+        _sdf->Get("rangefinderMaxDistanceM", 10.0).first;
+    this->dataPtr->rangefinderRateHz =
+        _sdf->Get("rangefinderRateHz", 50.0).first;
+    if (!this->dataPtr->rangefinder_socket.Bind(
+            this->dataPtr->rangefinderUdpBindAddr.c_str(), this->dataPtr->rangefinderUdpBindPort)) {
+        gzerr << "[" << this->dataPtr->modelName << "] "
+              << "failed to bind forward rangefinder UDP socket to "
+              << this->dataPtr->rangefinderUdpBindAddr << ":" << this->dataPtr->rangefinderUdpBindPort
+              << " aborting plugin.\n";
+        return;
+    }
+
+    const std::string rangefinderName =
+        _sdf->Get("rangefinderName", static_cast<std::string>("front_rangefinder")).first;
+    const std::vector<std::string> rangefinderScopedNames =
+        this->dataPtr->model->SensorScopedName(rangefinderName);
+    for (const std::string& scopedName : rangefinderScopedNames) {
+        this->dataPtr->rangefinderSensor = std::dynamic_pointer_cast<sensors::RaySensor>(
+            sensors::SensorManager::Instance()->GetSensor(scopedName));
+        if (this->dataPtr->rangefinderSensor) {
+            break;
+        }
+    }
+    if (!this->dataPtr->rangefinderSensor) {
+        this->dataPtr->rangefinderSensor = std::dynamic_pointer_cast<sensors::RaySensor>(
+            sensors::SensorManager::Instance()->GetSensor(rangefinderName));
+    }
+    if (!this->dataPtr->rangefinderSensor) {
+        gzerr << "[" << this->dataPtr->modelName << "] "
+              << "forward rangefinder [" << rangefinderName << "] not found, aborting plugin.\n";
+        return;
+    }
+    ROS_INFO_STREAM("Forward rangefinder:" << this->dataPtr->rangefinderSensor->ScopedName()
+                    << " UDP:" << this->dataPtr->rangefinderUdpBindAddr
+                    << ":" << this->dataPtr->rangefinderUdpBindPort);
 
     // Get sensors
     std::string              imuName       = _sdf->Get("imuName", static_cast<std::string>("imu_sensor")).first;
@@ -826,7 +842,8 @@ void ArduRotorTiltTricopter::OnUpdate()
     // Update the control surfaces and publish the new state.
     if (curTime > this->dataPtr->lastControllerUpdateTime) {
         this->UpdateFrontRodContactWrench();
-        this->ProcessCmcuUdp();
+        this->ProcessAdm002Udp();
+        this->SendForwardRangefinder();
         this->ReceiveMotorCommand();
         if (this->dataPtr->arduPilotOnline) {
             this->ApplyMotorForces((curTime - this->dataPtr->lastControllerUpdateTime).Double());
@@ -840,56 +857,29 @@ void ArduRotorTiltTricopter::OnUpdate()
 /////////////////////////////////////////////////
 void ArduRotorTiltTricopter::UpdateFrontRodContactWrench()
 {
-    this->dataPtr->frontRodExternalForceWorld = ignition::math::Vector3d::Zero;
-    this->dataPtr->frontRodExternalTorqueWorld = ignition::math::Vector3d::Zero;
     this->dataPtr->frontRodExternalForceBodyX = 0.0;
 
-    if (!this->dataPtr->contactMgr || this->dataPtr->frontRodCollisionScopedName.empty()) {
-        return;
-    }
-
-    bool hasFrontRodContact = false;
-    std::vector<physics::Contact*> contacts = this->dataPtr->contactMgr->GetContacts();
-    const int contactCount = this->dataPtr->contactMgr->GetContactCount();
-    for (int i = 0; i < contactCount; ++i) {
-        physics::Contact* contact = contacts[i];
-        if (!contact || !contact->wrench || !contact->collision1 || !contact->collision2) {
-            continue;
+    if (!this->dataPtr->frontRodForceTorqueSensor) {
+        const sensors::Sensor_V sensors = sensors::SensorManager::Instance()->GetSensors();
+        for (const sensors::SensorPtr& sensor : sensors) {
+            if (!sensor || sensor->Name() != this->dataPtr->frontRodForceTorqueName) {
+                continue;
+            }
+            this->dataPtr->frontRodForceTorqueSensor =
+                std::dynamic_pointer_cast<sensors::ForceTorqueSensor>(sensor);
+            if (this->dataPtr->frontRodForceTorqueSensor) {
+                ROS_INFO_STREAM("front_rod force sensor:"
+                                << this->dataPtr->frontRodForceTorqueSensor->ScopedName());
+                break;
+            }
         }
-
-        const std::string collision1Name = contact->collision1->GetScopedName();
-        const std::string collision2Name = contact->collision2->GetScopedName();
-
-        if (collision1Name == this->dataPtr->frontRodCollisionScopedName) {
-            hasFrontRodContact = true;
-            this->dataPtr->frontRodExternalForceWorld += contact->wrench->body1Force;
-            this->dataPtr->frontRodExternalTorqueWorld += contact->wrench->body1Torque;
-        } else if (collision2Name == this->dataPtr->frontRodCollisionScopedName) {
-            hasFrontRodContact = true;
-            this->dataPtr->frontRodExternalForceWorld += contact->wrench->body2Force;
-            this->dataPtr->frontRodExternalTorqueWorld += contact->wrench->body2Torque;
+        if (!this->dataPtr->frontRodForceTorqueSensor) {
+            return;
         }
     }
 
-    const gazebo::common::Time now = this->dataPtr->model->GetWorld()->SimTime();
-    if (hasFrontRodContact) {
-        ignition::math::Quaterniond bodyRotation = this->dataPtr->model->WorldPose().Rot();
-        if (this->dataPtr->frontRodCollision && this->dataPtr->frontRodCollision->GetLink()) {
-            bodyRotation = this->dataPtr->frontRodCollision->GetLink()->WorldPose().Rot();
-        }
-        const ignition::math::Vector3d frontRodExternalForceBody =
-            bodyRotation.RotateVectorReverse(this->dataPtr->frontRodExternalForceWorld);
-        this->dataPtr->frontRodExternalForceBodyX = -frontRodExternalForceBody.X();
-        this->dataPtr->frontRodLastContactForceBodyX = this->dataPtr->frontRodExternalForceBodyX;
-        this->dataPtr->frontRodLastContactTime = now;
-        this->dataPtr->frontRodHasHeldContact = true;
-    } else if (this->dataPtr->frontRodHasHeldContact &&
-               (now - this->dataPtr->frontRodLastContactTime).Double() * 1000.0 <=
-                   this->dataPtr->frontRodContactHoldMs) {
-        this->dataPtr->frontRodExternalForceBodyX = this->dataPtr->frontRodLastContactForceBodyX;
-    } else {
-        this->dataPtr->frontRodHasHeldContact = false;
-    }
+    this->dataPtr->frontRodExternalForceBodyX =
+        this->dataPtr->frontRodForceTorqueSensor->Force().X();
 
     if (this->dataPtr->front_rod_contact_force_x_pub) {
         std_msgs::Float64 msg;
@@ -899,68 +889,122 @@ void ArduRotorTiltTricopter::UpdateFrontRodContactWrench()
 }
 
 /////////////////////////////////////////////////
-void ArduRotorTiltTricopter::ProcessCmcuUdp()
+void ArduRotorTiltTricopter::ProcessAdm002Udp()
 {
     std::array<uint8_t, 256> request;
-    struct sockaddr_in peerAddr;
+    struct sockaddr_in peerAddr {};
 
     while (true) {
-        const ssize_t recvSize = this->dataPtr->cmcu_socket.RecvFrom(
+        const ssize_t recvSize = this->dataPtr->adm002_socket.RecvFrom(
             request.data(), request.size(), peerAddr, 0ul);
         if (recvSize == -1) {
             break;
         }
 
-        if (recvSize != static_cast<ssize_t>(kCmcuRequestLength) ||
-            !HasValidModbusCrc(request.data(), kCmcuRequestLength) ||
-            request[0] != kCmcuAddress) {
-            continue;
-        }
-
-        if (request[1] == kModbusReadHoldingRegisters &&
-            ReadBigEndian16(&request[2]) == kCmcuFinalDataRegister &&
-            ReadBigEndian16(&request[4]) == kCmcuFinalDataRegisterCount) {
-            const double correctedForceNewton =
-                this->dataPtr->frontRodExternalForceBodyX - this->dataPtr->cmcuTareOffset;
-            double contactForceGram =
-                correctedForceNewton * kNewtonToGramForce * this->dataPtr->cmcuForceScale;
-            if (!std::isfinite(contactForceGram)) {
-                contactForceGram = 0.0;
-            }
-            contactForceGram = ignition::math::clamp(contactForceGram,
-                static_cast<double>(std::numeric_limits<int32_t>::min()),
-                static_cast<double>(std::numeric_limits<int32_t>::max()));
-
-            const int32_t counts = static_cast<int32_t>(std::llround(contactForceGram));
-            const uint32_t rawCounts = static_cast<uint32_t>(counts);
-            const uint16_t lowWord = static_cast<uint16_t>(rawCounts & 0xFFFF);
-            const uint16_t highWord = static_cast<uint16_t>((rawCounts >> 16) & 0xFFFF);
-
-            uint8_t response[kCmcuReadResponseLength] = {
-                kCmcuAddress,
-                kModbusReadHoldingRegisters,
-                4,
-                0,
-                0,
-                0,
-                0,
-                0,
-                0,
-            };
-            WriteBigEndian16(&response[3], lowWord);
-            WriteBigEndian16(&response[5], highWord);
-            AppendModbusCrc(response, kCmcuReadResponseLength - 2);
-            this->dataPtr->cmcu_socket.SendTo(response, sizeof(response), peerAddr);
-            continue;
-        }
-
-        if (request[1] == kModbusWriteSingleRegister &&
-            ReadBigEndian16(&request[2]) == kCmcuTriggerRegister &&
-            ReadBigEndian16(&request[4]) == kCmcuTriggerTare) {
-            this->dataPtr->cmcuTareOffset = this->dataPtr->frontRodExternalForceBodyX;
-            this->dataPtr->cmcu_socket.SendTo(request.data(), kCmcuRequestLength, peerAddr);
+        if (recvSize == static_cast<ssize_t>(kAdm002EnableFrameLength) &&
+            request[0] == kAdm002DeviceAddress &&
+            request[1] == kAdm002EnableStreamFunction &&
+            request[2] == kAdm002WriteOperation &&
+            request[3] == kAdm002EnableStream &&
+            request[4] == AdditiveChecksum(request.data(), kAdm002EnableFrameLength - 1)) {
+            this->dataPtr->adm002PeerAddr = peerAddr;
+            this->dataPtr->adm002StreamEnabled = true;
         }
     }
+
+    if (!this->dataPtr->adm002StreamEnabled) {
+        return;
+    }
+
+    const gazebo::common::Time now = this->dataPtr->model->GetWorld()->SimTime();
+    const double streamPeriodS = 1.0 / std::max(this->dataPtr->adm002StreamRateHz, 1.0);
+    if ((now - this->dataPtr->adm002LastStreamTime).Double() < streamPeriodS) {
+        return;
+    }
+    this->dataPtr->adm002LastStreamTime = now;
+
+    double contactForceGram = this->dataPtr->frontRodExternalForceBodyX *
+        kNewtonToGramForce * this->dataPtr->adm002ForceScale;
+    if (!std::isfinite(contactForceGram)) {
+        contactForceGram = 0.0;
+    }
+    contactForceGram = ignition::math::clamp(contactForceGram, -16777215.0, 16777215.0);
+    const int32_t signedWeightG = static_cast<int32_t>(std::llround(contactForceGram));
+    const uint32_t magnitudeG = static_cast<uint32_t>(std::abs(signedWeightG));
+
+    uint8_t frame[kAdm002StreamFrameLength] {
+        static_cast<uint8_t>(kAdm002StatusStable |
+            (signedWeightG >= 0 ? kAdm002StatusPositive : 0)),
+        static_cast<uint8_t>(magnitudeG >> 16),
+        static_cast<uint8_t>(magnitudeG >> 8),
+        static_cast<uint8_t>(magnitudeG),
+        0,
+    };
+    frame[kAdm002StreamFrameLength - 1] =
+        AdditiveChecksum(frame, kAdm002StreamFrameLength - 1);
+    this->dataPtr->adm002_socket.SendTo(
+        frame, sizeof(frame), this->dataPtr->adm002PeerAddr);
+}
+
+/////////////////////////////////////////////////
+void ArduRotorTiltTricopter::SendForwardRangefinder()
+{
+    std::array<uint8_t, MAVLINK_MAX_PACKET_LEN> request;
+    struct sockaddr_in peerAddr {};
+    while (true) {
+        const ssize_t recvSize = this->dataPtr->rangefinder_socket.RecvFrom(
+            request.data(), request.size(), peerAddr, 0ul);
+        if (recvSize == -1) {
+            break;
+        }
+        this->dataPtr->rangefinderPeerAddr = peerAddr;
+        this->dataPtr->rangefinderPeerKnown = true;
+    }
+
+    if (!this->dataPtr->rangefinderPeerKnown) {
+        return;
+    }
+
+    if (!this->dataPtr->rangefinderSensor) {
+        return;
+    }
+
+    const gazebo::common::Time now = this->dataPtr->model->GetWorld()->SimTime();
+    const double sendPeriodS = 1.0 / std::max(this->dataPtr->rangefinderRateHz, 1.0);
+    if ((now - this->dataPtr->rangefinderLastSendTime).Double() < sendPeriodS) {
+        return;
+    }
+    this->dataPtr->rangefinderLastSendTime = now;
+
+    const double rangeM = this->dataPtr->rangefinderSensor->Range(0);
+    const bool validRange = std::isfinite(rangeM) &&
+        rangeM >= this->dataPtr->rangefinderMinDistanceM &&
+        rangeM <= this->dataPtr->rangefinderMaxDistanceM;
+    const uint16_t minDistanceCm = static_cast<uint16_t>(std::llround(
+        this->dataPtr->rangefinderMinDistanceM * 100.0));
+    const uint16_t maxDistanceCm = static_cast<uint16_t>(std::llround(
+        this->dataPtr->rangefinderMaxDistanceM * 100.0));
+    const uint16_t currentDistanceCm = validRange ?
+        static_cast<uint16_t>(std::llround(rangeM * 100.0)) : maxDistanceCm + 1U;
+
+    mavlink_distance_sensor_t sensorMsg {};
+    sensorMsg.time_boot_ms = static_cast<uint32_t>(now.Double() * 1000.0);
+    sensorMsg.min_distance = minDistanceCm;
+    sensorMsg.max_distance = maxDistanceCm;
+    sensorMsg.current_distance = currentDistanceCm;
+    sensorMsg.type = MAV_DISTANCE_SENSOR_LASER;
+    sensorMsg.id = 0;
+    sensorMsg.orientation = MAV_SENSOR_ROTATION_NONE;
+    sensorMsg.covariance = UINT8_MAX;
+    sensorMsg.signal_quality = validRange ? 100U : 0U;
+
+    mavlink_message_t msg;
+    mavlink_msg_distance_sensor_encode_status(
+        32, MAV_COMP_ID_PERIPHERAL, &this->dataPtr->rangefinderMavlinkStatus, &msg, &sensorMsg);
+    uint8_t buffer[MAVLINK_MAX_PACKET_LEN];
+    const uint16_t len = mavlink_msg_to_send_buffer(buffer, &msg);
+    this->dataPtr->rangefinder_socket.SendTo(
+        buffer, len, this->dataPtr->rangefinderPeerAddr);
 }
 
 /////////////////////////////////////////////////
@@ -1088,12 +1132,6 @@ void ArduRotorTiltTricopter::ReceiveMotorCommand()
                   << "\n";
         }
         const ssize_t recvChannels = recvSize / sizeof(pkt.motorSpeed[0]);
-
-        std::cout << "servo_command:";
-        for (unsigned int i = 0; i < recvChannels; ++i) {
-            std::cout << pkt.motorSpeed[i] << " ";
-        }
-        std::cout << "\r\n";
 
         if (!this->dataPtr->arduPilotOnline) {
             gzdbg << "[" << this->dataPtr->modelName << "] "

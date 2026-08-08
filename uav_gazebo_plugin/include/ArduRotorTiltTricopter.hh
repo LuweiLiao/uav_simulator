@@ -101,9 +101,13 @@ private:
 private:
     void UpdateFrontRodContactWrench();
 
-    /// \brief Serve CMCU-06A Modbus-RTU requests over UDP.
+    /// \brief Serve the ADM002 contact-force stream over UDP.
 private:
-    void ProcessCmcuUdp();
+    void ProcessAdm002Udp();
+
+    /// \brief Send the forward rangefinder as MAVLink DISTANCE_SENSOR.
+private:
+    void SendForwardRangefinder();
 
     /// \brief Init ardupilot socket
 private:
