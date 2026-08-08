@@ -41,6 +41,22 @@
       </include>
     </model>
 
+    <model name="tsd_electric_tower_instance">
+      <pose>0 0 0 0 0 0</pose>
+      <include>
+        <uri>model://tsd_electric_tower</uri>
+        <name>tsd_electric_tower</name>
+      </include>
+    </model>
+
+    <model name="tsd_tree_obstacle_instance">
+      <pose>5 0 0 0 0 0</pose>
+      <include>
+        <uri>model://tsd_tree_obstacle</uri>
+        <name>tsd_tree_obstacle</name>
+      </include>
+    </model>
+
     <model name="balll">
       <static>true</static>
       <pose>10 0 0 0 0 0</pose>

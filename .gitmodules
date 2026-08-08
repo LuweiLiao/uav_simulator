@@ -1,0 +1,3 @@
+[submodule "uav_gazebo/models/tsd_model"]
+	path = uav_gazebo/models/tsd_model
+	url = https://gitee.com/Luviewer/tsd_model.git
