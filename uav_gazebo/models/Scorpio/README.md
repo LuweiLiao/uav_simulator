@@ -58,6 +58,8 @@ erb models/scorpio/model.rsdf > /tmp/scorpio.sdf
 xmllint --noout /tmp/scorpio.sdf
 ```
 
-顶层暂时复用 `libArduRotorQuadrupedBicopter.so` 作为 SITL 传输插件。模型中已经
-声明 6+6+6 个腿关节、3 个旋翼和 3 个倾转关节，但该旧插件内部仍有四足/双旋翼
-的固定发布数量；在下一步 motor 模式联调时需要将它扩展为 Scorpio 的动态数量。
+顶层使用独立的 `libArduRotorScorpio.so` 作为 SITL 传输插件，不修改原四足双旋翼
+插件。模型中已经声明 6+6+6 个腿关节、3 个旋翼和 3 个倾转关节。Scorpio 打开 SocketCAN 模式后，
+标准 Gazebo UDP 的 16 路 PWM 中第 1–3 路控制旋翼、第 4–6 路控制倾转；18 个腿关节
+通过 `vcan0` 上的 DroneCAN `com.usl.ServoCmd` 传输。插件按模型配置动态发布六路
+Coxa/Femur/Tibia 命令，关闭 SocketCAN 参数时仍兼容原四足 UDP 布局。

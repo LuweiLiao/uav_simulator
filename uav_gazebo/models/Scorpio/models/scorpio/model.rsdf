@@ -83,8 +83,10 @@ tilt_to_prop_z = 0.04206
 prop_time_constant_up   = 0.0125
 prop_time_constant_down = 0.025
 prop_max_rot_velocity   = 1000.0
-prop_motor_constant     = 1.599e-5
-prop_moment_constant    = 4.599e-7
+# 5.816 kg整机按后旋翼1.0、两前旋翼各0.609的静态分配，在约50%油门悬停。
+# 力矩常数同比放大，保持 moment/force = 0.02876 m 不变。
+prop_motor_constant     = 5.200e-5
+prop_moment_constant    = 1.4955e-6
 prop_drag_coefficient   = 0.000806428
 prop_rolling_moment     = 1.0e-6
 prop_slowdown           = 10.0
@@ -273,7 +275,7 @@ prop_slowdown           = 10.0
 <% end %>
 
     <!-- 暂时复用现有混合地面/飞行传输插件；其通道循环将在 motor 模式阶段扩展。 -->
-    <plugin name="ArduRotorScorpio" filename="libArduRotorQuadrupedBicopter.so">
+    <plugin name="ArduRotorScorpio" filename="libArduRotorScorpio.so">
       <fdm_addr>127.0.0.1</fdm_addr>
       <fdm_port_in>9002</fdm_port_in>
       <fdm_port_out>9003</fdm_port_out>
@@ -284,6 +286,11 @@ prop_slowdown           = 10.0
       <coxa_num>6</coxa_num>
       <femur_num>6</femur_num>
       <tibia_num>6</tibia_num>
+      <!-- 飞行执行器保持标准 Gazebo 16 路 PWM；腿部18路由 DroneCAN/SocketCAN 独立传输。 -->
+      <socketCanEnabled>true</socketCanEnabled>
+      <socketCanInterface>vcan0</socketCanInterface>
+      <motorChannelBase>0</motorChannelBase>
+      <servoChannelBase>3</servoChannelBase>
       <motor_pub>/gazebo/command/prop_speed</motor_pub>
       <servo_pub>/gazebo/command/tilt_pos</servo_pub>
       <coxa_pub>/gazebo/command/coxa_pos</coxa_pub>

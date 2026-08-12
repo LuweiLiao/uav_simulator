@@ -692,8 +692,8 @@
       <timeConstantUp>0.0125</timeConstantUp>
       <timeConstantDown>0.025</timeConstantDown>
       <maxRotVelocity>1000.0</maxRotVelocity>
-      <motorConstant>1.599e-05</motorConstant>
-      <momentConstant>4.599e-07</momentConstant>
+      <motorConstant>5.2e-05</motorConstant>
+      <momentConstant>1.4955e-06</momentConstant>
       <commandSubTopic>/gazebo/command/prop_speed</commandSubTopic>
       <motorNumber>0</motorNumber>
       <rotorDragCoefficient>0.000806428</rotorDragCoefficient>
@@ -759,8 +759,8 @@
       <timeConstantUp>0.0125</timeConstantUp>
       <timeConstantDown>0.025</timeConstantDown>
       <maxRotVelocity>1000.0</maxRotVelocity>
-      <motorConstant>1.599e-05</motorConstant>
-      <momentConstant>4.599e-07</momentConstant>
+      <motorConstant>5.2e-05</motorConstant>
+      <momentConstant>1.4955e-06</momentConstant>
       <commandSubTopic>/gazebo/command/prop_speed</commandSubTopic>
       <motorNumber>1</motorNumber>
       <rotorDragCoefficient>0.000806428</rotorDragCoefficient>
@@ -826,8 +826,8 @@
       <timeConstantUp>0.0125</timeConstantUp>
       <timeConstantDown>0.025</timeConstantDown>
       <maxRotVelocity>1000.0</maxRotVelocity>
-      <motorConstant>1.599e-05</motorConstant>
-      <momentConstant>4.599e-07</momentConstant>
+      <motorConstant>5.2e-05</motorConstant>
+      <momentConstant>1.4955e-06</momentConstant>
       <commandSubTopic>/gazebo/command/prop_speed</commandSubTopic>
       <motorNumber>2</motorNumber>
       <rotorDragCoefficient>0.000806428</rotorDragCoefficient>
@@ -838,7 +838,7 @@
 
 
     <!-- 暂时复用现有混合地面/飞行传输插件；其通道循环将在 motor 模式阶段扩展。 -->
-    <plugin name="ArduRotorScorpio" filename="libArduRotorQuadrupedBicopter.so">
+    <plugin name="ArduRotorScorpio" filename="libArduRotorScorpio.so">
       <fdm_addr>127.0.0.1</fdm_addr>
       <fdm_port_in>9002</fdm_port_in>
       <fdm_port_out>9003</fdm_port_out>
@@ -849,6 +849,11 @@
       <coxa_num>6</coxa_num>
       <femur_num>6</femur_num>
       <tibia_num>6</tibia_num>
+      <!-- 飞行执行器保持标准 Gazebo 16 路 PWM；腿部18路由 DroneCAN/SocketCAN 独立传输。 -->
+      <socketCanEnabled>true</socketCanEnabled>
+      <socketCanInterface>vcan0</socketCanInterface>
+      <motorChannelBase>0</motorChannelBase>
+      <servoChannelBase>3</servoChannelBase>
       <motor_pub>/gazebo/command/prop_speed</motor_pub>
       <servo_pub>/gazebo/command/tilt_pos</servo_pub>
       <coxa_pub>/gazebo/command/coxa_pos</coxa_pub>
