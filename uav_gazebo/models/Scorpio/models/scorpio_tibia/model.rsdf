@@ -1,0 +1,65 @@
+<?xml version="1.0" ?>
+  <%
+
+  # ----------------------------------------------------------------
+
+  base_mass = 0.1
+  base_ii = 1e-3
+%>
+  <sdf version="1.6">
+    <model name="scorpio_tibia">
+      <link name="base">
+      <pose>0 0 0 0 0 0</pose>
+      <inertial>
+        <pose>0 0 0 0 0 0</pose>
+        <mass><%= base_mass %></mass>
+        <inertia>
+          <ixx><%= base_ii %></ixx>
+          <iyy><%= base_ii %></iyy>
+          <izz><%= base_ii %></izz>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyz>0</iyz>
+        </inertia>
+      </inertial>
+      <collision name="base_collision">
+        <pose>0 0 0  0 0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://scorpio_tibia/meshes/scorpio_tibia.dae</uri>
+          </mesh>
+        </geometry>
+        <surface>
+          <friction>
+            <ode>
+              <mu>1</mu>
+              <mu2>1</mu2>
+              <kp>1e8</kp>
+              <kd>1e4</kd>
+            </ode>
+          </friction>
+          <contact>
+            <ode>
+              <soft_cfm>0.01</soft_cfm>
+              <kp>1e5</kp>             <!-- 减小接触刚度 -->
+              <kd>1e3</kd>             <!-- 增加阻尼 -->
+            </ode>
+          </contact>
+        </surface>
+      </collision>
+      <visual name="base_visual">
+        <geometry>
+          <mesh>
+            <uri>model://scorpio_tibia/meshes/scorpio_tibia.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Black</name>
+          </script>
+        </material>
+      </visual>
+    </link>
+    <%# ----------------------------------------------------------- %>
+  </model>
+</sdf>

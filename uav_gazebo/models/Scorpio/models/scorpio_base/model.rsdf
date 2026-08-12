@@ -1,0 +1,85 @@
+<?xml version="1.0" ?>
+<%
+# Scorpio 机身参数（SI 单位）。
+# 新 DAE 的原始包围盒约为 0.450286 x 0.447453 x 0.190 m。DAE 已保留实物
+# CAD 坐标原点，因此 visual pose 必须保持为零，不能按包围盒中心重新对齐。
+# 虽然文件写有 Y_UP，Gazebo 的 DAE 导入器会处理坐标约定；这里也不能再额外
+# 旋转，否则机身会绕 X 轴重复旋转 90°。
+body_mass = 4.0
+body_collision_x = 0.340
+body_collision_y = 0.280
+body_collision_z = 0.100
+body_collision_z_offset = 0.0
+
+body_mesh_scale = 1.0
+body_mesh_x = 0.0
+body_mesh_y = 0.0
+body_mesh_z = 0.0
+body_mesh_roll  = 0.0
+body_mesh_pitch = 0.0
+body_mesh_yaw   = 0.0
+
+# 用中心碰撞盒估算惯量；获得实物 CAD 惯量后可直接覆盖这三个值。
+body_ixx = body_mass * (body_collision_y**2 + body_collision_z**2) / 12.0
+body_iyy = body_mass * (body_collision_x**2 + body_collision_z**2) / 12.0
+body_izz = body_mass * (body_collision_x**2 + body_collision_y**2) / 12.0
+
+imu_x = 0.0
+imu_y = 0.0
+imu_z = 0.060
+%>
+<sdf version="1.6">
+  <model name="scorpio_base">
+    <link name="base">
+      <pose>0 0 0 0 0 0</pose>
+      <inertial>
+        <pose>0 0 0 0 0 0</pose>
+        <mass><%= body_mass %></mass>
+        <inertia>
+          <ixx><%= body_ixx %></ixx><iyy><%= body_iyy %></iyy><izz><%= body_izz %></izz>
+          <ixy>0</ixy><ixz>0</ixz><iyz>0</iyz>
+        </inertia>
+      </inertial>
+      <collision name="base_collision">
+        <pose>0 0 <%= body_collision_z_offset %> 0 0 0</pose>
+        <geometry>
+          <box><size><%= body_collision_x %> <%= body_collision_y %> <%= body_collision_z %></size></box>
+        </geometry>
+        <surface>
+          <contact><ode><kp>1e6</kp><kd>1e3</kd></ode></contact>
+          <friction><ode><mu>0.8</mu><mu2>0.8</mu2></ode></friction>
+        </surface>
+      </collision>
+      <visual name="base_visual">
+        <pose><%= body_mesh_x %> <%= body_mesh_y %> <%= body_mesh_z %> <%= body_mesh_roll %> <%= body_mesh_pitch %> <%= body_mesh_yaw %></pose>
+        <geometry>
+          <mesh>
+            <uri>model://scorpio_base/meshes/scorpio_body.dae</uri>
+            <scale><%= body_mesh_scale %> <%= body_mesh_scale %> <%= body_mesh_scale %></scale>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+
+    <link name="imu_link">
+      <pose><%= imu_x %> <%= imu_y %> <%= imu_z %> 0 0 0</pose>
+      <inertial>
+        <mass>0.01</mass>
+        <inertia>
+          <ixx>1e-6</ixx><iyy>1e-6</iyy><izz>1e-6</izz>
+          <ixy>0</ixy><ixz>0</ixz><iyz>0</iyz>
+        </inertia>
+      </inertial>
+      <sensor name="imu_sensor" type="imu">
+        <pose>0 0 0 3.141593 0 0</pose>
+        <always_on>1</always_on>
+        <update_rate>1000.0</update_rate>
+        <topic>__default_topic__</topic>
+      </sensor>
+    </link>
+    <joint name="imu_joint" type="fixed">
+      <parent>base</parent>
+      <child>imu_link</child>
+    </joint>
+  </model>
+</sdf>

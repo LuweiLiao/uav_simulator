@@ -29,7 +29,9 @@
 
     <arg name="other" default="$(find uav_gazebo)/models/tilt_tricopter/models:$(find uav_gazebo)/models/tilt_tricopter_fix/models:$(find uav_gazebo)/models/tilt_quadcopter/models:$(find uav_gazebo)/models/tilt_quadcopter_fix/models:$(find uav_gazebo)/models/tilt_quadcopter_armbot/models:$(find uav_gazebo)/models/nonplant_hex/models:$(find uav_gazebo)/models/pendulum_quadcopter/models:$(find uav_gazebo)/models/tsd_model/tsd_tree_obstacle/models" />
 
-    <env name="GAZEBO_MODEL_PATH" value="${GAZEBO_MODEL_PATH}:$(arg tsduav):$(arg equipment):$(arg usl):$(arg common):$(arg uni350):$(arg quadcopter):$(arg ck):$(arg other):$(arg follow_uav)"/>
+    <arg name="scorpio" default="$(find uav_gazebo)/models/Scorpio/models" />
+
+    <env name="GAZEBO_MODEL_PATH" value="${GAZEBO_MODEL_PATH}:$(arg tsduav):$(arg equipment):$(arg usl):$(arg common):$(arg uni350):$(arg quadcopter):$(arg ck):$(arg other):$(arg follow_uav):$(arg scorpio)"/>
     <env name="GAZEBO_RESOURCE_PATH" value="${GAZEBO_RESOURCE_PATH}:$(find uav_gazebo)/models/ground/models" />
     
 

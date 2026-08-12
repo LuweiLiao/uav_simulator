@@ -1,0 +1,861 @@
+<?xml version="1.0" ?>
+
+<sdf version="1.6">
+  <model name="scorpio">
+    <include>
+      <uri>model://scorpio_base</uri>
+      <name>scorpio_base</name>
+      <pose>0 0 0 0 0 0</pose>
+    </include>
+
+
+    <!-- RF：髋关节 -->
+    <include>
+      <uri>model://scorpio_coxa</uri>
+      <name>scorpio_coxa_rf</name>
+      <pose relative_to="scorpio_coxa_rf_joint">0 0 0 0 0 0</pose>
+    </include>
+    <joint name="scorpio_coxa_rf_joint" type="revolute">
+      <pose relative_to="scorpio_base::base">0.136 -0.096 0.0 0 0 -0.6146629519221655</pose>
+      <parent>scorpio_base::base</parent>
+      <child>scorpio_coxa_rf::base</child>
+      <axis>
+        <xyz>0.0 0.0 -1.0</xyz>
+        <limit>
+          <lower>-1.5707963267948966</lower>
+          <upper>1.5707963267948966</upper>
+          <effort>50.0</effort>
+          <velocity>2.0</velocity>
+        </limit>
+        <dynamics><damping>0.02</damping></dynamics>
+      </axis>
+    </joint>
+    <plugin name="scorpio_coxa_rf_plugin" filename="librotors_gazebo_motor_model.so">
+      <robotNamespace></robotNamespace>
+      <jointName>scorpio_coxa_rf_joint</jointName>
+      <linkName>scorpio_coxa_rf::base</linkName>
+      <turningDirection>cw</turningDirection>
+      <motorType>position</motorType>
+      <commandSubTopic>/gazebo/command/coxa_pos</commandSubTopic>
+      <motorNumber>0</motorNumber>
+      <motorSpeedPubTopic>coxa_pos/0</motorSpeedPubTopic>
+      <joint_control_pid>
+        <p>15.0</p><i>5.0</i><d>0.6</d>
+        <iMax>10</iMax><iMin>-10</iMin><cmdMax>50</cmdMax><cmdMin>-50</cmdMin>
+      </joint_control_pid>
+    </plugin>
+
+    <!-- RF：股关节 -->
+    <include>
+      <uri>model://scorpio_femur</uri>
+      <name>scorpio_femur_rf</name>
+      <pose relative_to="scorpio_femur_rf_joint">0 0 0 0 0 0</pose>
+    </include>
+    <joint name="scorpio_femur_rf_joint" type="revolute">
+      <pose relative_to="scorpio_coxa_rf::base">0.043 0.0 0.0 0 0 0</pose>
+      <parent>scorpio_coxa_rf::base</parent>
+      <child>scorpio_femur_rf::base</child>
+      <axis>
+        <xyz>0 1 0</xyz>
+        <limit>
+          <lower>-1.5707963267948966</lower><upper>1.5707963267948966</upper>
+          <effort>50.0</effort><velocity>2.0</velocity>
+        </limit>
+        <dynamics><damping>0.02</damping></dynamics>
+      </axis>
+    </joint>
+    <plugin name="scorpio_femur_rf_plugin" filename="librotors_gazebo_motor_model.so">
+      <robotNamespace></robotNamespace>
+      <jointName>scorpio_femur_rf_joint</jointName>
+      <linkName>scorpio_femur_rf::base</linkName>
+      <turningDirection>cw</turningDirection>
+      <motorType>position</motorType>
+      <commandSubTopic>/gazebo/command/femur_pos</commandSubTopic>
+      <motorNumber>0</motorNumber>
+      <motorSpeedPubTopic>femur_pos/0</motorSpeedPubTopic>
+      <joint_control_pid>
+        <p>10.0</p><i>3.0</i><d>0.6</d>
+        <iMax>10</iMax><iMin>-10</iMin><cmdMax>50</cmdMax><cmdMin>-50</cmdMin>
+      </joint_control_pid>
+    </plugin>
+
+    <!-- RF：胫关节 -->
+    <include>
+      <uri>model://scorpio_tibia</uri>
+      <name>scorpio_tibia_rf</name>
+      <pose relative_to="scorpio_tibia_rf_joint">0 0 0 0 0 0</pose>
+    </include>
+    <joint name="scorpio_tibia_rf_joint" type="revolute">
+      <pose relative_to="scorpio_femur_rf::base">0.0558 0.0 -0.05 0 0 0</pose>
+      <parent>scorpio_femur_rf::base</parent>
+      <child>scorpio_tibia_rf::base</child>
+      <axis>
+        <xyz>0 1 0</xyz>
+        <limit>
+          <lower>-3.141592653589793</lower><upper>3.141592653589793</upper>
+          <effort>50.0</effort><velocity>2.0</velocity>
+        </limit>
+        <dynamics><damping>0.02</damping></dynamics>
+      </axis>
+    </joint>
+    <plugin name="scorpio_tibia_rf_plugin" filename="librotors_gazebo_motor_model.so">
+      <robotNamespace></robotNamespace>
+      <jointName>scorpio_tibia_rf_joint</jointName>
+      <linkName>scorpio_tibia_rf::base</linkName>
+      <turningDirection>cw</turningDirection>
+      <motorType>position</motorType>
+      <commandSubTopic>/gazebo/command/tibia_pos</commandSubTopic>
+      <motorNumber>0</motorNumber>
+      <motorSpeedPubTopic>tibia_pos/0</motorSpeedPubTopic>
+      <joint_control_pid>
+        <p>10.0</p><i>3.0</i><d>0.6</d>
+        <iMax>10</iMax><iMin>-10</iMin><cmdMax>50</cmdMax><cmdMin>-50</cmdMin>
+      </joint_control_pid>
+    </plugin>
+
+    <!-- RB：髋关节 -->
+    <include>
+      <uri>model://scorpio_coxa</uri>
+      <name>scorpio_coxa_rb</name>
+      <pose relative_to="scorpio_coxa_rb_joint">0 0 0 0 0 0</pose>
+    </include>
+    <joint name="scorpio_coxa_rb_joint" type="revolute">
+      <pose relative_to="scorpio_base::base">-0.136 -0.096 0.0 0 0 -2.5269297016676275</pose>
+      <parent>scorpio_base::base</parent>
+      <child>scorpio_coxa_rb::base</child>
+      <axis>
+        <xyz>0.0 0.0 -1.0</xyz>
+        <limit>
+          <lower>-1.5707963267948966</lower>
+          <upper>1.5707963267948966</upper>
+          <effort>50.0</effort>
+          <velocity>2.0</velocity>
+        </limit>
+        <dynamics><damping>0.02</damping></dynamics>
+      </axis>
+    </joint>
+    <plugin name="scorpio_coxa_rb_plugin" filename="librotors_gazebo_motor_model.so">
+      <robotNamespace></robotNamespace>
+      <jointName>scorpio_coxa_rb_joint</jointName>
+      <linkName>scorpio_coxa_rb::base</linkName>
+      <turningDirection>cw</turningDirection>
+      <motorType>position</motorType>
+      <commandSubTopic>/gazebo/command/coxa_pos</commandSubTopic>
+      <motorNumber>1</motorNumber>
+      <motorSpeedPubTopic>coxa_pos/1</motorSpeedPubTopic>
+      <joint_control_pid>
+        <p>15.0</p><i>5.0</i><d>0.6</d>
+        <iMax>10</iMax><iMin>-10</iMin><cmdMax>50</cmdMax><cmdMin>-50</cmdMin>
+      </joint_control_pid>
+    </plugin>
+
+    <!-- RB：股关节 -->
+    <include>
+      <uri>model://scorpio_femur</uri>
+      <name>scorpio_femur_rb</name>
+      <pose relative_to="scorpio_femur_rb_joint">0 0 0 0 0 0</pose>
+    </include>
+    <joint name="scorpio_femur_rb_joint" type="revolute">
+      <pose relative_to="scorpio_coxa_rb::base">0.043 0.0 0.0 0 0 0</pose>
+      <parent>scorpio_coxa_rb::base</parent>
+      <child>scorpio_femur_rb::base</child>
+      <axis>
+        <xyz>0 1 0</xyz>
+        <limit>
+          <lower>-1.5707963267948966</lower><upper>1.5707963267948966</upper>
+          <effort>50.0</effort><velocity>2.0</velocity>
+        </limit>
+        <dynamics><damping>0.02</damping></dynamics>
+      </axis>
+    </joint>
+    <plugin name="scorpio_femur_rb_plugin" filename="librotors_gazebo_motor_model.so">
+      <robotNamespace></robotNamespace>
+      <jointName>scorpio_femur_rb_joint</jointName>
+      <linkName>scorpio_femur_rb::base</linkName>
+      <turningDirection>cw</turningDirection>
+      <motorType>position</motorType>
+      <commandSubTopic>/gazebo/command/femur_pos</commandSubTopic>
+      <motorNumber>1</motorNumber>
+      <motorSpeedPubTopic>femur_pos/1</motorSpeedPubTopic>
+      <joint_control_pid>
+        <p>10.0</p><i>3.0</i><d>0.6</d>
+        <iMax>10</iMax><iMin>-10</iMin><cmdMax>50</cmdMax><cmdMin>-50</cmdMin>
+      </joint_control_pid>
+    </plugin>
+
+    <!-- RB：胫关节 -->
+    <include>
+      <uri>model://scorpio_tibia</uri>
+      <name>scorpio_tibia_rb</name>
+      <pose relative_to="scorpio_tibia_rb_joint">0 0 0 0 0 0</pose>
+    </include>
+    <joint name="scorpio_tibia_rb_joint" type="revolute">
+      <pose relative_to="scorpio_femur_rb::base">0.0558 0.0 -0.05 0 0 0</pose>
+      <parent>scorpio_femur_rb::base</parent>
+      <child>scorpio_tibia_rb::base</child>
+      <axis>
+        <xyz>0 1 0</xyz>
+        <limit>
+          <lower>-3.141592653589793</lower><upper>3.141592653589793</upper>
+          <effort>50.0</effort><velocity>2.0</velocity>
+        </limit>
+        <dynamics><damping>0.02</damping></dynamics>
+      </axis>
+    </joint>
+    <plugin name="scorpio_tibia_rb_plugin" filename="librotors_gazebo_motor_model.so">
+      <robotNamespace></robotNamespace>
+      <jointName>scorpio_tibia_rb_joint</jointName>
+      <linkName>scorpio_tibia_rb::base</linkName>
+      <turningDirection>cw</turningDirection>
+      <motorType>position</motorType>
+      <commandSubTopic>/gazebo/command/tibia_pos</commandSubTopic>
+      <motorNumber>1</motorNumber>
+      <motorSpeedPubTopic>tibia_pos/1</motorSpeedPubTopic>
+      <joint_control_pid>
+        <p>10.0</p><i>3.0</i><d>0.6</d>
+        <iMax>10</iMax><iMin>-10</iMin><cmdMax>50</cmdMax><cmdMin>-50</cmdMin>
+      </joint_control_pid>
+    </plugin>
+
+    <!-- LB：髋关节 -->
+    <include>
+      <uri>model://scorpio_coxa</uri>
+      <name>scorpio_coxa_lb</name>
+      <pose relative_to="scorpio_coxa_lb_joint">0 0 0 0 0 0</pose>
+    </include>
+    <joint name="scorpio_coxa_lb_joint" type="revolute">
+      <pose relative_to="scorpio_base::base">-0.136 0.096 0.0 0 0 2.5269297016676275</pose>
+      <parent>scorpio_base::base</parent>
+      <child>scorpio_coxa_lb::base</child>
+      <axis>
+        <xyz>0.0 0.0 -1.0</xyz>
+        <limit>
+          <lower>-1.5707963267948966</lower>
+          <upper>1.5707963267948966</upper>
+          <effort>50.0</effort>
+          <velocity>2.0</velocity>
+        </limit>
+        <dynamics><damping>0.02</damping></dynamics>
+      </axis>
+    </joint>
+    <plugin name="scorpio_coxa_lb_plugin" filename="librotors_gazebo_motor_model.so">
+      <robotNamespace></robotNamespace>
+      <jointName>scorpio_coxa_lb_joint</jointName>
+      <linkName>scorpio_coxa_lb::base</linkName>
+      <turningDirection>cw</turningDirection>
+      <motorType>position</motorType>
+      <commandSubTopic>/gazebo/command/coxa_pos</commandSubTopic>
+      <motorNumber>2</motorNumber>
+      <motorSpeedPubTopic>coxa_pos/2</motorSpeedPubTopic>
+      <joint_control_pid>
+        <p>15.0</p><i>5.0</i><d>0.6</d>
+        <iMax>10</iMax><iMin>-10</iMin><cmdMax>50</cmdMax><cmdMin>-50</cmdMin>
+      </joint_control_pid>
+    </plugin>
+
+    <!-- LB：股关节 -->
+    <include>
+      <uri>model://scorpio_femur</uri>
+      <name>scorpio_femur_lb</name>
+      <pose relative_to="scorpio_femur_lb_joint">0 0 0 0 0 0</pose>
+    </include>
+    <joint name="scorpio_femur_lb_joint" type="revolute">
+      <pose relative_to="scorpio_coxa_lb::base">0.043 0.0 0.0 0 0 0</pose>
+      <parent>scorpio_coxa_lb::base</parent>
+      <child>scorpio_femur_lb::base</child>
+      <axis>
+        <xyz>0 1 0</xyz>
+        <limit>
+          <lower>-1.5707963267948966</lower><upper>1.5707963267948966</upper>
+          <effort>50.0</effort><velocity>2.0</velocity>
+        </limit>
+        <dynamics><damping>0.02</damping></dynamics>
+      </axis>
+    </joint>
+    <plugin name="scorpio_femur_lb_plugin" filename="librotors_gazebo_motor_model.so">
+      <robotNamespace></robotNamespace>
+      <jointName>scorpio_femur_lb_joint</jointName>
+      <linkName>scorpio_femur_lb::base</linkName>
+      <turningDirection>cw</turningDirection>
+      <motorType>position</motorType>
+      <commandSubTopic>/gazebo/command/femur_pos</commandSubTopic>
+      <motorNumber>2</motorNumber>
+      <motorSpeedPubTopic>femur_pos/2</motorSpeedPubTopic>
+      <joint_control_pid>
+        <p>10.0</p><i>3.0</i><d>0.6</d>
+        <iMax>10</iMax><iMin>-10</iMin><cmdMax>50</cmdMax><cmdMin>-50</cmdMin>
+      </joint_control_pid>
+    </plugin>
+
+    <!-- LB：胫关节 -->
+    <include>
+      <uri>model://scorpio_tibia</uri>
+      <name>scorpio_tibia_lb</name>
+      <pose relative_to="scorpio_tibia_lb_joint">0 0 0 0 0 0</pose>
+    </include>
+    <joint name="scorpio_tibia_lb_joint" type="revolute">
+      <pose relative_to="scorpio_femur_lb::base">0.0558 0.0 -0.05 0 0 0</pose>
+      <parent>scorpio_femur_lb::base</parent>
+      <child>scorpio_tibia_lb::base</child>
+      <axis>
+        <xyz>0 1 0</xyz>
+        <limit>
+          <lower>-3.141592653589793</lower><upper>3.141592653589793</upper>
+          <effort>50.0</effort><velocity>2.0</velocity>
+        </limit>
+        <dynamics><damping>0.02</damping></dynamics>
+      </axis>
+    </joint>
+    <plugin name="scorpio_tibia_lb_plugin" filename="librotors_gazebo_motor_model.so">
+      <robotNamespace></robotNamespace>
+      <jointName>scorpio_tibia_lb_joint</jointName>
+      <linkName>scorpio_tibia_lb::base</linkName>
+      <turningDirection>cw</turningDirection>
+      <motorType>position</motorType>
+      <commandSubTopic>/gazebo/command/tibia_pos</commandSubTopic>
+      <motorNumber>2</motorNumber>
+      <motorSpeedPubTopic>tibia_pos/2</motorSpeedPubTopic>
+      <joint_control_pid>
+        <p>10.0</p><i>3.0</i><d>0.6</d>
+        <iMax>10</iMax><iMin>-10</iMin><cmdMax>50</cmdMax><cmdMin>-50</cmdMin>
+      </joint_control_pid>
+    </plugin>
+
+    <!-- LF：髋关节 -->
+    <include>
+      <uri>model://scorpio_coxa</uri>
+      <name>scorpio_coxa_lf</name>
+      <pose relative_to="scorpio_coxa_lf_joint">0 0 0 0 0 0</pose>
+    </include>
+    <joint name="scorpio_coxa_lf_joint" type="revolute">
+      <pose relative_to="scorpio_base::base">0.136 0.096 0.0 0 0 0.6146629519221655</pose>
+      <parent>scorpio_base::base</parent>
+      <child>scorpio_coxa_lf::base</child>
+      <axis>
+        <xyz>0.0 0.0 -1.0</xyz>
+        <limit>
+          <lower>-1.5707963267948966</lower>
+          <upper>1.5707963267948966</upper>
+          <effort>50.0</effort>
+          <velocity>2.0</velocity>
+        </limit>
+        <dynamics><damping>0.02</damping></dynamics>
+      </axis>
+    </joint>
+    <plugin name="scorpio_coxa_lf_plugin" filename="librotors_gazebo_motor_model.so">
+      <robotNamespace></robotNamespace>
+      <jointName>scorpio_coxa_lf_joint</jointName>
+      <linkName>scorpio_coxa_lf::base</linkName>
+      <turningDirection>cw</turningDirection>
+      <motorType>position</motorType>
+      <commandSubTopic>/gazebo/command/coxa_pos</commandSubTopic>
+      <motorNumber>3</motorNumber>
+      <motorSpeedPubTopic>coxa_pos/3</motorSpeedPubTopic>
+      <joint_control_pid>
+        <p>15.0</p><i>5.0</i><d>0.6</d>
+        <iMax>10</iMax><iMin>-10</iMin><cmdMax>50</cmdMax><cmdMin>-50</cmdMin>
+      </joint_control_pid>
+    </plugin>
+
+    <!-- LF：股关节 -->
+    <include>
+      <uri>model://scorpio_femur</uri>
+      <name>scorpio_femur_lf</name>
+      <pose relative_to="scorpio_femur_lf_joint">0 0 0 0 0 0</pose>
+    </include>
+    <joint name="scorpio_femur_lf_joint" type="revolute">
+      <pose relative_to="scorpio_coxa_lf::base">0.043 0.0 0.0 0 0 0</pose>
+      <parent>scorpio_coxa_lf::base</parent>
+      <child>scorpio_femur_lf::base</child>
+      <axis>
+        <xyz>0 1 0</xyz>
+        <limit>
+          <lower>-1.5707963267948966</lower><upper>1.5707963267948966</upper>
+          <effort>50.0</effort><velocity>2.0</velocity>
+        </limit>
+        <dynamics><damping>0.02</damping></dynamics>
+      </axis>
+    </joint>
+    <plugin name="scorpio_femur_lf_plugin" filename="librotors_gazebo_motor_model.so">
+      <robotNamespace></robotNamespace>
+      <jointName>scorpio_femur_lf_joint</jointName>
+      <linkName>scorpio_femur_lf::base</linkName>
+      <turningDirection>cw</turningDirection>
+      <motorType>position</motorType>
+      <commandSubTopic>/gazebo/command/femur_pos</commandSubTopic>
+      <motorNumber>3</motorNumber>
+      <motorSpeedPubTopic>femur_pos/3</motorSpeedPubTopic>
+      <joint_control_pid>
+        <p>10.0</p><i>3.0</i><d>0.6</d>
+        <iMax>10</iMax><iMin>-10</iMin><cmdMax>50</cmdMax><cmdMin>-50</cmdMin>
+      </joint_control_pid>
+    </plugin>
+
+    <!-- LF：胫关节 -->
+    <include>
+      <uri>model://scorpio_tibia</uri>
+      <name>scorpio_tibia_lf</name>
+      <pose relative_to="scorpio_tibia_lf_joint">0 0 0 0 0 0</pose>
+    </include>
+    <joint name="scorpio_tibia_lf_joint" type="revolute">
+      <pose relative_to="scorpio_femur_lf::base">0.0558 0.0 -0.05 0 0 0</pose>
+      <parent>scorpio_femur_lf::base</parent>
+      <child>scorpio_tibia_lf::base</child>
+      <axis>
+        <xyz>0 1 0</xyz>
+        <limit>
+          <lower>-3.141592653589793</lower><upper>3.141592653589793</upper>
+          <effort>50.0</effort><velocity>2.0</velocity>
+        </limit>
+        <dynamics><damping>0.02</damping></dynamics>
+      </axis>
+    </joint>
+    <plugin name="scorpio_tibia_lf_plugin" filename="librotors_gazebo_motor_model.so">
+      <robotNamespace></robotNamespace>
+      <jointName>scorpio_tibia_lf_joint</jointName>
+      <linkName>scorpio_tibia_lf::base</linkName>
+      <turningDirection>cw</turningDirection>
+      <motorType>position</motorType>
+      <commandSubTopic>/gazebo/command/tibia_pos</commandSubTopic>
+      <motorNumber>3</motorNumber>
+      <motorSpeedPubTopic>tibia_pos/3</motorSpeedPubTopic>
+      <joint_control_pid>
+        <p>10.0</p><i>3.0</i><d>0.6</d>
+        <iMax>10</iMax><iMin>-10</iMin><cmdMax>50</cmdMax><cmdMin>-50</cmdMin>
+      </joint_control_pid>
+    </plugin>
+
+    <!-- RM：髋关节 -->
+    <include>
+      <uri>model://scorpio_coxa</uri>
+      <name>scorpio_coxa_rm</name>
+      <pose relative_to="scorpio_coxa_rm_joint">0 0 0 0 0 0</pose>
+    </include>
+    <joint name="scorpio_coxa_rm_joint" type="revolute">
+      <pose relative_to="scorpio_base::base">0.0 -0.1168 0.0 0 0 -1.5707963267948966</pose>
+      <parent>scorpio_base::base</parent>
+      <child>scorpio_coxa_rm::base</child>
+      <axis>
+        <xyz>0.0 0.0 -1.0</xyz>
+        <limit>
+          <lower>-1.5707963267948966</lower>
+          <upper>1.5707963267948966</upper>
+          <effort>50.0</effort>
+          <velocity>2.0</velocity>
+        </limit>
+        <dynamics><damping>0.02</damping></dynamics>
+      </axis>
+    </joint>
+    <plugin name="scorpio_coxa_rm_plugin" filename="librotors_gazebo_motor_model.so">
+      <robotNamespace></robotNamespace>
+      <jointName>scorpio_coxa_rm_joint</jointName>
+      <linkName>scorpio_coxa_rm::base</linkName>
+      <turningDirection>cw</turningDirection>
+      <motorType>position</motorType>
+      <commandSubTopic>/gazebo/command/coxa_pos</commandSubTopic>
+      <motorNumber>4</motorNumber>
+      <motorSpeedPubTopic>coxa_pos/4</motorSpeedPubTopic>
+      <joint_control_pid>
+        <p>15.0</p><i>5.0</i><d>0.6</d>
+        <iMax>10</iMax><iMin>-10</iMin><cmdMax>50</cmdMax><cmdMin>-50</cmdMin>
+      </joint_control_pid>
+    </plugin>
+
+    <!-- RM：股关节 -->
+    <include>
+      <uri>model://scorpio_femur</uri>
+      <name>scorpio_femur_rm</name>
+      <pose relative_to="scorpio_femur_rm_joint">0 0 0 0 0 0</pose>
+    </include>
+    <joint name="scorpio_femur_rm_joint" type="revolute">
+      <pose relative_to="scorpio_coxa_rm::base">0.043 0.0 0.0 0 0 0</pose>
+      <parent>scorpio_coxa_rm::base</parent>
+      <child>scorpio_femur_rm::base</child>
+      <axis>
+        <xyz>0 1 0</xyz>
+        <limit>
+          <lower>-1.5707963267948966</lower><upper>1.5707963267948966</upper>
+          <effort>50.0</effort><velocity>2.0</velocity>
+        </limit>
+        <dynamics><damping>0.02</damping></dynamics>
+      </axis>
+    </joint>
+    <plugin name="scorpio_femur_rm_plugin" filename="librotors_gazebo_motor_model.so">
+      <robotNamespace></robotNamespace>
+      <jointName>scorpio_femur_rm_joint</jointName>
+      <linkName>scorpio_femur_rm::base</linkName>
+      <turningDirection>cw</turningDirection>
+      <motorType>position</motorType>
+      <commandSubTopic>/gazebo/command/femur_pos</commandSubTopic>
+      <motorNumber>4</motorNumber>
+      <motorSpeedPubTopic>femur_pos/4</motorSpeedPubTopic>
+      <joint_control_pid>
+        <p>10.0</p><i>3.0</i><d>0.6</d>
+        <iMax>10</iMax><iMin>-10</iMin><cmdMax>50</cmdMax><cmdMin>-50</cmdMin>
+      </joint_control_pid>
+    </plugin>
+
+    <!-- RM：胫关节 -->
+    <include>
+      <uri>model://scorpio_tibia</uri>
+      <name>scorpio_tibia_rm</name>
+      <pose relative_to="scorpio_tibia_rm_joint">0 0 0 0 0 0</pose>
+    </include>
+    <joint name="scorpio_tibia_rm_joint" type="revolute">
+      <pose relative_to="scorpio_femur_rm::base">0.0558 0.0 -0.05 0 0 0</pose>
+      <parent>scorpio_femur_rm::base</parent>
+      <child>scorpio_tibia_rm::base</child>
+      <axis>
+        <xyz>0 1 0</xyz>
+        <limit>
+          <lower>-3.141592653589793</lower><upper>3.141592653589793</upper>
+          <effort>50.0</effort><velocity>2.0</velocity>
+        </limit>
+        <dynamics><damping>0.02</damping></dynamics>
+      </axis>
+    </joint>
+    <plugin name="scorpio_tibia_rm_plugin" filename="librotors_gazebo_motor_model.so">
+      <robotNamespace></robotNamespace>
+      <jointName>scorpio_tibia_rm_joint</jointName>
+      <linkName>scorpio_tibia_rm::base</linkName>
+      <turningDirection>cw</turningDirection>
+      <motorType>position</motorType>
+      <commandSubTopic>/gazebo/command/tibia_pos</commandSubTopic>
+      <motorNumber>4</motorNumber>
+      <motorSpeedPubTopic>tibia_pos/4</motorSpeedPubTopic>
+      <joint_control_pid>
+        <p>10.0</p><i>3.0</i><d>0.6</d>
+        <iMax>10</iMax><iMin>-10</iMin><cmdMax>50</cmdMax><cmdMin>-50</cmdMin>
+      </joint_control_pid>
+    </plugin>
+
+    <!-- LM：髋关节 -->
+    <include>
+      <uri>model://scorpio_coxa</uri>
+      <name>scorpio_coxa_lm</name>
+      <pose relative_to="scorpio_coxa_lm_joint">0 0 0 0 0 0</pose>
+    </include>
+    <joint name="scorpio_coxa_lm_joint" type="revolute">
+      <pose relative_to="scorpio_base::base">0.0 0.1168 0.0 0 0 1.5707963267948966</pose>
+      <parent>scorpio_base::base</parent>
+      <child>scorpio_coxa_lm::base</child>
+      <axis>
+        <xyz>0.0 0.0 -1.0</xyz>
+        <limit>
+          <lower>-1.5707963267948966</lower>
+          <upper>1.5707963267948966</upper>
+          <effort>50.0</effort>
+          <velocity>2.0</velocity>
+        </limit>
+        <dynamics><damping>0.02</damping></dynamics>
+      </axis>
+    </joint>
+    <plugin name="scorpio_coxa_lm_plugin" filename="librotors_gazebo_motor_model.so">
+      <robotNamespace></robotNamespace>
+      <jointName>scorpio_coxa_lm_joint</jointName>
+      <linkName>scorpio_coxa_lm::base</linkName>
+      <turningDirection>cw</turningDirection>
+      <motorType>position</motorType>
+      <commandSubTopic>/gazebo/command/coxa_pos</commandSubTopic>
+      <motorNumber>5</motorNumber>
+      <motorSpeedPubTopic>coxa_pos/5</motorSpeedPubTopic>
+      <joint_control_pid>
+        <p>15.0</p><i>5.0</i><d>0.6</d>
+        <iMax>10</iMax><iMin>-10</iMin><cmdMax>50</cmdMax><cmdMin>-50</cmdMin>
+      </joint_control_pid>
+    </plugin>
+
+    <!-- LM：股关节 -->
+    <include>
+      <uri>model://scorpio_femur</uri>
+      <name>scorpio_femur_lm</name>
+      <pose relative_to="scorpio_femur_lm_joint">0 0 0 0 0 0</pose>
+    </include>
+    <joint name="scorpio_femur_lm_joint" type="revolute">
+      <pose relative_to="scorpio_coxa_lm::base">0.043 0.0 0.0 0 0 0</pose>
+      <parent>scorpio_coxa_lm::base</parent>
+      <child>scorpio_femur_lm::base</child>
+      <axis>
+        <xyz>0 1 0</xyz>
+        <limit>
+          <lower>-1.5707963267948966</lower><upper>1.5707963267948966</upper>
+          <effort>50.0</effort><velocity>2.0</velocity>
+        </limit>
+        <dynamics><damping>0.02</damping></dynamics>
+      </axis>
+    </joint>
+    <plugin name="scorpio_femur_lm_plugin" filename="librotors_gazebo_motor_model.so">
+      <robotNamespace></robotNamespace>
+      <jointName>scorpio_femur_lm_joint</jointName>
+      <linkName>scorpio_femur_lm::base</linkName>
+      <turningDirection>cw</turningDirection>
+      <motorType>position</motorType>
+      <commandSubTopic>/gazebo/command/femur_pos</commandSubTopic>
+      <motorNumber>5</motorNumber>
+      <motorSpeedPubTopic>femur_pos/5</motorSpeedPubTopic>
+      <joint_control_pid>
+        <p>10.0</p><i>3.0</i><d>0.6</d>
+        <iMax>10</iMax><iMin>-10</iMin><cmdMax>50</cmdMax><cmdMin>-50</cmdMin>
+      </joint_control_pid>
+    </plugin>
+
+    <!-- LM：胫关节 -->
+    <include>
+      <uri>model://scorpio_tibia</uri>
+      <name>scorpio_tibia_lm</name>
+      <pose relative_to="scorpio_tibia_lm_joint">0 0 0 0 0 0</pose>
+    </include>
+    <joint name="scorpio_tibia_lm_joint" type="revolute">
+      <pose relative_to="scorpio_femur_lm::base">0.0558 0.0 -0.05 0 0 0</pose>
+      <parent>scorpio_femur_lm::base</parent>
+      <child>scorpio_tibia_lm::base</child>
+      <axis>
+        <xyz>0 1 0</xyz>
+        <limit>
+          <lower>-3.141592653589793</lower><upper>3.141592653589793</upper>
+          <effort>50.0</effort><velocity>2.0</velocity>
+        </limit>
+        <dynamics><damping>0.02</damping></dynamics>
+      </axis>
+    </joint>
+    <plugin name="scorpio_tibia_lm_plugin" filename="librotors_gazebo_motor_model.so">
+      <robotNamespace></robotNamespace>
+      <jointName>scorpio_tibia_lm_joint</jointName>
+      <linkName>scorpio_tibia_lm::base</linkName>
+      <turningDirection>cw</turningDirection>
+      <motorType>position</motorType>
+      <commandSubTopic>/gazebo/command/tibia_pos</commandSubTopic>
+      <motorNumber>5</motorNumber>
+      <motorSpeedPubTopic>tibia_pos/5</motorSpeedPubTopic>
+      <joint_control_pid>
+        <p>10.0</p><i>3.0</i><d>0.6</d>
+        <iMax>10</iMax><iMin>-10</iMin><cmdMax>50</cmdMax><cmdMin>-50</cmdMin>
+      </joint_control_pid>
+    </plugin>
+
+
+
+
+
+    <!-- 倾转组件：front_right -->
+    <include>
+      <uri>model://scorpio_tilt</uri>
+      <name>scorpio_tilt_0</name>
+      <pose relative_to="scorpio_tilt_0_joint">0 0 0 0 0 0</pose>
+    </include>
+    <joint name="scorpio_tilt_0_joint" type="revolute">
+      <pose relative_to="scorpio_base::base">0.18811 -0.20529 0.14866 0 0 0.5235987755982988</pose>
+      <parent>scorpio_base::base</parent>
+      <child>scorpio_tilt_0::base</child>
+      <axis>
+        <xyz>0.0 -1.0 0.0</xyz>
+        <limit><lower>-1.5707963267948966</lower><upper>1.5707963267948966</upper><effort>20</effort><velocity>3</velocity></limit>
+        <dynamics><damping>0.004</damping></dynamics>
+      </axis>
+    </joint>
+    <plugin name="scorpio_tilt_0_plugin" filename="librotors_gazebo_motor_model.so">
+      <robotNamespace></robotNamespace>
+      <jointName>scorpio_tilt_0_joint</jointName>
+      <linkName>scorpio_tilt_0::base</linkName>
+      <turningDirection>ccw</turningDirection>
+      <motorType>position</motorType>
+      <commandSubTopic>/gazebo/command/tilt_pos</commandSubTopic>
+      <motorNumber>0</motorNumber>
+      <motorSpeedPubTopic>tilt_pos/0</motorSpeedPubTopic>
+      <joint_control_pid>
+        <p>0.4</p><i>0.1</i><d>0.2</d>
+        <iMax>10</iMax><iMin>-10</iMin><cmdMax>50</cmdMax><cmdMin>-50</cmdMin>
+      </joint_control_pid>
+    </plugin>
+
+    <!-- 旋翼：front_right -->
+    <include>
+      <uri>model://scorpio_prop</uri>
+      <name>scorpio_prop_0</name>
+      <pose relative_to="scorpio_prop_0_joint">0 0 0 0 0 0</pose>
+    </include>
+    <joint name="scorpio_prop_0_joint" type="revolute">
+      <pose relative_to="scorpio_tilt_0::base">0.0 0.0 0.04206 0 0 0</pose>
+      <parent>scorpio_tilt_0::base</parent>
+      <child>scorpio_prop_0::base</child>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit><lower>-1e16</lower><upper>1e16</upper></limit>
+        <dynamics><damping>0.004</damping></dynamics>
+      </axis>
+    </joint>
+    <plugin name="scorpio_prop_0_plugin" filename="librotors_gazebo_motor_model.so">
+      <robotNamespace></robotNamespace>
+      <jointName>scorpio_prop_0_joint</jointName>
+      <linkName>scorpio_prop_0::base</linkName>
+      <turningDirection>cw</turningDirection>
+      <timeConstantUp>0.0125</timeConstantUp>
+      <timeConstantDown>0.025</timeConstantDown>
+      <maxRotVelocity>1000.0</maxRotVelocity>
+      <motorConstant>1.599e-05</motorConstant>
+      <momentConstant>4.599e-07</momentConstant>
+      <commandSubTopic>/gazebo/command/prop_speed</commandSubTopic>
+      <motorNumber>0</motorNumber>
+      <rotorDragCoefficient>0.000806428</rotorDragCoefficient>
+      <rollingMomentCoefficient>1.0e-06</rollingMomentCoefficient>
+      <motorSpeedPubTopic>prop_speed/0</motorSpeedPubTopic>
+      <rotorVelocitySlowdownSim>10.0</rotorVelocitySlowdownSim>
+    </plugin>
+
+
+
+    <!-- 倾转组件：rear -->
+    <include>
+      <uri>model://scorpio_tilt</uri>
+      <name>scorpio_tilt_1</name>
+      <pose relative_to="scorpio_tilt_1_joint">0 0 0 0 0 0</pose>
+    </include>
+    <joint name="scorpio_tilt_1_joint" type="revolute">
+      <pose relative_to="scorpio_base::base">-0.22917 0.0 0.13866 0 0 1.5707963267948966</pose>
+      <parent>scorpio_base::base</parent>
+      <child>scorpio_tilt_1::base</child>
+      <axis>
+        <xyz>0.0 -1.0 0.0</xyz>
+        <limit><lower>-1.5707963267948966</lower><upper>1.5707963267948966</upper><effort>20</effort><velocity>3</velocity></limit>
+        <dynamics><damping>0.004</damping></dynamics>
+      </axis>
+    </joint>
+    <plugin name="scorpio_tilt_1_plugin" filename="librotors_gazebo_motor_model.so">
+      <robotNamespace></robotNamespace>
+      <jointName>scorpio_tilt_1_joint</jointName>
+      <linkName>scorpio_tilt_1::base</linkName>
+      <turningDirection>ccw</turningDirection>
+      <motorType>position</motorType>
+      <commandSubTopic>/gazebo/command/tilt_pos</commandSubTopic>
+      <motorNumber>1</motorNumber>
+      <motorSpeedPubTopic>tilt_pos/1</motorSpeedPubTopic>
+      <joint_control_pid>
+        <p>0.4</p><i>0.1</i><d>0.2</d>
+        <iMax>10</iMax><iMin>-10</iMin><cmdMax>50</cmdMax><cmdMin>-50</cmdMin>
+      </joint_control_pid>
+    </plugin>
+
+    <!-- 旋翼：rear -->
+    <include>
+      <uri>model://scorpio_prop</uri>
+      <name>scorpio_prop_1</name>
+      <pose relative_to="scorpio_prop_1_joint">0 0 0 0 0 0</pose>
+    </include>
+    <joint name="scorpio_prop_1_joint" type="revolute">
+      <pose relative_to="scorpio_tilt_1::base">0.0 0.0 0.04206 0 0 0</pose>
+      <parent>scorpio_tilt_1::base</parent>
+      <child>scorpio_prop_1::base</child>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit><lower>-1e16</lower><upper>1e16</upper></limit>
+        <dynamics><damping>0.004</damping></dynamics>
+      </axis>
+    </joint>
+    <plugin name="scorpio_prop_1_plugin" filename="librotors_gazebo_motor_model.so">
+      <robotNamespace></robotNamespace>
+      <jointName>scorpio_prop_1_joint</jointName>
+      <linkName>scorpio_prop_1::base</linkName>
+      <turningDirection>ccw</turningDirection>
+      <timeConstantUp>0.0125</timeConstantUp>
+      <timeConstantDown>0.025</timeConstantDown>
+      <maxRotVelocity>1000.0</maxRotVelocity>
+      <motorConstant>1.599e-05</motorConstant>
+      <momentConstant>4.599e-07</momentConstant>
+      <commandSubTopic>/gazebo/command/prop_speed</commandSubTopic>
+      <motorNumber>1</motorNumber>
+      <rotorDragCoefficient>0.000806428</rotorDragCoefficient>
+      <rollingMomentCoefficient>1.0e-06</rollingMomentCoefficient>
+      <motorSpeedPubTopic>prop_speed/1</motorSpeedPubTopic>
+      <rotorVelocitySlowdownSim>10.0</rotorVelocitySlowdownSim>
+    </plugin>
+
+
+
+    <!-- 倾转组件：front_left -->
+    <include>
+      <uri>model://scorpio_tilt</uri>
+      <name>scorpio_tilt_2</name>
+      <pose relative_to="scorpio_tilt_2_joint">0 0 0 0 0 0</pose>
+    </include>
+    <joint name="scorpio_tilt_2_joint" type="revolute">
+      <pose relative_to="scorpio_base::base">0.18811 0.20529 0.14866 0 0 -0.5235987755982988</pose>
+      <parent>scorpio_base::base</parent>
+      <child>scorpio_tilt_2::base</child>
+      <axis>
+        <xyz>0.0 -1.0 0.0</xyz>
+        <limit><lower>-1.5707963267948966</lower><upper>1.5707963267948966</upper><effort>20</effort><velocity>3</velocity></limit>
+        <dynamics><damping>0.004</damping></dynamics>
+      </axis>
+    </joint>
+    <plugin name="scorpio_tilt_2_plugin" filename="librotors_gazebo_motor_model.so">
+      <robotNamespace></robotNamespace>
+      <jointName>scorpio_tilt_2_joint</jointName>
+      <linkName>scorpio_tilt_2::base</linkName>
+      <turningDirection>ccw</turningDirection>
+      <motorType>position</motorType>
+      <commandSubTopic>/gazebo/command/tilt_pos</commandSubTopic>
+      <motorNumber>2</motorNumber>
+      <motorSpeedPubTopic>tilt_pos/2</motorSpeedPubTopic>
+      <joint_control_pid>
+        <p>0.4</p><i>0.1</i><d>0.2</d>
+        <iMax>10</iMax><iMin>-10</iMin><cmdMax>50</cmdMax><cmdMin>-50</cmdMin>
+      </joint_control_pid>
+    </plugin>
+
+    <!-- 旋翼：front_left -->
+    <include>
+      <uri>model://scorpio_prop</uri>
+      <name>scorpio_prop_2</name>
+      <pose relative_to="scorpio_prop_2_joint">0 0 0 0 0 0</pose>
+    </include>
+    <joint name="scorpio_prop_2_joint" type="revolute">
+      <pose relative_to="scorpio_tilt_2::base">0.0 0.0 0.04206 0 0 0</pose>
+      <parent>scorpio_tilt_2::base</parent>
+      <child>scorpio_prop_2::base</child>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit><lower>-1e16</lower><upper>1e16</upper></limit>
+        <dynamics><damping>0.004</damping></dynamics>
+      </axis>
+    </joint>
+    <plugin name="scorpio_prop_2_plugin" filename="librotors_gazebo_motor_model.so">
+      <robotNamespace></robotNamespace>
+      <jointName>scorpio_prop_2_joint</jointName>
+      <linkName>scorpio_prop_2::base</linkName>
+      <turningDirection>cw</turningDirection>
+      <timeConstantUp>0.0125</timeConstantUp>
+      <timeConstantDown>0.025</timeConstantDown>
+      <maxRotVelocity>1000.0</maxRotVelocity>
+      <motorConstant>1.599e-05</motorConstant>
+      <momentConstant>4.599e-07</momentConstant>
+      <commandSubTopic>/gazebo/command/prop_speed</commandSubTopic>
+      <motorNumber>2</motorNumber>
+      <rotorDragCoefficient>0.000806428</rotorDragCoefficient>
+      <rollingMomentCoefficient>1.0e-06</rollingMomentCoefficient>
+      <motorSpeedPubTopic>prop_speed/2</motorSpeedPubTopic>
+      <rotorVelocitySlowdownSim>10.0</rotorVelocitySlowdownSim>
+    </plugin>
+
+
+    <!-- 暂时复用现有混合地面/飞行传输插件；其通道循环将在 motor 模式阶段扩展。 -->
+    <plugin name="ArduRotorScorpio" filename="libArduRotorQuadrupedBicopter.so">
+      <fdm_addr>127.0.0.1</fdm_addr>
+      <fdm_port_in>9002</fdm_port_in>
+      <fdm_port_out>9003</fdm_port_out>
+      <modelXYZToAirplaneXForwardZDown>0 0 0 3.141593 0 0</modelXYZToAirplaneXForwardZDown>
+      <gazeboXYZToNED>0 0 0 3.141593 0 0</gazeboXYZToNED>
+      <motor_num>3</motor_num>
+      <servo_num>3</servo_num>
+      <coxa_num>6</coxa_num>
+      <femur_num>6</femur_num>
+      <tibia_num>6</tibia_num>
+      <motor_pub>/gazebo/command/prop_speed</motor_pub>
+      <servo_pub>/gazebo/command/tilt_pos</servo_pub>
+      <coxa_pub>/gazebo/command/coxa_pos</coxa_pub>
+      <femur_pub>/gazebo/command/femur_pos</femur_pub>
+      <tibia_pub>/gazebo/command/tibia_pos</tibia_pub>
+      <imuName>scorpio_base::imu_link::imu_sensor</imuName>
+      <connectionTimeoutMaxCount>5</connectionTimeoutMaxCount>
+    </plugin>
+  </model>
+</sdf>
