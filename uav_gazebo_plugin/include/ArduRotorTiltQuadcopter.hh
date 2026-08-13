@@ -97,6 +97,10 @@ private:
 private:
     void SendState() const;
 
+    /// \brief Send the forward rangefinder as MAVLink DISTANCE_SENSOR.
+private:
+    void SendForwardRangefinder();
+
     /// \brief Init ardupilot socket
 private:
     bool InitArduPilotSockets(sdf::ElementPtr _sdf) const;

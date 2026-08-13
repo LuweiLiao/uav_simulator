@@ -108,5 +108,16 @@ target_link_libraries(ArduRotorTiltTricopter ${catkin_LIBRARIES} ${GAZEBO_LIBRAR
 add_library(ArduRotorTiltQuadcopter SHARED src/ArduRotorTiltQuadcopter.cc)
 target_link_libraries(ArduRotorTiltQuadcopter ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
 
+add_library(GazeboAdm002Plugin SHARED src/GazeboAdm002Plugin.cc)
+set_target_properties(GazeboAdm002Plugin PROPERTIES OUTPUT_NAME gazebo_adm002_plugin)
+target_link_libraries(GazeboAdm002Plugin ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
+
+if(CATKIN_ENABLE_TESTING)
+  catkin_add_gtest(test_adm002_protocol test/test_adm002_protocol.cpp)
+  if(TARGET test_adm002_protocol)
+    target_link_libraries(test_adm002_protocol ${catkin_LIBRARIES})
+  endif()
+endif()
+
 add_library(ArduRotorTiltQuadcopterArm SHARED src/ArduRotorTiltQuadcopterArm.cc)
 target_link_libraries(ArduRotorTiltQuadcopterArm ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})

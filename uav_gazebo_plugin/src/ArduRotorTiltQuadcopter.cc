@@ -14,8 +14,15 @@
  * limitations under the License.
  *
  */
+#include <array>
+#include <cerrno>
+#include <cmath>
+#include <cstddef>
+#include <cstdint>
+#include <cstring>
 #include <fcntl.h>
 #include <functional>
+#include <stddef.h>
 #ifdef _WIN32
 # include <Winsock2.h>
 # include <Ws2def.h>
@@ -27,6 +34,7 @@ using raw_type = char;
 # include <netinet/in.h>
 # include <netinet/tcp.h>
 # include <sys/socket.h>
+# include <unistd.h>
 using raw_type = void;
 #endif
 
@@ -42,6 +50,7 @@ typedef SSIZE_T ssize_t;
 #include <gazebo/sensors/sensors.hh>
 #include <gazebo/transport/transport.hh>
 #include <ignition/math/Filter.hh>
+#include <mavlink/v2.0/common/mavlink.h>
 #include <mutex>
 #include <sdf/sdf.hh>
 #include <string>
@@ -290,6 +299,23 @@ public:
 public:
     ssize_t Send(const void* _buf, size_t _size) { return send(this->fd, _buf, _size, 0); }
 
+    /// \brief Send data to a UDP peer.
+    /// \param[in] _buf Data buffer.
+    /// \param[in] _size Size of the buffer.
+    /// \param[in] _sockaddr Destination socket address.
+    /// \return Bytes sent, or -1 on failure.
+public:
+    ssize_t SendTo(const void* _buf, size_t _size, const struct sockaddr_in& _sockaddr)
+    {
+#ifdef _WIN32
+        return sendto(this->fd, reinterpret_cast<const char*>(_buf), _size, 0,
+            reinterpret_cast<const struct sockaddr*>(&_sockaddr), sizeof(_sockaddr));
+#else
+        return sendto(this->fd, _buf, _size, 0,
+            reinterpret_cast<const struct sockaddr*>(&_sockaddr), sizeof(_sockaddr));
+#endif
+    }
+
     /// \brief Receive data
     /// \param[out] _buf Buffer that receives the data.
     /// \param[in] _size Size of the buffer.
@@ -314,6 +340,37 @@ public:
         return recv(this->fd, reinterpret_cast<char*>(_buf), _size, 0);
 #else
         return recv(this->fd, _buf, _size, 0);
+#endif
+    }
+
+    /// \brief Receive one UDP datagram and remember its source address.
+    /// \param[out] _buf Buffer that receives the data.
+    /// \param[in] _size Size of the buffer.
+    /// \param[out] _sockaddr Source socket address.
+    /// \param[in] _timeoutMS Milliseconds to wait for data.
+public:
+    ssize_t RecvFrom(void* _buf, const size_t _size, struct sockaddr_in& _sockaddr, uint32_t _timeoutMs)
+    {
+        fd_set         fds;
+        struct timeval tv;
+
+        FD_ZERO(&fds);
+        FD_SET(this->fd, &fds);
+
+        tv.tv_sec  = _timeoutMs / 1000;
+        tv.tv_usec = (_timeoutMs % 1000) * 1000UL;
+
+        if (select(this->fd + 1, &fds, NULL, NULL, &tv) != 1) {
+            return -1;
+        }
+
+        socklen_t sockaddrLen = sizeof(_sockaddr);
+#ifdef _WIN32
+        return recvfrom(this->fd, reinterpret_cast<char*>(_buf), _size, 0,
+            reinterpret_cast<struct sockaddr*>(&_sockaddr), &sockaddrLen);
+#else
+        return recvfrom(this->fd, _buf, _size, 0,
+            reinterpret_cast<struct sockaddr*>(&_sockaddr), &sockaddrLen);
 #endif
     }
 
@@ -356,6 +413,10 @@ public:
 public:
     ArduPilotSocketPrivate socket_out;
 
+    /// \brief Forward-rangefinder MAVLink UDP socket.
+public:
+    ArduPilotSocketPrivate rangefinder_socket;
+
     /// \brief Ardupilot address
 public:
     std::string fdm_addr;
@@ -383,6 +444,42 @@ public:
     /// \brief Pointer to an Rangefinder sensor
 public:
     sensors::RaySensorPtr rangefinderSensor;
+
+    /// \brief UDP bind address for forward rangefinder MAVLink messages.
+public:
+    std::string rangefinderUdpBindAddr = "127.0.0.1";
+
+    /// \brief UDP bind port for forward rangefinder MAVLink messages.
+public:
+    uint16_t rangefinderUdpBindPort = 9025;
+
+    /// \brief True after the ArduPilot MAVLink UART sends its first packet.
+public:
+    bool rangefinderPeerKnown = false;
+
+    /// \brief ArduPilot MAVLink UART peer for rangefinder messages.
+public:
+    struct sockaddr_in rangefinderPeerAddr {};
+
+    /// \brief Forward rangefinder minimum distance.
+public:
+    double rangefinderMinDistanceM = 0.05;
+
+    /// \brief Forward rangefinder maximum distance.
+public:
+    double rangefinderMaxDistanceM = 10.0;
+
+    /// \brief Forward rangefinder update rate.
+public:
+    double rangefinderRateHz = 50.0;
+
+    /// \brief Sim time of the previous rangefinder message.
+public:
+    gazebo::common::Time rangefinderLastSendTime;
+
+    /// \brief MAVLink channel sequence state for the rangefinder stream.
+public:
+    mavlink_status_t rangefinderMavlinkStatus {};
 
     /// \brief false before ardupilot controller is online
     /// to allow gazebo to continue without waiting
@@ -504,6 +601,49 @@ void ArduRotorTiltQuadcopter::Load(physics::ModelPtr _model, sdf::ElementPtr _sd
     this->dataPtr->servo1_pub = this->rosNode->advertise<mav_msgs::Actuators>("/" + this->dataPtr->servo1_pub_name, 10);
     // this->dataPtr->servo2_pub = this->rosNode->advertise<mav_msgs::Actuators>("/" + this->dataPtr->servo2_pub_name, 10);
 
+    this->dataPtr->rangefinderUdpBindAddr =
+        _sdf->Get("rangefinderUdpBindAddr", static_cast<std::string>("127.0.0.1")).first;
+    this->dataPtr->rangefinderUdpBindPort =
+        _sdf->Get("rangefinderUdpBindPort", static_cast<uint32_t>(9025)).first;
+    this->dataPtr->rangefinderMinDistanceM =
+        _sdf->Get("rangefinderMinDistanceM", 0.05).first;
+    this->dataPtr->rangefinderMaxDistanceM =
+        _sdf->Get("rangefinderMaxDistanceM", 10.0).first;
+    this->dataPtr->rangefinderRateHz =
+        _sdf->Get("rangefinderRateHz", 50.0).first;
+    if (!this->dataPtr->rangefinder_socket.Bind(
+            this->dataPtr->rangefinderUdpBindAddr.c_str(), this->dataPtr->rangefinderUdpBindPort)) {
+        gzerr << "[" << this->dataPtr->modelName << "] "
+              << "failed to bind forward rangefinder UDP socket to "
+              << this->dataPtr->rangefinderUdpBindAddr << ":" << this->dataPtr->rangefinderUdpBindPort
+              << " aborting plugin.\n";
+        return;
+    }
+
+    const std::string rangefinderName =
+        _sdf->Get("rangefinderName", static_cast<std::string>("front_rangefinder")).first;
+    const std::vector<std::string> rangefinderScopedNames =
+        this->dataPtr->model->SensorScopedName(rangefinderName);
+    for (const std::string& scopedName : rangefinderScopedNames) {
+        this->dataPtr->rangefinderSensor = std::dynamic_pointer_cast<sensors::RaySensor>(
+            sensors::SensorManager::Instance()->GetSensor(scopedName));
+        if (this->dataPtr->rangefinderSensor) {
+            break;
+        }
+    }
+    if (!this->dataPtr->rangefinderSensor) {
+        this->dataPtr->rangefinderSensor = std::dynamic_pointer_cast<sensors::RaySensor>(
+            sensors::SensorManager::Instance()->GetSensor(rangefinderName));
+    }
+    if (!this->dataPtr->rangefinderSensor) {
+        gzerr << "[" << this->dataPtr->modelName << "] "
+              << "forward rangefinder [" << rangefinderName << "] not found, aborting plugin.\n";
+        return;
+    }
+    ROS_INFO_STREAM("Forward rangefinder:" << this->dataPtr->rangefinderSensor->ScopedName()
+                    << " UDP:" << this->dataPtr->rangefinderUdpBindAddr
+                    << ":" << this->dataPtr->rangefinderUdpBindPort);
+
     // Get sensors
     std::string              imuName       = _sdf->Get("imuName", static_cast<std::string>("imu_sensor")).first;
     std::vector<std::string> imuScopedName = this->dataPtr->model->SensorScopedName(imuName);
@@ -585,6 +725,7 @@ void ArduRotorTiltQuadcopter::OnUpdate()
 
     // Update the control surfaces and publish the new state.
     if (curTime > this->dataPtr->lastControllerUpdateTime) {
+        this->SendForwardRangefinder();
         this->ReceiveMotorCommand();
         if (this->dataPtr->arduPilotOnline) {
             this->ApplyMotorForces((curTime - this->dataPtr->lastControllerUpdateTime).Double());
@@ -593,6 +734,67 @@ void ArduRotorTiltQuadcopter::OnUpdate()
     }
 
     this->dataPtr->lastControllerUpdateTime = curTime;
+}
+
+/////////////////////////////////////////////////
+void ArduRotorTiltQuadcopter::SendForwardRangefinder()
+{
+    std::array<uint8_t, MAVLINK_MAX_PACKET_LEN> request;
+    struct sockaddr_in peerAddr {};
+    while (true) {
+        const ssize_t recvSize = this->dataPtr->rangefinder_socket.RecvFrom(
+            request.data(), request.size(), peerAddr, 0ul);
+        if (recvSize == -1) {
+            break;
+        }
+        this->dataPtr->rangefinderPeerAddr = peerAddr;
+        this->dataPtr->rangefinderPeerKnown = true;
+    }
+
+    if (!this->dataPtr->rangefinderPeerKnown) {
+        return;
+    }
+
+    if (!this->dataPtr->rangefinderSensor) {
+        return;
+    }
+
+    const gazebo::common::Time now = this->dataPtr->model->GetWorld()->SimTime();
+    const double sendPeriodS = 1.0 / std::max(this->dataPtr->rangefinderRateHz, 1.0);
+    if ((now - this->dataPtr->rangefinderLastSendTime).Double() < sendPeriodS) {
+        return;
+    }
+    this->dataPtr->rangefinderLastSendTime = now;
+
+    const double rangeM = this->dataPtr->rangefinderSensor->Range(0);
+    const bool validRange = std::isfinite(rangeM) &&
+        rangeM >= this->dataPtr->rangefinderMinDistanceM &&
+        rangeM <= this->dataPtr->rangefinderMaxDistanceM;
+    const uint16_t minDistanceCm = static_cast<uint16_t>(std::llround(
+        this->dataPtr->rangefinderMinDistanceM * 100.0));
+    const uint16_t maxDistanceCm = static_cast<uint16_t>(std::llround(
+        this->dataPtr->rangefinderMaxDistanceM * 100.0));
+    const uint16_t currentDistanceCm = validRange ?
+        static_cast<uint16_t>(std::llround(rangeM * 100.0)) : maxDistanceCm + 1U;
+
+    mavlink_distance_sensor_t sensorMsg {};
+    sensorMsg.time_boot_ms = static_cast<uint32_t>(now.Double() * 1000.0);
+    sensorMsg.min_distance = minDistanceCm;
+    sensorMsg.max_distance = maxDistanceCm;
+    sensorMsg.current_distance = currentDistanceCm;
+    sensorMsg.type = MAV_DISTANCE_SENSOR_LASER;
+    sensorMsg.id = 0;
+    sensorMsg.orientation = MAV_SENSOR_ROTATION_NONE;
+    sensorMsg.covariance = UINT8_MAX;
+    sensorMsg.signal_quality = validRange ? 100U : 0U;
+
+    mavlink_message_t msg;
+    mavlink_msg_distance_sensor_encode_status(
+        32, MAV_COMP_ID_PERIPHERAL, &this->dataPtr->rangefinderMavlinkStatus, &msg, &sensorMsg);
+    uint8_t buffer[MAVLINK_MAX_PACKET_LEN];
+    const uint16_t len = mavlink_msg_to_send_buffer(buffer, &msg);
+    this->dataPtr->rangefinder_socket.SendTo(
+        buffer, len, this->dataPtr->rangefinderPeerAddr);
 }
 
 /////////////////////////////////////////////////
@@ -723,12 +925,6 @@ void ArduRotorTiltQuadcopter::ReceiveMotorCommand()
                   << "\n";
         }
         const ssize_t recvChannels = recvSize / sizeof(pkt.motorSpeed[0]);
-
-        std::cout << "servo_command:";
-        for (unsigned int i = 0; i < recvChannels; ++i) {
-            std::cout << pkt.motorSpeed[i] << " ";
-        }
-        std::cout << "\r\n";
 
         if (!this->dataPtr->arduPilotOnline) {
             gzdbg << "[" << this->dataPtr->modelName << "] "
