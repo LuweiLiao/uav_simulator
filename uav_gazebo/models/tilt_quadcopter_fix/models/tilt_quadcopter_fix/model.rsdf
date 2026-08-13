@@ -54,6 +54,122 @@ prop_motors={
         <name>tilt_quadcopter_base</name>
         <pose>0 0 0.0 0 0 0</pose>
       </include>
+<%# ====================================================================================== %>
+<%# Compliant front probe, forward rangefinder and independent ADM002 sensor emulator. %>
+      <link name="front_rod">
+        <pose>1.4 0 0 0 0 0</pose>
+        <inertial>
+          <mass>0.1</mass>
+          <inertia>
+            <ixx>0.000125</ixx>
+            <iyy>0.008458</iyy>
+            <izz>0.008458</izz>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyz>0</iyz>
+          </inertia>
+        </inertial>
+        <collision name="front_rod_collision">
+          <pose>0 0 0 0 1.57079632679 0</pose>
+          <geometry>
+            <cylinder>
+              <length>1.0</length>
+              <radius>0.025</radius>
+            </cylinder>
+          </geometry>
+          <surface>
+            <friction>
+              <ode>
+                <mu>0.5</mu>
+                <mu2>0.5</mu2>
+              </ode>
+            </friction>
+            <contact>
+              <ode>
+                <kp>2000</kp>
+                <kd>40</kd>
+                <max_vel>0.05</max_vel>
+              </ode>
+            </contact>
+          </surface>
+        </collision>
+        <visual name="front_rod_visual">
+          <pose>0 0 0 0 1.57079632679 0</pose>
+          <geometry>
+            <cylinder>
+              <length>1.0</length>
+              <radius>0.025</radius>
+            </cylinder>
+          </geometry>
+          <material>
+            <script>
+              <name>Gazebo/Black</name>
+            </script>
+          </material>
+        </visual>
+        <sensor name="front_rangefinder" type="ray">
+          <pose>0.5 0 0 0 0 0</pose>
+          <always_on>true</always_on>
+          <update_rate>50</update_rate>
+          <ray>
+            <scan>
+              <horizontal>
+                <samples>1</samples>
+                <resolution>1</resolution>
+                <min_angle>0</min_angle>
+                <max_angle>0</max_angle>
+              </horizontal>
+            </scan>
+            <range>
+              <min>0.05</min>
+              <max>10.0</max>
+              <resolution>0.001</resolution>
+            </range>
+          </ray>
+        </sensor>
+      </link>
+      <joint name="front_rod_joint" type="prismatic">
+        <parent>tilt_quadcopter_base::base</parent>
+        <child>front_rod</child>
+        <axis>
+          <xyz>1 0 0</xyz>
+          <limit>
+            <lower>-0.12</lower>
+            <upper>0.0</upper>
+            <effort>200</effort>
+            <velocity>1.0</velocity>
+          </limit>
+          <dynamics>
+            <damping>30.0</damping>
+            <spring_reference>0.0</spring_reference>
+            <spring_stiffness>100.0</spring_stiffness>
+          </dynamics>
+          <use_parent_model_frame>1</use_parent_model_frame>
+        </axis>
+        <physics>
+          <ode>
+            <implicit_spring_damper>1</implicit_spring_damper>
+          </ode>
+        </physics>
+        <sensor name="front_rod_force_torque" type="force_torque">
+          <always_on>true</always_on>
+          <update_rate>1000</update_rate>
+          <force_torque>
+            <frame>child</frame>
+            <measure_direction>parent_to_child</measure_direction>
+          </force_torque>
+          <plugin name="front_adm002" filename="libgazebo_adm002_plugin.so">
+            <forceAxis>x</forceAxis>
+            <forceSign>1.0</forceSign>
+            <forceScale>1.0</forceScale>
+            <udpBindAddress>127.0.0.1</udpBindAddress>
+            <udpBindPort>9024</udpBindPort>
+            <streamRateHz>100.0</streamRateHz>
+            <deviceAddress>1</deviceAddress>
+            <rosTopic>/tilt_quadcopter_fix/front_rod/contact_force_x</rosTopic>
+          </plugin>
+        </sensor>
+      </joint>
       <%# ====================================================================================== %>
       <%
       tilt1_motors.keys.each do |k|
@@ -173,6 +289,12 @@ prop_motors={
   <servo_num>4</servo_num>
   <motor_pub>/gazebo/command/prop_speed</motor_pub>
   <servo1_pub>/gazebo/command/tilt1_pos</servo1_pub>
+  <rangefinderName>front_rangefinder</rangefinderName>
+  <rangefinderUdpBindAddr>127.0.0.1</rangefinderUdpBindAddr>
+  <rangefinderUdpBindPort>9025</rangefinderUdpBindPort>
+  <rangefinderMinDistanceM>0.05</rangefinderMinDistanceM>
+  <rangefinderMaxDistanceM>10.0</rangefinderMaxDistanceM>
+  <rangefinderRateHz>50.0</rangefinderRateHz>
   <imuName>tilt_quadcopter_base::imu_link::imu_sensor</imuName>
   <connectionTimeoutMaxCount>5</connectionTimeoutMaxCount>
 </plugin>
