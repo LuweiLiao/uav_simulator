@@ -2,6 +2,14 @@
 <sdf version="1.4">
   <world name="outdoor">
 
+    <!-- Fixed T4 tuning view: distant side elevation used for every video run. -->
+    <gui fullscreen="0">
+      <camera name="user_camera">
+        <pose>0 -13 4.5 0 0.277283314 1.570796241</pose>
+        <view_controller>orbit</view_controller>
+      </camera>
+    </gui>
+
 
     <!-- Only one ROS interface plugin is required per world, as any other plugin can connect a Gazebo
          topic to a ROS topic (or vise versa). -->
@@ -41,6 +49,7 @@
       </include>
     </model>
 
+    <!-- Disabled during T4 takeoff tuning; re-enable for obstacle/contact tests.
     <model name="tsd_electric_tower_instance">
       <pose>0 0 0 0 0 0</pose>
       <include>
@@ -104,6 +113,7 @@
           </visual>
         </link>
     </model>
+    -->
 
 
   </world>
