@@ -1,0 +1,20 @@
+material TSD/DaylightGrass
+{
+  receive_shadows on
+  technique
+  {
+    pass
+    {
+      ambient 0.7 0.7 0.7 1
+      diffuse 0.85 0.85 0.85 1
+      specular 0 0 0 1 1
+      texture_unit
+      {
+        texture grass_diffusespecular.png
+        scale 0.002 0.002
+        filtering anisotropic
+        max_anisotropy 16
+      }
+    }
+  }
+}
