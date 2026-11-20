@@ -54,7 +54,6 @@ typedef SSIZE_T ssize_t;
 #include <mutex>
 #include <sdf/sdf.hh>
 #include <std_msgs/Float64.h>
-#include <sstream>
 #include <string>
 #include <vector>
 
@@ -579,12 +578,9 @@ public:
     ros::Publisher front_rod_contact_force_x_pub;
     std::string    front_rod_contact_force_x_topic;
 
-    int motor_num = 0;
+    int motor_num;
 
-    int servo_num = 0;
-
-    /// \brief 可正反转的电机：指令 0..1 映射到 -1..1，0.5 为停转
-    bool motor_reversible[MAX_MOTORS] = { false };
+    int servo_num;
 
     float motor_speed[MAX_MOTORS];
     float servo1_speed[MAX_MOTORS];
@@ -658,18 +654,6 @@ void ArduRotorTiltTricopter::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf
     if (_sdf->HasElement("servo_num")) {
         this->dataPtr->servo_num = _sdf->Get<int>("servo_num");
         ROS_INFO_STREAM("servo_num:" << this->dataPtr->servo_num);
-    }
-
-    // 例：<reversible_motors>4</reversible_motors>，多个编号用空格分隔
-    if (_sdf->HasElement("reversible_motors")) {
-        std::istringstream motors(_sdf->Get<std::string>("reversible_motors"));
-        int                idx;
-        while (motors >> idx) {
-            if (idx >= 0 && idx < MAX_MOTORS) {
-                this->dataPtr->motor_reversible[idx] = true;
-                ROS_INFO_STREAM("reversible motor:" << idx);
-            }
-        }
     }
 
     if (_sdf->HasElement("servo1_pub")) {
@@ -767,15 +751,14 @@ void ArduRotorTiltTricopter::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf
         this->dataPtr->rangefinderSensor = std::dynamic_pointer_cast<sensors::RaySensor>(
             sensors::SensorManager::Instance()->GetSensor(rangefinderName));
     }
-    // 没有前向测距的机型（tilt_tricopter_fix、m22_tricopter）照常加载，只是不输出测距
     if (!this->dataPtr->rangefinderSensor) {
-        gzwarn << "[" << this->dataPtr->modelName << "] "
-               << "forward rangefinder [" << rangefinderName << "] not found, rangefinder disabled.\n";
-    } else {
-        ROS_INFO_STREAM("Forward rangefinder:" << this->dataPtr->rangefinderSensor->ScopedName()
-                        << " UDP:" << this->dataPtr->rangefinderUdpBindAddr
-                        << ":" << this->dataPtr->rangefinderUdpBindPort);
+        gzerr << "[" << this->dataPtr->modelName << "] "
+              << "forward rangefinder [" << rangefinderName << "] not found, aborting plugin.\n";
+        return;
     }
+    ROS_INFO_STREAM("Forward rangefinder:" << this->dataPtr->rangefinderSensor->ScopedName()
+                    << " UDP:" << this->dataPtr->rangefinderUdpBindAddr
+                    << ":" << this->dataPtr->rangefinderUdpBindPort);
 
     // Get sensors
     std::string              imuName       = _sdf->Get("imuName", static_cast<std::string>("imu_sensor")).first;
@@ -1064,9 +1047,12 @@ void ArduRotorTiltTricopter::ApplyMotorForces(const double _dt)
 {
     mav_msgs::Actuators actuator_msg;
     actuator_msg.angular_velocities.clear();
-    for (int i = 0; i < this->dataPtr->motor_num; i++) {
-        actuator_msg.angular_velocities.push_back(this->dataPtr->motor_speed[i]);
-    }
+    actuator_msg.angular_velocities.push_back(this->dataPtr->motor_speed[1 - 1]);
+    actuator_msg.angular_velocities.push_back(this->dataPtr->motor_speed[2 - 1]);
+    actuator_msg.angular_velocities.push_back(this->dataPtr->motor_speed[3 - 1]);
+    actuator_msg.angular_velocities.push_back(this->dataPtr->motor_speed[4 - 1]);
+    actuator_msg.angular_velocities.push_back(this->dataPtr->motor_speed[5 - 1]);
+    actuator_msg.angular_velocities.push_back(this->dataPtr->motor_speed[6 - 1]);
     this->dataPtr->motor_pub.publish(actuator_msg);
 
     for (int i = 0; i < this->dataPtr->servo_num; i++) {
@@ -1074,9 +1060,9 @@ void ArduRotorTiltTricopter::ApplyMotorForces(const double _dt)
     }
     mav_msgs::Actuators servo_msg;
     servo_msg.angular_velocities.clear();
-    for (int i = 0; i < this->dataPtr->servo_num; i++) {
-        servo_msg.angular_velocities.push_back(this->dataPtr->servo1_speed[i]);
-    }
+    servo_msg.angular_velocities.push_back(this->dataPtr->servo1_speed[1 - 1]);
+    servo_msg.angular_velocities.push_back(this->dataPtr->servo1_speed[2 - 1]);
+    servo_msg.angular_velocities.push_back(this->dataPtr->servo1_speed[3 - 1]);
     this->dataPtr->servo1_pub.publish(servo_msg);
 }
 
@@ -1159,15 +1145,8 @@ void ArduRotorTiltTricopter::ReceiveMotorCommand()
         // std::cout << "motorSpeed:\t";
         for (unsigned i = 0; i < this->dataPtr->motor_num; ++i) {
             if (i < MAX_MOTORS) {
-                const double cmd = ignition::math::clamp(pkt.motorSpeed[i], 0.0f, 1.0f);
-                if (pkt.motorSpeed[i] <= -0.999f) {
-                    // 固件还没输出（SITL 填 PWM 0）：电机停转，不能当成可反转电机的满速反转
-                    this->dataPtr->motor_speed[i] = 0.0f;
-                } else if (this->dataPtr->motor_reversible[i]) {
-                    this->dataPtr->motor_speed[i] = (cmd - 0.5) * 2.0 * 1000.0f;
-                } else {
-                    this->dataPtr->motor_speed[i] = cmd * 1000.0f;
-                }
+                const double cmd              = ignition::math::clamp(pkt.motorSpeed[i], 0.0f, 1.0f);
+                this->dataPtr->motor_speed[i] = cmd * 1000.0f;
 
                 // std::cout << cmd << "\t";
             } else {
@@ -1179,8 +1158,7 @@ void ArduRotorTiltTricopter::ReceiveMotorCommand()
         for (unsigned i = 0; i < this->dataPtr->servo_num; ++i) {
             if (i < MAX_MOTORS) {
                 double cmd                     = ignition::math::clamp(pkt.motorSpeed[i + this->dataPtr->motor_num], -2.0f, 2.0f);
-                // 固件还没输出（PWM 0）时舵机回中位 1500，否则会被推到约 -202 度
-                this->dataPtr->servo1_speed[i] = (pkt.motorSpeed[i + this->dataPtr->motor_num] <= -0.999f) ? 1500.0f : (cmd - 0.5f) * 1000.0f + 1500.0f;
+                this->dataPtr->servo1_speed[i] = (cmd - 0.5f) * 1000.0f + 1500.0f;
             } else {
                 gzerr << "[" << this->dataPtr->modelName << "] "
                       << "too many motors, skipping [" << i << " > " << MAX_MOTORS << "].\n";

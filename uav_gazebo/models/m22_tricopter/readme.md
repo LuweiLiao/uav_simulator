@@ -45,3 +45,10 @@ task erb-m22_tricopter:m22_tricopter
 
 子模型和网格由 mk22 仓库的 `tools/gen_gazebo_submodels.py` 生成；重新运行会覆盖子模型的 `model.rsdf`，
 手改过的质量参数要同步改到脚本里。总模型 `m22_tricopter/model.rsdf` 是手写的，脚本不会动它。
+
+## 飞控插件
+
+使用独立插件 `libArduRotorM22Tricopter.so`（`uav_gazebo_plugin/src/ArduRotorM22Tricopter.cc`），
+由 `ArduRotorTiltTricopter` 复制而来，不和 tilt_tricopter 共用。相对原插件增加了：
+`<reversible_motors>` 可正反转电机、按 `motor_num`/`servo_num` 实际数量发布话题、
+没有前向测距时只告警、固件尚未输出（PWM 0）时电机停转舵机回中位。
