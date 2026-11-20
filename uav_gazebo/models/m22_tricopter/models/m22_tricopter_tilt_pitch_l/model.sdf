@@ -1,0 +1,48 @@
+<?xml version="1.0" ?>
+  
+  <sdf version="1.5">
+    <model name="m22_tricopter_tilt_pitch_l">
+      <link name='tilt'>
+      <pose>0.0 -0.0 0.0 0 -0 0</pose>
+      <inertial>
+        <pose>0 0.26 0 0 0 0</pose>
+        <mass>0.3</mass>
+        <inertia>
+          <ixx>0.00299972</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.000133225</iyy>
+          <iyz>0</iyz>
+          <izz>0.0029817</izz>
+        </inertia>
+      </inertial>
+      <collision name='tilt_collision'>
+        <pose>0 0.172 0 1.5707963 0 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.26</length>
+            <radius>0.0125</radius>
+          </cylinder>
+        </geometry>
+        <max_contacts>1</max_contacts>
+      </collision>
+      <visual name='tilt_visual'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://m22_tricopter_tilt_pitch_l/meshes/tilt_pitch_l.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Blue</name>
+            <uri>__default__</uri>
+          </script>
+        </material>
+      </visual>
+      <gravity>1</gravity>
+      <velocity_decay />
+      <self_collide>0</self_collide>
+    </link>
+  </model>
+</sdf>

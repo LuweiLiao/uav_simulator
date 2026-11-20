@@ -27,7 +27,7 @@
     <arg name="uni350" default="$(find uav_gazebo)/models/uni350/models:$(find uav_gazebo)/models/uni350_multi/models" />
     <arg name="follow_uav" default="$(find uav_gazebo)/models/follow_uav/models:$(find uav_gazebo)/models/follow_uav_multi/models" />
 
-    <arg name="other" default="$(find uav_gazebo)/models/tilt_tricopter/models:$(find uav_gazebo)/models/tilt_tricopter_fix/models:$(find uav_gazebo)/models/tilt_quadcopter/models:$(find uav_gazebo)/models/tilt_quadcopter_fix/models:$(find uav_gazebo)/models/tilt_quadcopter_armbot/models:$(find uav_gazebo)/models/nonplant_hex/models:$(find uav_gazebo)/models/pendulum_quadcopter/models:$(find uav_gazebo)/models/tsd_model/tsd_tree_obstacle/models" />
+    <arg name="other" default="$(find uav_gazebo)/models/tilt_tricopter/models:$(find uav_gazebo)/models/tilt_tricopter_fix/models:$(find uav_gazebo)/models/m22_tricopter/models:$(find uav_gazebo)/models/tilt_quadcopter/models:$(find uav_gazebo)/models/tilt_quadcopter_fix/models:$(find uav_gazebo)/models/tilt_quadcopter_armbot/models:$(find uav_gazebo)/models/nonplant_hex/models:$(find uav_gazebo)/models/pendulum_quadcopter/models:$(find uav_gazebo)/models/tsd_model/tsd_tree_obstacle/models" />
 
     <arg name="scorpio" default="$(find uav_gazebo)/models/Scorpio/models" />
 

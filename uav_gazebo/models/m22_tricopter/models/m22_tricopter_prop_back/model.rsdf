@@ -1,0 +1,54 @@
+<?xml version="1.0" ?>
+  <%
+prop_m = 0.01
+# 质心和惯量按 0.18 x 0.02 x 0.008 m 的实心盒估算
+prop_com = "0 0 0"
+prop_ixx = 3.86667e-07
+prop_iyy = 2.70533e-05
+prop_izz = 2.73333e-05
+  %>
+  <sdf version="1.5">
+    <model name="m22_tricopter_prop_back">
+      <link name='prop'>
+      <pose>0.0 -0.0 0.0 0 -0 0</pose>
+      <inertial>
+        <pose><%= prop_com %> 0 0 0</pose>
+        <mass><%= prop_m %></mass>
+        <inertia>
+          <ixx><%= prop_ixx %></ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy><%= prop_iyy %></iyy>
+          <iyz>0</iyz>
+          <izz><%= prop_izz %></izz>
+        </inertia>
+      </inertial>
+      <collision name='prop_collision'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.001 0.001</size>
+          </box>
+        </geometry>
+        <max_contacts>1</max_contacts>
+      </collision>
+      <visual name='prop_visual'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://m22_tricopter_prop_back/meshes/prop_back.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Black</name>
+            <uri>__default__</uri>
+          </script>
+        </material>
+      </visual>
+      <gravity>1</gravity>
+      <velocity_decay />
+      <self_collide>0</self_collide>
+    </link>
+  </model>
+</sdf>
