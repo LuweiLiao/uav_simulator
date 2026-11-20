@@ -27,6 +27,8 @@ prop_timeConstantUp = 0.0125
 prop_timeConstantDown = 0.025
 prop_maxRotVelocity = 1000
 prop_motorConstant = 1.199e-5
+# 前臂 4 个桨的推力系数：悬停时 PWM 约 1500（转速 500）。后桨仍用 prop_motorConstant
+front_prop_motorConstant = 3.9e-5
 prop_momentConstant = 0.1
 
 prop_back_pos_dx = -0.59
@@ -146,7 +148,7 @@ prop_motors={
     <timeConstantUp><%= prop_timeConstantUp %></timeConstantUp>
     <timeConstantDown><%= prop_timeConstantDown %></timeConstantDown>
     <maxRotVelocity><%= prop_maxRotVelocity %></maxRotVelocity>
-    <motorConstant><%= prop_motorConstant %></motorConstant>
+    <motorConstant><%= k == "4" ? prop_motorConstant : front_prop_motorConstant %></motorConstant>
     <momentConstant><%= prop_momentConstant %></momentConstant>
     <commandSubTopic>/gazebo/command/prop_speed</commandSubTopic>
     <motorNumber><%= k %></motorNumber>
