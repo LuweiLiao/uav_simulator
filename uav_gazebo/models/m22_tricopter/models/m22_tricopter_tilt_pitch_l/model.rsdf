@@ -1,0 +1,55 @@
+<?xml version="1.0" ?>
+  <%
+tilt_m = 0.3
+# 质心和惯量按 0.048 x 0.342 x 0.055 m 的实心盒估算
+tilt_com = "0 0.26 0"
+tilt_ixx = 0.00299972
+tilt_iyy = 0.000133225
+tilt_izz = 0.0029817
+  %>
+  <sdf version="1.5">
+    <model name="m22_tricopter_tilt_pitch_l">
+      <link name='tilt'>
+      <pose>0.0 -0.0 0.0 0 -0 0</pose>
+      <inertial>
+        <pose><%= tilt_com %> 0 0 0</pose>
+        <mass><%= tilt_m %></mass>
+        <inertia>
+          <ixx><%= tilt_ixx %></ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy><%= tilt_iyy %></iyy>
+          <iyz>0</iyz>
+          <izz><%= tilt_izz %></izz>
+        </inertia>
+      </inertial>
+      <collision name='tilt_collision'>
+        <pose>0 0.172 0 1.5707963 0 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.26</length>
+            <radius>0.0125</radius>
+          </cylinder>
+        </geometry>
+        <max_contacts>1</max_contacts>
+      </collision>
+      <visual name='tilt_visual'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://m22_tricopter_tilt_pitch_l/meshes/tilt_pitch_l.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Blue</name>
+            <uri>__default__</uri>
+          </script>
+        </material>
+      </visual>
+      <gravity>1</gravity>
+      <velocity_decay />
+      <self_collide>0</self_collide>
+    </link>
+  </model>
+</sdf>

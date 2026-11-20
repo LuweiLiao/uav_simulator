@@ -1,0 +1,194 @@
+<?xml version="1.0" ?>
+  <%
+  # ----------------------------------------------------------------
+  # 机体含上下底板、后臂、飞控、电调、雷达、两台 pitch 电机和后电机
+base_m = 2.5
+# 质心和惯量按 0.45 x 0.3 x 0.1 m 的实心盒估算
+base_com = "-0.05 0 0.04"
+base_ixx = 0.0208333
+base_iyy = 0.0442708
+base_izz = 0.0609375
+  # Pixhawk 位置（imu）
+  imu_pose = "0.005 0 0.0827"
+  %>
+  <sdf version="1.5">
+    <model name="m22_tricopter_base">
+      <%# ----------------------------------------------------------- %>
+      <link name="base">
+      <pose>0 0 0.0  0 0 0</pose>
+      <inertial>
+        <pose><%= base_com %> 0 0 0</pose>
+        <mass><%= base_m %></mass>
+        <inertia>
+          <ixx><%= base_ixx %></ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy><%= base_iyy %></iyy>
+          <iyz>0</iyz>
+          <izz><%= base_izz %></izz>
+        </inertia>
+      </inertial>
+      <collision name="base_collision">
+        <pose>-0.055 0 0.035  0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.350 0.260 0.070</size>
+          </box>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode/>
+          </friction>
+        </surface>
+      </collision>
+      <collision name="rear_arm_collision">
+        <pose>-0.385 0 0.034  0 1.5707963 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.450</length>
+            <radius>0.010</radius>
+          </cylinder>
+        </geometry>
+      </collision>
+      <!-- 倒 T 脚架：左右各一个，竖杆接机体底面，横杆沿机头方向 -->
+      <collision name="gear_post_l">
+        <pose>-0.055 0.11 -0.101 0 0 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.202</length>
+            <radius>0.008</radius>
+          </cylinder>
+        </geometry>
+        <surface>
+          <friction>
+            <ode>
+              <mu>1.0</mu>
+              <mu2>1.0</mu2>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name="gear_bar_l">
+        <pose>-0.055 0.11 -0.202 0 1.5707963 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.3</length>
+            <radius>0.008</radius>
+          </cylinder>
+        </geometry>
+        <surface>
+          <friction>
+            <ode>
+              <mu>1.0</mu>
+              <mu2>1.0</mu2>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name="gear_post_r">
+        <pose>-0.055 -0.11 -0.101 0 0 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.202</length>
+            <radius>0.008</radius>
+          </cylinder>
+        </geometry>
+        <surface>
+          <friction>
+            <ode>
+              <mu>1.0</mu>
+              <mu2>1.0</mu2>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name="gear_bar_r">
+        <pose>-0.055 -0.11 -0.202 0 1.5707963 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.3</length>
+            <radius>0.008</radius>
+          </cylinder>
+        </geometry>
+        <surface>
+          <friction>
+            <ode>
+              <mu>1.0</mu>
+              <mu2>1.0</mu2>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <visual name="gear_visual">
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://m22_tricopter_base/meshes/gear.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Black</name>
+            <uri>__default__</uri>
+          </script>
+        </material>
+      </visual>
+      <visual name='base_visual'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://m22_tricopter_base/meshes/base.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Grey</name>
+            <uri>__default__</uri>
+          </script>
+        </material>
+      </visual>
+    </link>
+    <link name='imu_link'>
+    <pose><%= imu_pose %> 0 0 0</pose>
+    <inertial>
+      <pose>0 0 0 0 0 0</pose>
+      <mass>0.015</mass>
+      <inertia>
+        <ixx>0.00001</ixx>
+        <ixy>0</ixy>
+        <ixz>0</ixz>
+        <iyy>0.00002</iyy>
+        <iyz>0</iyz>
+        <izz>0.00002</izz>
+      </inertia>
+    </inertial>
+    <visual name="imu_visual">
+      <pose>0 0 0 0 0 0</pose>
+      <geometry>
+          <box>
+              <size>0.02 0.02 0.02</size>
+          </box>
+      </geometry>
+      <material>
+          <script>
+              <name>Gazebo/Green</name>
+          </script>
+      </material>
+    </visual>
+    <sensor name="imu_sensor" type="imu">
+      <pose>0 0 0 3.141593 0 0</pose>
+      <always_on>1</always_on>
+      <update_rate>1000.0</update_rate>
+      <topic>__default_topic__</topic>
+    </sensor>
+  </link>
+  <joint name='imu_joint' type='fixed'>
+    <child>imu_link</child>
+    <parent>base</parent>
+  </joint>
+  <%# ----------------------------------------------------------- %>
+</model>
+</sdf>
