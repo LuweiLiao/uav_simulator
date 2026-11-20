@@ -44,7 +44,7 @@
     </model>
     <model name="front_contact_wall">
       <static>true</static>
-      <pose>3.2 0 2.5 0 0 0</pose>
+      <pose>8 0 2.5 0 0 0</pose>
       <link name="body">
         <collision name="body_collision">
           <geometry>
