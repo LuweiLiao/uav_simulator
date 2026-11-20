@@ -62,6 +62,9 @@ target_link_libraries(PoleHoldReleasePlugin ${catkin_LIBRARIES} ${GAZEBO_LIBRARI
 add_library(PoleMavlinkPosePlugin SHARED src/PoleMavlinkPosePlugin.cc)
 target_link_libraries(PoleMavlinkPosePlugin ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
 
+add_library(SawMavlinkPosePlugin SHARED src/SawMavlinkPosePlugin.cc)
+target_link_libraries(SawMavlinkPosePlugin ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
+
 add_library(ArduRotorTiltPlugin SHARED src/ArduRotorTiltPlugin.cc)
 target_link_libraries(ArduRotorTiltPlugin ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
 
