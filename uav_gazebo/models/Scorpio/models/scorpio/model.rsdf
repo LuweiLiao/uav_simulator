@@ -64,9 +64,9 @@ front_rotor_angle = 30.0 * Math::PI / 180.0
 rear_rotor_angle  = 90.0 * Math::PI / 180.0
 
 rotor_mounts = [
-  { name: "front_right", id: 0, x: front_rotor_x, y: -front_rotor_y, z: front_rotor_z, arm_angle: front_rotor_angle, direction: "cw" },
-  { name: "rear",        id: 1, x: rear_rotor_x,  y:  0.0,           z: rear_rotor_z,  arm_angle: rear_rotor_angle,   direction: "ccw" },
-  { name: "front_left",  id: 2, x: front_rotor_x, y:  front_rotor_y, z: front_rotor_z, arm_angle: -front_rotor_angle, direction: "cw" },
+  { name: "front_right", id: 0, x: front_rotor_x, y: -front_rotor_y, z: front_rotor_z, arm_angle: front_rotor_angle, direction: "ccw" },
+  { name: "rear",        id: 1, x: rear_rotor_x,  y:  0.0,           z: rear_rotor_z,  arm_angle: rear_rotor_angle,   direction: "cw" },
+  { name: "front_left",  id: 2, x: front_rotor_x, y:  front_rotor_y, z: front_rotor_z, arm_angle: -front_rotor_angle, direction: "ccw" },
 ]
 
 tilt_lower = -90.0 * Math::PI / 180.0
