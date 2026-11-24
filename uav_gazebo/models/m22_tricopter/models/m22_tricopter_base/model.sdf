@@ -43,6 +43,7 @@
         </geometry>
       </collision>
       <!-- 倒 T 脚架：左右各一个，竖杆接机体底面，横杆沿机头方向 -->
+      <!-- 脚架用软接触（kp 1e5 N/m、kd 500 Ns/m）：默认接触太硬、阻尼太小，地面静止时机身一直前后摇，两路 IMU 读数差超过解锁门限，报 Accels inconsistent -->
       <collision name="gear_post_l">
         <pose>-0.055 0.11 -0.101 0 0 0</pose>
         <geometry>
@@ -52,6 +53,14 @@
           </cylinder>
         </geometry>
         <surface>
+          <contact>
+            <ode>
+              <kp>100000</kp>
+              <kd>500</kd>
+              <max_vel>0.1</max_vel>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
           <friction>
             <ode>
               <mu>1.0</mu>
@@ -69,6 +78,14 @@
           </cylinder>
         </geometry>
         <surface>
+          <contact>
+            <ode>
+              <kp>100000</kp>
+              <kd>500</kd>
+              <max_vel>0.1</max_vel>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
           <friction>
             <ode>
               <mu>1.0</mu>
@@ -86,6 +103,14 @@
           </cylinder>
         </geometry>
         <surface>
+          <contact>
+            <ode>
+              <kp>100000</kp>
+              <kd>500</kd>
+              <max_vel>0.1</max_vel>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
           <friction>
             <ode>
               <mu>1.0</mu>
@@ -103,6 +128,14 @@
           </cylinder>
         </geometry>
         <surface>
+          <contact>
+            <ode>
+              <kp>100000</kp>
+              <kd>500</kd>
+              <max_vel>0.1</max_vel>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
           <friction>
             <ode>
               <mu>1.0</mu>
